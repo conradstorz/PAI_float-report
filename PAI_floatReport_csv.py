@@ -31,7 +31,8 @@ output_path = "C:/Users/Conrad/" + output_dir
 
 @logger.catch
 def process_csv(out_f, in_f, rundate):
-    # scan file and compute sums for 2 columns
+    """Scan file and compute sums for 2 columns
+    """
     balances = []
     floats = []
     terminals = 0
@@ -47,8 +48,12 @@ def process_csv(out_f, in_f, rundate):
                     logger.debug('Located headers. Discarding...')
                 else:
                     logger.debug('Adding terminal stats to running total.')
-                    balances.append(int(float(row[2].strip("$").replace(',',''))))
-                    terminals += 1 # increment number of terminals reporting
+                    terminals += 1 # increment number of terminals reporting                    
+                    if row[2] == '':
+                        logger.debug('Terminal has no balance value. Adding Zero to balance list')
+                        balances.append(0)
+                    else:
+                        balances.append(int(float(row[2].strip("$").replace(',',''))))
                     if row[3] == "":
                         logger.debug('Terminal has no float value. Adding Zero to floats list')
                         floats.append(0)
