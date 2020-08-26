@@ -83,7 +83,7 @@ def process_floatReport_csv(out_f, in_f, rundate):
             logger.info('Writing output to: ' + out_f)
             csvWriter.writerow(result)
             csvWriter.writerow([rundate, "...with", terminals, " terminals reporting"])
-    return
+    return True
 
 
 @logger.catch
@@ -187,87 +187,87 @@ def process_simple_summary_csv(out_f, in_f, rundate):
     """
     df = panda.read_csv(in_f)
     DAYS = 30
+    df = df.rename(columns = {"Location":"Terminal        "}) # attempt to expand columns in excel
 
-    df['My Surch'].replace( '[\$,)]','', regex=True, inplace=True)
-    df['My Surch'] = df['My Surch'].astype(float)
+    try:
+        df['My Surch'].replace( '[\$,)]','', regex=True, inplace=True)
+        df['My Surch'] = df['My Surch'].astype(float)
+    except KeyError as e:
+        logger.error(f'KeyError in dataframe: {e}')
+        return False
 
-    df['Settlement'].replace( '[\$,)]','', regex=True, inplace=True)
-    df['Settlement'] = df['Settlement'].astype(float)    
+    try:
+        df['Settlement'].replace( '[\$,)]','', regex=True, inplace=True)
+        df['Settlement'] = df['Settlement'].astype(float)    
+    except KeyError as e:
+        logger.error(f'KeyError in dataframe: {e}')
+        return False
 
-    df['WD Trxs'] = df['WD Trxs'].astype(float)
+    try:
+        df['WD Trxs'] = df['WD Trxs'].astype(float)
+    except KeyError as e:
+        logger.error(f'KeyError in dataframe: {e}')
+        return False
     
 
     def calc(row):
+        """Calculate the surcharge earned per withdrawl.
+        """
         wd = row['WD Trxs']
         if wd > 0:
-            return row['My Surch'] / wd
+            return round(row['My Surch'] / wd, 2)
         else:
             return 0
-    df['WD surch'] = df.apply(lambda row: calc(row), axis=1)
+
+    try:
+        df['WD surch'] = df.apply(lambda row: calc(row), axis=1)
+    except KeyError as e:
+        logger.error(f'KeyError in dataframe: {e}')
+        return False
 
 
     def avgWD(row):
+        """Calculate the average amount of withdrawls.
+        """
         wd = row['WD Trxs']
         if wd > 0:
-            return row.Settlement / wd
+            return round(row.Settlement / wd, 2)
         else:
             return 0
-    df['Average WD amount'] = df.apply(lambda row: avgWD(row), axis=1)
+    try:
+        df['Average WD amount'] = df.apply(lambda row: avgWD(row), axis=1)
+    except KeyError as e:
+        logger.error(f'KeyError in dataframe: {e}')
+        return False
 
 
     def DailyWD(row):
-        return row.Settlement / DAYS
-    df['Daily Vault AVG'] = df.apply(lambda row: DailyWD(row), axis=1)
+        """Assuming 30 days in report data calculate daily withdrawl total.
+        """
+        return round(row.Settlement / DAYS, 2)
+    try:
+        df['Daily Vault AVG'] = df.apply(lambda row: DailyWD(row), axis=1)
+    except KeyError as e:
+        logger.error(f'KeyError in dataframe: {e}')
+        return False
 
+    # work is finished. Drop unneeded columns from output
+    df = df.drop(df.columns[[1, 2, 3, 4]], axis=1)  # df.columns is zero-based pd.Index
+    # send output to storage
+    try:
+        df.to_csv(out_f, quoting=csv.QUOTE_ALL)
+    except KeyError as e:
+        logger.error(f'KeyError in dataframe: {e}')
+        return False
 
-
-
-    df.to_csv(out_f, quoting=csv.QUOTE_ALL)
-
-    """
-    balances = []
-    floats = []
-    terminals = 0
-    with open(out_f, "w", newline="") as out_csv:  # supress extra newlines
-        csvWriter = csv.writer(out_csv)
-        with open(in_f) as csvDataFile:
-            csvReader = csv.reader(csvDataFile)
-            logger.debug(csvReader)
-            for row in csvReader:
-                logger.debug(row)
-                csvWriter.writerow(row)
-                if row[0] == "Terminal":
-                    logger.debug('Located headers. Discarding...')
-                else:
-                    logger.debug('Adding terminal stats to running total.')
-                    terminals += 1 # increment number of terminals reporting                    
-                    if row[2] == '':
-                        logger.debug('Terminal has no balance value. Adding Zero to balance list')
-                        balances.append(0)
-                    else:
-                        balances.append(int(float(row[2].strip("$").replace(',',''))))
-                    if row[3] == "":
-                        logger.debug('Terminal has no float value. Adding Zero to floats list')
-                        floats.append(0)
-                    else:
-                        logger.debug('adding ' + row[3] + ' to floats list.')
-                        floats.append(int(float(row[3].strip("$").replace(',',''))))
-            # gather results into tuple
-            result = tuple(
-                ["ATM", "VAULTS:", sum(balances), sum(floats), " = PAI FLOAT"]
-            )
-            logger.info(result)
-            logger.info('Writing output to: ' + out_f)
-            csvWriter.writerow(result)
-            csvWriter.writerow([rundate, "...with", terminals, " terminals reporting"])
-    return
-    """
+    return True
 
 
 @logger.catch
 def process_bank_statement_csv(out_f, in_f, rundate):
     """placeholder
     """
+    return False
 
 
 @logger.catch
@@ -300,21 +300,21 @@ def Main():
                 filedate = extract_date(inputfile)
                 output_file = determine_output_filename(filedate, value, OUTPUT_PATH)
                 logger.debug(filedate)
-                process_func[indx](output_file, inputfile, filedate)
-
-                args = os.sys.argv
-                if len(args) > 1 and args[1] == "-np":
-                    logger.info("bypassing print option due to '-np' option.")
-                    logger.info("bypassing file removal option due to '-np' option.")
-                    logger.info("exiting program due to '-np' option.")
+                if process_func[indx](output_file, inputfile, filedate):
+                    args = os.sys.argv
+                    if len(args) > 1 and args[1] == "-np":
+                        logger.info("bypassing print option due to '-np' option.")
+                        logger.info("bypassing file removal option due to '-np' option.")
+                        logger.info("exiting program due to '-np' option.")
+                    else:
+                        logger.info("Send processed file to printer...")
+                        try:
+                            os.startfile(output_file, "print")
+                        except FileNotFoundError as e:
+                            logger.error(f'File not found: {e}')
+                        remove_file(inputfile)
                 else:
-                    logger.info("Send processed file to printer...")
-                    try:
-                        os.startfile(output_file, "print")
-                    except FileNotFoundError as e:
-                        logger.error(f'File not found: {e}')
-
-                    remove_file(inputfile)
+                    logger.error('Input file not processed properly.')
             else:
                 logger.info('Nothing found.')
 
