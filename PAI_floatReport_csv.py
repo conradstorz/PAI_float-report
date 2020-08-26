@@ -19,6 +19,7 @@ from time import sleep
 from loguru import logger
 from filehandling import check_and_validate # removes invalid characters from proposed filenames
 from pathlib import Path
+from dateutil.parser import *
 
 # constants
 BASENAME_BANK_STATEMENT = "BankDepositsStatement"
@@ -35,6 +36,7 @@ DL_DIRECTORY = "Downloads"
 DL_PATH = Path("C:/Users/Conrad/Downloads/")
 
 EMAIL_BASENAME_FLOATREPORT = "Terminal Status(w_FLOAT)automated"
+MANUAL_DL_BASENAME_FLOATEREPORT = 'TerminalStatuswFLOATautomated3'
 BASENAME_SIMPLE_SUMMARY = "TerminalTrxData"
 
 OUTPUT_DIRECTORY = "Documents"
@@ -88,10 +90,18 @@ def extract_date(fname):
     """ the filename contains the date the report was run
     extract and return the date string
     """
+    datestring = 'xxxxxxxx'
     logger.info("Processing: " + str(fname))
+    parts = str(fname.stem).split('-')
+    for part in parts:
+        try:
+            datestring = parse(part).strftime("%Y%m%d")
+        except ParserError as e:
+            logger.debug(f'Error: {e}')
+
     # sample filename string "Terminal Status(w_FLOAT)automated - 20190822.csv"
-    fn = Path(fname).stem # returns just the filename without extension or folder
-    datestring = fn[-8:] # the last 8 characters represent the datecode
+    # fn = Path(fname).stem # returns just the filename without extension or folder
+    # datestring = fn[-8:] # the last 8 characters represent the datecode
     return datestring
 
 
@@ -104,7 +114,7 @@ def look_for_new_csv(match):
     # logger.debug(files)
 
     CSVs = [f for f in files if f.suffix in [INPUTFILE_EXTENSION]]
-    logger.debug(CSVs)
+    # logger.debug(CSVs)
     num_of_files = str(len(CSVs))
 
     for fname in CSVs:
@@ -115,11 +125,11 @@ def look_for_new_csv(match):
 
 
 @logger.catch
-def determine_output_filename(datestr, output_folder):
+def determine_output_filename(datestr, matchedname, output_folder):
 
     fn = check_and_validate(datestr, output_folder)
 
-    newfilename = f'{fn}_{EMAIL_BASENAME_FLOATREPORT}{FILE_TYPE}'
+    newfilename = f'{fn}_{matchedname}{FILE_TYPE}'
     # TODO check if name already exists and do not overwrite
 
     return newfilename
@@ -171,6 +181,18 @@ def defineLoggers():
 
 
 @logger.catch
+def process_simple_summary_csv(out_f, in_f, rundate):
+    """placeholder
+    """
+
+
+@logger.catch
+def process_bank_statement_csv(out_f, in_f, rundate):
+    """placeholder
+    """
+
+
+@logger.catch
 def Main():
     defineLoggers()
     logger.info("Program Start.")  # log the start of the program
@@ -178,29 +200,48 @@ def Main():
     logger.info("Scanning for download to process...")
     # TODO apply different transforms based on filename found.
     inputfile = ""
+    file_types = [
+        BASENAME_BANK_STATEMENT,
+        EMAIL_BASENAME_FLOATREPORT,
+        MANUAL_DL_BASENAME_FLOATEREPORT,
+        BASENAME_SIMPLE_SUMMARY
+    ]
+    process_func = [
+        process_bank_statement_csv,
+        process_floatReport_csv, 
+        process_floatReport_csv,
+        process_simple_summary_csv
+    ]
     while inputfile == "":
         logger.info(f'Looking in directory: {DL_PATH}')
-        inputfile = look_for_new_csv(BASENAME_BANK_STATEMENT)
+        for indx, value in enumerate(file_types):
+            inputfile = look_for_new_csv(value)
 
-        inputfile = look_for_new_csv(EMAIL_BASENAME_FLOATREPORT)
+            if inputfile != "" and inputfile != None:
 
-        if inputfile != "" and inputfile != None:
-            filedate = extract_date(inputfile)
-            output_file = determine_output_filename(filedate, OUTPUT_PATH)
-            logger.debug(filedate)
+                filedate = extract_date(inputfile)
+                output_file = determine_output_filename(filedate, value, OUTPUT_PATH)
+                logger.debug(filedate)
+                process_func[indx](output_file, inputfile, filedate)
 
-            process_floatReport_csv(output_file, inputfile, filedate)
-            args = os.sys.argv
-            if len(args) > 1 and args[1] == "-np":
-                logger.info("bypassing print option due to '-np' option.")
-                logger.info("bypassing file removal option due to '-np' option.")
-                logger.info("exiting program due to '-np' option.")
+                args = os.sys.argv
+                if len(args) > 1 and args[1] == "-np":
+                    logger.info("bypassing print option due to '-np' option.")
+                    logger.info("bypassing file removal option due to '-np' option.")
+                    logger.info("exiting program due to '-np' option.")
+                else:
+                    logger.info("Send processed file to printer...")
+                    try:
+                        os.startfile(output_file, "print")
+                    except FileNotFoundError as e:
+                        logger.error(f'File not found: {e}')
+
+                    remove_file(inputfile)
             else:
-                logger.info("Send processed file to printer...")
-                os.startfile(output_file, "print")
-                remove_file(inputfile)
-                inputfile = ""  # keep the program running looking for more files
-        logger.info("Nothing found. Sleeping 10 seconds")
+                logger.info('Nothing found.')
+
+        inputfile = ""  # keep the program running looking for more files
+        logger.info("Sleeping 10 seconds")
         sleep(10)
     return
 
