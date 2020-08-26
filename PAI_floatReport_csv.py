@@ -20,6 +20,7 @@ from loguru import logger
 from filehandling import check_and_validate # removes invalid characters from proposed filenames
 from pathlib import Path
 from dateutil.parser import *
+import pandas as panda
 
 # constants
 BASENAME_BANK_STATEMENT = "BankDepositsStatement"
@@ -182,7 +183,84 @@ def defineLoggers():
 
 @logger.catch
 def process_simple_summary_csv(out_f, in_f, rundate):
-    """placeholder
+    """Scan file and compute sums for 2 columns
+    """
+    df = panda.read_csv(in_f)
+    DAYS = 30
+
+    df['My Surch'].replace( '[\$,)]','', regex=True, inplace=True)
+    df['My Surch'] = df['My Surch'].astype(float)
+
+    df['Settlement'].replace( '[\$,)]','', regex=True, inplace=True)
+    df['Settlement'] = df['Settlement'].astype(float)    
+
+    df['WD Trxs'] = df['WD Trxs'].astype(float)
+    
+
+    def calc(row):
+        wd = row['WD Trxs']
+        if wd > 0:
+            return row['My Surch'] / wd
+        else:
+            return 0
+    df['WD surch'] = df.apply(lambda row: calc(row), axis=1)
+
+
+    def avgWD(row):
+        wd = row['WD Trxs']
+        if wd > 0:
+            return row.Settlement / wd
+        else:
+            return 0
+    df['Average WD amount'] = df.apply(lambda row: avgWD(row), axis=1)
+
+
+    def DailyWD(row):
+        return row.Settlement / DAYS
+    df['Daily Vault AVG'] = df.apply(lambda row: DailyWD(row), axis=1)
+
+
+
+
+    df.to_csv(out_f, quoting=csv.QUOTE_ALL)
+
+    """
+    balances = []
+    floats = []
+    terminals = 0
+    with open(out_f, "w", newline="") as out_csv:  # supress extra newlines
+        csvWriter = csv.writer(out_csv)
+        with open(in_f) as csvDataFile:
+            csvReader = csv.reader(csvDataFile)
+            logger.debug(csvReader)
+            for row in csvReader:
+                logger.debug(row)
+                csvWriter.writerow(row)
+                if row[0] == "Terminal":
+                    logger.debug('Located headers. Discarding...')
+                else:
+                    logger.debug('Adding terminal stats to running total.')
+                    terminals += 1 # increment number of terminals reporting                    
+                    if row[2] == '':
+                        logger.debug('Terminal has no balance value. Adding Zero to balance list')
+                        balances.append(0)
+                    else:
+                        balances.append(int(float(row[2].strip("$").replace(',',''))))
+                    if row[3] == "":
+                        logger.debug('Terminal has no float value. Adding Zero to floats list')
+                        floats.append(0)
+                    else:
+                        logger.debug('adding ' + row[3] + ' to floats list.')
+                        floats.append(int(float(row[3].strip("$").replace(',',''))))
+            # gather results into tuple
+            result = tuple(
+                ["ATM", "VAULTS:", sum(balances), sum(floats), " = PAI FLOAT"]
+            )
+            logger.info(result)
+            logger.info('Writing output to: ' + out_f)
+            csvWriter.writerow(result)
+            csvWriter.writerow([rundate, "...with", terminals, " terminals reporting"])
+    return
     """
 
 
