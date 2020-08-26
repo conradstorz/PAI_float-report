@@ -19,7 +19,7 @@ from time import sleep
 from loguru import logger
 from filehandling import check_and_validate # removes invalid characters from proposed filenames
 from pathlib import Path
-from dateutil.parser import *
+from dateutil.parser import parse, ParserError
 import pandas as panda
 
 # constants
