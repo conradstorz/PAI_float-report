@@ -281,10 +281,12 @@ def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
     DAYS = 30
     FIXED_ASSETS = 2100 # this is cost of ATM (fixed asset)
     OPERATING_EXPENSES = (8.25 + 25) * 26  # mileage plus labor annualized
-    
+    logger.info('Beginning process of monthly report.')
+    logger.info(f'File: {in_f}')
 
     df = panda.read_excel(in_f)
     dflast = len(df) - 1
+    logger.info(f'Excel file imported into dataframe with {dflast + 1} rows.')
     
     df.at[dflast, 'Location'] = str(rundate)
     df.at[dflast, 'Device Number'] = 'Report ran'
@@ -310,53 +312,64 @@ def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
         if row['SurWD Trxs'] <= 0: return 0
         return round((row['Business Total Income'] * 12) / (row['SurWD Trxs'] * 12), 2)
 
+    logger.info('Calculating average surcharge per terminal...')
     df['Average_Surcharge'] = df.apply(lambda row: Average_Surcharge(row), axis=1)
 
     def Surcharge_Percentage(row):
         if row['Total Surcharge'] <= 0: return 0
         return round((row['Business Total Income'] * 12) / (row['Total Surcharge'] * 12), 2)
 
+    logger.info('Calculating surcharge percentage earned per terminal...')
     df['Surcharge_Percentage'] = df.apply(lambda row: Surcharge_Percentage(row), axis=1)   
 
     def Average_Daily_Dispense(row):
         return round(row['Total Dispensed Amount'] / DAYS, 2)
 
+    logger.info('Calculating average daily dispense per terminal...')
     df['Average_Daily_Dispense'] = df.apply(lambda row: Average_Daily_Dispense(row), axis=1)
 
     def Current_Assets(row):
         return round(Average_Daily_Dispense(row) * 14, 2)
 
+    logger.info('Calculating estimated vault load per terminal...')
     df['Current_Assets'] = df.apply(lambda row: Current_Assets(row), axis=1)
 
     def Assets(row):
         return round(FIXED_ASSETS + Current_Assets(row), 2)
 
+    logger.info('Calculating estimated investment per terminal...')
     df['Assets'] = df.apply(lambda row: Assets(row), axis=1)
 
     def Asset_Turnover(row):
         return round((row['Business Total Income'] * 12) / Assets(row), 2)
 
+    logger.info('Calculating estimated asset turns per terminal...')
     df['Asset_Turnover'] = df.apply(lambda row: Asset_Turnover(row), axis=1)
 
     def Earnings_BIT(row):
         return round((row['Business Total Income'] * 12) - OPERATING_EXPENSES, 2)
 
+    logger.info('Calculating estimated EBIT per terminal...')
     df['Earnings_BIT'] = df.apply(lambda row: Earnings_BIT(row), axis=1)
 
     def Profit_Margin(row):
         if row['Business Total Income'] <= 0: return 0
         return round(Earnings_BIT(row) / (row['Business Total Income'] * 12), 2)
 
+    logger.info('Calculating estimated profit margin per terminal...')
     df['Profit_Margin'] = df.apply(lambda row: Profit_Margin(row), axis=1)
     
     def R_O_I(row):
         return round(Asset_Turnover(row) * Profit_Margin(row), 2)
 
+    logger.info('Calculating estimated ROI per terminal...')
     df['R_O_I'] = df.apply(lambda row: R_O_I(row), axis=1)
 
-    # work is finished. Drop un-needed columns
+
+    logger.info('work is finished. Drop un-needed columns...') 
     df = df.drop(df.columns[[0,1,4,5,6,7,8,10,13,14,18,19,20]], axis=1)  # df.columns is zero-based panda.Index
 
+    logger.info('formatting column widths and styles...') 
     # define column formats
     a,n,c,p = 'A#$%'
     formats = [a,n,c,c,c,c,c,p,p,c,p,p]
@@ -385,8 +398,12 @@ def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
         if formats[i] == '$':
             worksheet.set_column(i, i, column_width, currency_format)
         if formats[i] == '%':    
-            worksheet.set_column(i, i, column_width, percntg)                        
+            worksheet.set_column(i, i, column_width, percntg)      
+
+    logger.info('All work done. Saving worksheet...') 
     writer.save()    
+
+    logger.info('Finished.') 
     return True
 
 
