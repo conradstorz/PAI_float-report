@@ -274,13 +274,14 @@ def process_bank_statement_csv(out_f, in_f, rundate):
 
 @logger.catch
 def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
-    """Uses this report to determine surcharges are correct.
+    """Uses this report to determine surcharges are correct
+    and I am being paid the correct amount when splitting surcharge.
     After reading the data extract: 'Total Business Surcharge',
-    'SurWD Trxs', 'Total Surcharge', 'Total Dispensed Amount'
+    'SurWD Trxs', 'Total Surcharge', 'Total Dispensed Amount' and estimate the rest.
     """
-    DAYS = 30
+    DAYS = 30 # most months are 30 days
     FIXED_ASSETS = 2100 # this is cost of ATM (fixed asset)
-    OPERATING_EXPENSES = (8.25 + 25) * 26  # mileage plus labor annualized
+    OPERATING_EXPENSES = (8.25 + 25) * 26  # estimated mileage plus estimated labor annualized.
     logger.info('Beginning process of monthly report.')
     logger.info(f'File: {in_f}')
 
@@ -288,8 +289,11 @@ def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
     dflast = len(df) - 1
     logger.info(f'Excel file imported into dataframe with {dflast + 1} rows.')
     
+    # Add some information to dataframe
     df.at[dflast, 'Location'] = str(rundate)
     df.at[dflast, 'Device Number'] = 'Report ran'
+    # TODO add disclaimer that many values are estimates for comparison between terminals only.
+    # TODO the numbers are estimated but the same assumptions are applied equally to all.
 
     # these are per row
     """
