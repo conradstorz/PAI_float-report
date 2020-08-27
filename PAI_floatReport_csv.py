@@ -23,12 +23,12 @@ from dateutil.parser import parse, ParserError
 import pandas as panda
 
 # constants
-BASENAME_BANK_STATEMENT = "BankDepositsStatement"
+
 
 RUNTIME_NAME = Path(__file__)
 
-FILE_TYPE = ".csv"
-INPUTFILE_EXTENSION = FILE_TYPE
+CSV_EXT = [".csv"]
+EXCEL_EXT = ['.xls']
 
 DL_DRIVE = "C:"
 DL_USER_BASE = "Users"
@@ -36,9 +36,11 @@ DL_USER = "Conrad"
 DL_DIRECTORY = "Downloads"
 DL_PATH = Path("C:/Users/Conrad/Downloads/")
 
-EMAIL_BASENAME_FLOATREPORT = "Terminal Status(w_FLOAT)automated"
-MANUAL_DL_BASENAME_FLOATEREPORT = 'TerminalStatuswFLOATautomated3'
-BASENAME_SIMPLE_SUMMARY = "TerminalTrxData"
+BASENAME_BANK_STATEMENT = ["BankDepositsStatement", CSV_EXT]
+EMAIL_BASENAME_FLOATREPORT = ["Terminal Status(w_FLOAT)automated", CSV_EXT]
+MANUAL_DL_BASENAME_FLOATEREPORT = ['TerminalStatuswFLOATautomated3', CSV_EXT] 
+BASENAME_SIMPLE_SUMMARY = ["TerminalTrxData", CSV_EXT]
+BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL = ['Revenue By Device', EXCEL_EXT]
 
 OUTPUT_DIRECTORY = "Documents"
 OUTPUT_PATH = Path(f"C:/Users/Conrad/{OUTPUT_DIRECTORY}")
@@ -80,7 +82,7 @@ def process_floatReport_csv(out_f, in_f, rundate):
                 ["ATM", "VAULTS:", sum(balances), sum(floats), " = PAI FLOAT"]
             )
             logger.info(result)
-            logger.info('Writing output to: ' + out_f)
+            logger.info(f'Writing output to: {out_f}')
             csvWriter.writerow(result)
             csvWriter.writerow([rundate, "...with", terminals, " terminals reporting"])
     return True
@@ -107,32 +109,31 @@ def extract_date(fname):
 
 
 @logger.catch
-def look_for_new_csv(match):
+def look_for_new_csv(matchName, ext):
     """ Get files and return any match
     """ 
-    logger.info(f'Looking for {match}')
+    logger.info(f'Looking for {matchName}')
     files = list(DL_PATH.glob('*.*'))
     # logger.debug(files)
+    logger.debug(ext)
 
-    CSVs = [f for f in files if f.suffix in [INPUTFILE_EXTENSION]]
-    # logger.debug(CSVs)
-    num_of_files = str(len(CSVs))
+    matches = [f for f in files if f.suffix in [ext]]
+    # logger.debug(matches)
+    num_of_files = str(len(matches))
 
-    for fname in CSVs:
-        if match in str(fname):
+    for fname in matches:
+        if matchName in str(fname):
             logger.info("Matched filename: " + str(fname))
             return fname
     return "" # no match found
 
 
 @logger.catch
-def determine_output_filename(datestr, matchedname, output_folder):
-
+def determine_output_filename(datestr, matchedname, ext, output_folder):
+    """Assemble datecode and output folder with original basename into new filename.
+    """
     fn = check_and_validate(datestr, output_folder)
-
-    newfilename = f'{fn}_{matchedname}{FILE_TYPE}'
-    # TODO check if name already exists and do not overwrite
-
+    newfilename = Path(f'{fn}_{matchedname}{ext}') # TODO check that name does not yet exist
     return newfilename
 
 
@@ -186,6 +187,7 @@ def process_simple_summary_csv(out_f, in_f, rundate):
     """Scan file and compute sums for 2 columns
     """
     df = panda.read_csv(in_f)
+
     DAYS = 30
     df = df.rename(columns = {"Location":"Terminal        "}) # attempt to expand columns in excel
 
@@ -252,7 +254,7 @@ def process_simple_summary_csv(out_f, in_f, rundate):
         return False
 
     # work is finished. Drop unneeded columns from output
-    df = df.drop(df.columns[[1, 2, 3, 4]], axis=1)  # df.columns is zero-based pd.Index
+    df = df.drop(df.columns[[1, 2, 3, 4]], axis=1)  # df.columns is zero-based panda.Index
     # send output to storage
     try:
         df.to_csv(out_f, quoting=csv.QUOTE_ALL)
@@ -271,6 +273,125 @@ def process_bank_statement_csv(out_f, in_f, rundate):
 
 
 @logger.catch
+def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
+    """Uses this report to determine surcharges are correct.
+    After reading the data extract: 'Total Business Surcharge',
+    'SurWD Trxs', 'Total Surcharge', 'Total Dispensed Amount'
+    """
+    DAYS = 30
+    FIXED_ASSETS = 2100 # this is cost of ATM (fixed asset)
+    OPERATING_EXPENSES = (8.25 + 25) * 26  # mileage plus labor annualized
+    
+
+    df = panda.read_excel(in_f)
+    dflast = len(df) - 1
+    
+    df.at[dflast, 'Location'] = str(rundate)
+    df.at[dflast, 'Device Number'] = 'Report ran'
+
+    # these are per row
+    """
+    Operating_Income = df['Business Total Income'] * 12       # (annualized)
+    Surchargeable_WDs = df['SurWD Trxs'] * 12
+    Total_Surcharge = df['Total Surcharge'] * 12
+    Total_Dispensed_Amount = df['Total Dispensed Amount']
+    Average_Surcharge = Operating_Income / Surchargeable_WDs
+    Surcharge_Percentage = Operating_Income / Total_Surcharge
+    Average_Daily_Dispense = Total_Dispensed_Amount / DAYS
+    Current_Assets = Average_Daily_Dispense * 14 # Float plus Vault
+    Assets = FIXED_ASSETS + Current_Assets
+    Asset_Turnover = Operating_Income / Assets
+    Earnings_BIT = Operating_Income - OPERATING_EXPENSES
+    Profit_Margin = Earnings_BIT / Operating_Income
+    R_O_I = Asset_Turnover * Profit_Margin
+    """
+    # TODO trap ZeroDivisionErrors
+    def Average_Surcharge(row):
+        if row['SurWD Trxs'] <= 0: return 0
+        return round((row['Business Total Income'] * 12) / (row['SurWD Trxs'] * 12), 2)
+
+    df['Average_Surcharge'] = df.apply(lambda row: Average_Surcharge(row), axis=1)
+
+    def Surcharge_Percentage(row):
+        if row['Total Surcharge'] <= 0: return 0
+        return round((row['Business Total Income'] * 12) / (row['Total Surcharge'] * 12), 2)
+
+    df['Surcharge_Percentage'] = df.apply(lambda row: Surcharge_Percentage(row), axis=1)   
+
+    def Average_Daily_Dispense(row):
+        return round(row['Total Dispensed Amount'] / DAYS, 2)
+
+    df['Average_Daily_Dispense'] = df.apply(lambda row: Average_Daily_Dispense(row), axis=1)
+
+    def Current_Assets(row):
+        return round(Average_Daily_Dispense(row) * 14, 2)
+
+    df['Current_Assets'] = df.apply(lambda row: Current_Assets(row), axis=1)
+
+    def Assets(row):
+        return round(FIXED_ASSETS + Current_Assets(row), 2)
+
+    df['Assets'] = df.apply(lambda row: Assets(row), axis=1)
+
+    def Asset_Turnover(row):
+        return round((row['Business Total Income'] * 12) / Assets(row), 2)
+
+    df['Asset_Turnover'] = df.apply(lambda row: Asset_Turnover(row), axis=1)
+
+    def Earnings_BIT(row):
+        return round((row['Business Total Income'] * 12) - OPERATING_EXPENSES, 2)
+
+    df['Earnings_BIT'] = df.apply(lambda row: Earnings_BIT(row), axis=1)
+
+    def Profit_Margin(row):
+        if row['Business Total Income'] <= 0: return 0
+        return round(Earnings_BIT(row) / (row['Business Total Income'] * 12), 2)
+
+    df['Profit_Margin'] = df.apply(lambda row: Profit_Margin(row), axis=1)
+    
+    def R_O_I(row):
+        return round(Asset_Turnover(row) * Profit_Margin(row), 2)
+
+    df['R_O_I'] = df.apply(lambda row: R_O_I(row), axis=1)
+
+    # work is finished. Drop un-needed columns
+    df = df.drop(df.columns[[0,1,4,5,6,7,8,10,13,14,18,19,20]], axis=1)  # df.columns is zero-based panda.Index
+
+    # define column formats
+    a,n,c,p = 'A#$%'
+    formats = [a,n,c,c,c,c,c,p,p,c,p,p]
+    # attempt to set column widths
+    writer = panda.ExcelWriter(out_f, engine='xlsxwriter')
+    df.to_excel(writer, startrow = 1, sheet_name='Sheet1', index=False)
+    #Indicate workbook and worksheet for formatting
+    workbook = writer.book
+    currency_format = workbook.add_format({'num_format': '$#,##0.00'})
+    # Add some cell formats.
+    nmbrfrmt = workbook.add_format({'num_format': '#,##0'})
+    percntg = workbook.add_format({'num_format': '0%'})
+    worksheet = writer.sheets['Sheet1']
+    #Iterate through each column and set the width == the max length in that column. A padding length of 2 is also added.
+    for i, col in enumerate(df.columns):
+        # find length of column i
+        column_width = df[col].astype(str).str.len().max()
+        # Setting the length if the column header is larger
+        # than the max column value length
+        column_width = max(column_width, len(col)) + 2
+        # set the column length and format
+        if formats[i] == 'A':
+            worksheet.set_column(i, i, column_width)
+        if formats[i] == '#':
+            worksheet.set_column(i, i, column_width, nmbrfrmt)
+        if formats[i] == '$':
+            worksheet.set_column(i, i, column_width, currency_format)
+        if formats[i] == '%':    
+            worksheet.set_column(i, i, column_width, percntg)                        
+    writer.save()    
+    return True
+
+
+
+@logger.catch
 def Main():
     defineLoggers()
     logger.info("Program Start.")  # log the start of the program
@@ -282,39 +403,42 @@ def Main():
         BASENAME_BANK_STATEMENT,
         EMAIL_BASENAME_FLOATREPORT,
         MANUAL_DL_BASENAME_FLOATEREPORT,
-        BASENAME_SIMPLE_SUMMARY
+        BASENAME_SIMPLE_SUMMARY,
+        BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL
     ]
     process_func = [
         process_bank_statement_csv,
         process_floatReport_csv, 
         process_floatReport_csv,
-        process_simple_summary_csv
+        process_simple_summary_csv,
+        process_monthly_surcharge_report_excel
     ]
     while inputfile == "":
         logger.info(f'Looking in directory: {DL_PATH}')
         for indx, value in enumerate(file_types):
-            inputfile = look_for_new_csv(value)
-
-            if inputfile != "" and inputfile != None:
-
-                filedate = extract_date(inputfile)
-                output_file = determine_output_filename(filedate, value, OUTPUT_PATH)
-                logger.debug(filedate)
-                if process_func[indx](output_file, inputfile, filedate):
-                    args = os.sys.argv
-                    if len(args) > 1 and args[1] == "-np":
-                        logger.info("bypassing print option due to '-np' option.")
-                        logger.info("bypassing file removal option due to '-np' option.")
-                        logger.info("exiting program due to '-np' option.")
+            basename = value[0]
+            extension = value[1]
+            for ext in extension:
+                inputfile = look_for_new_csv(basename, ext)
+                if inputfile != "" and inputfile != None:
+                    filedate = extract_date(inputfile)
+                    output_file = determine_output_filename(filedate, basename, ext, OUTPUT_PATH)
+                    logger.debug(filedate)
+                    if process_func[indx](output_file, inputfile, filedate):
+                        args = os.sys.argv
+                        if len(args) > 1 and args[1] == "-np":
+                            logger.info("bypassing print option due to '-np' option.")
+                            logger.info("bypassing file removal option due to '-np' option.")
+                            logger.info("exiting program due to '-np' option.")
+                        else:
+                            logger.info("Send processed file to printer...")
+                            try:
+                                os.startfile(output_file, "print")
+                            except FileNotFoundError as e:
+                                logger.error(f'File not found: {e}')
+                            remove_file(inputfile)
                     else:
-                        logger.info("Send processed file to printer...")
-                        try:
-                            os.startfile(output_file, "print")
-                        except FileNotFoundError as e:
-                            logger.error(f'File not found: {e}')
-                        remove_file(inputfile)
-                else:
-                    logger.error('Input file not processed properly.')
+                        logger.error('Input file not processed properly.')
             else:
                 logger.info('Nothing found.')
 
