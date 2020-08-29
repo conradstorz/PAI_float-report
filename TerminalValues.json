@@ -1,83 +1,137 @@
 {
 "CS64854": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "CS71245": {"Owned": "Yes",
-            "Value": "2500"
+            "Value": "2500",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "CS71379": {"Owned": "Yes",
-            "Value": "1000"
+            "Value": "1000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "CS73041": {"Owned": "Yes",
-            "Value": "2500"
+            "Value": "2500",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "RT02246": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "RT02248": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "RT10875": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "RT12977": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "RT27947": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "RT34235": {"Owned": "Yes",
-            "Value": "1500"
+            "Value": "1500",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "RT38284": {"Owned": "Yes",
-            "Value": "1500"
+            "Value": "1500",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "RT38898": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "RT41163": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "RT41655": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "TN66541": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "TN66884": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "TN68297": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "TN71562": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "TN73475": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "TN73834": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "TN73954": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "TN79059": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "TN84861": {"Owned": "Yes",
-            "Value": "0"
+            "Value": "0",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "TN87034": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "TN87035": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "TN91876": {"Owned": "Yes",
-            "Value": "1500"
+            "Value": "1500",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            },
 "TX39040": {"Owned": "Yes",
-            "Value": "2000"
+            "Value": "2000",
+            "Visit Days": "14",
+            "Travel Cost": "8.25"
            }
 }

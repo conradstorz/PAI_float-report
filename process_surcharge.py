@@ -129,6 +129,9 @@ def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
     logger.info('work is finished. Drop un-needed columns...') 
     df = df.drop(df.columns[[0,1,4,5,6,7,8,10,13,14,18,19,20]], axis=1)  # df.columns is zero-based panda.Index
 
+    # sort data
+    df = df.sort_values('Earnings_BIT',ascending=False)
+
     # define column formats
     writer = panda.ExcelWriter(out_f, engine='xlsxwriter')
     df.to_excel(writer, startrow = 1, sheet_name='Sheet1', index=False)    

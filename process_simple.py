@@ -85,6 +85,9 @@ def process_simple_summary_csv(out_f, in_f, rundate):
     # work is finished. Drop unneeded columns from output
     df = df.drop(df.columns[[0, 2, 3, 4, 7]], axis=1)  # df.columns is zero-based panda.Index
 
+    # sort the data
+    df = df.sort_values('Surch',ascending=False)
+
     # define column formats
     writer = panda.ExcelWriter(out_f, engine='xlsxwriter')
     df.to_excel(writer, startrow = 1, sheet_name='Sheet1', index=False)    

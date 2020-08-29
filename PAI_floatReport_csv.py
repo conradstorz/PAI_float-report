@@ -125,18 +125,6 @@ def defineLoggers():
         handlers=[{"sink": os.sys.stderr, "level": "DEBUG"}]
     )  # this method automatically suppresses the default handler to modify the message level
 
-    #    logger.add(
-    #        os.sys.stderr,
-    #        format="{time} {level} {message}",
-    #        filter="my_module",  # creates an entry showing module name and source code line number
-    #        level="INFO",
-    #    )  # set a handler
-
-    #    logger.add(
-    #        runtime_name + ".log",
-    #        format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}",
-    #    )  # this establishes a file log that gets appended each time the program runs
-
     logger.add(
         #        runtime_name + "_{time}.log", format=">> <lvl>{message}</lvl>", level="INFO"
         RUNTIME_NAME.name + "_{time}.log",
