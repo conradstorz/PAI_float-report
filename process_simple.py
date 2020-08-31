@@ -6,7 +6,6 @@ and a rundate string and then makes calculations and returns an output version
 of the spreadsheet in dataframe format.
 """
 
-import csv
 from loguru import logger
 import pandas as panda
 import json
