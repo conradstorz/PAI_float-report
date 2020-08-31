@@ -20,6 +20,7 @@ def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
     """
     VALUE_FILE = 'TerminalValues.json'
     FORMATTING_FILE = 'ColumnFormatting.json'
+    OUTPUT_FILE = 'SurchargeReportVariations.json'
 
     DAYS = 30 # most months are 30 days and report covers a month
     OPERATING_LABOR = 25  # estimated labor per visit.
@@ -52,6 +53,10 @@ def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
     with open(FORMATTING_FILE) as json_data:
         column_details = json.load(json_data)
     # this dictionary will contain information about individual terminals   
+
+    with open(OUTPUT_FILE) as json_data:
+        output_details = json.load(json_data)
+    # this dictionary will contain information about individual terminals  
 
     # Add some information to dataframe
     df.at[dflast, 'Location'] = str(rundate)
@@ -193,13 +198,7 @@ def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
 
     logger.info('work is finished. Drop un-needed columns...') 
     # TODO expand this to drop all columns except those desired in the report
-    df = df.drop([
-                "Bill to Business Code", 
-                "Non-Sur WD Trxs",
-                "Reversal Trxs",
-                "Business Addl Revenue",
-                "Business Credits/Debits"
-                ], axis=1)  # df.columns is zero-based panda.Index
+    df = df.drop([output_details['Standard']], axis=1)  # df.columns is zero-based panda.Index
 
     # sort data
     try:

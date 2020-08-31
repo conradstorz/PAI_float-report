@@ -1,0 +1,6 @@
+{
+"Forensic": "[...drop none...]",
+"Standard": "['Bill to Business Code','Non-Sur WD Trxs','Reversal Trxs','Business Addl Revenue','Business Credits/Debits']",
+"Short": "[...drop almost all...]",
+"Long": "[... drop almost none...]"
+}
