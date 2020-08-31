@@ -14,5 +14,10 @@
 "Business Interchange": "$",
 "Business Addl Revenue": "$",
 "Business Credits/Debits": "$",
-"Business Total Income": "$"
+"Business Total Income": "$",
+"Surch": "$",
+"Average WD amount": "$",
+"Surcharge amt": "$",
+"Settlement": "$",
+"Daily Vault AVG": "$"
 }
