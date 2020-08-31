@@ -25,7 +25,7 @@ def process_floatReport_csv(out_f, in_f, rundate):
             for row in csvReader:
                 logger.debug(row)
                 csvWriter.writerow(row)
-                if row[0] == "Terminal":
+                if row[0] == "Location":
                     logger.debug('Located headers. Discarding...')
                 else:
                     logger.debug('Adding terminal stats to running total.')
