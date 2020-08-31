@@ -9,14 +9,15 @@ of the spreadsheet in dataframe format.
 from loguru import logger
 
 
-def set_custom_excel_formatting(df, writer, formats=False):
+def set_custom_excel_formatting(df, writer, details):
     """By default this will expand column widths to display all content.
     Optionally a list of strings defining formats for alpha, numeric, currency or percentage
     may be specified per column. example: ['A','#','$','%'] would set the first 4 columns.
     """
     logger.info('formatting column widths and styles...') 
 
-    #Indicate workbook and worksheet for formatting
+    logger.info('Trying to create a formatted worksheet...')
+    # Indicate workbook and worksheet for formatting
     workbook = writer.book
     worksheet = writer.sheets['Sheet1']
 
@@ -35,15 +36,20 @@ def set_custom_excel_formatting(df, writer, formats=False):
         # Setting the length if the column header is larger
         # than the max column value length
         column_width = max(column_width, len(col)) + 2
+        if col in details.keys():
         # set the column length and format
-        if formats[i] == 'A':
+            if details[col] == 'A':
+                worksheet.set_column(i, i, column_width)
+            if details[col] == '#':
+                worksheet.set_column(i, i, column_width, nmbrfrmt)
+            if details[col] == '$':
+                worksheet.set_column(i, i, column_width, currency_format)
+            if details[col] == '%':    
+                worksheet.set_column(i, i, column_width, percntg)     
+        else: # just set the width of the column
             worksheet.set_column(i, i, column_width)
-        if formats[i] == '#':
-            worksheet.set_column(i, i, column_width, nmbrfrmt)
-        if formats[i] == '$':
-            worksheet.set_column(i, i, column_width, currency_format)
-        if formats[i] == '%':    
-            worksheet.set_column(i, i, column_width, percntg)      
+    return True
+
 
 """
 

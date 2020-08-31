@@ -45,7 +45,7 @@ BASENAME_BANK_STATEMENT = ["BankDepositsStatement", CSV_EXT, CSV_EXT]
 EMAIL_BASENAME_FLOATREPORT = ["Terminal Status(w_FLOAT)automated", CSV_EXT, CSV_EXT]
 MANUAL_DL_BASENAME_FLOATEREPORT = ['TerminalStatuswFLOATautomated3', CSV_EXT, CSV_EXT] 
 BASENAME_SIMPLE_SUMMARY = ["TerminalTrxData", CSV_EXT, EXCEL_EXT]
-BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL = ['Revenue By Device', EXCEL_EXT, EXCEL_EXT]
+BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL = ['RevenueByDevice', EXCEL_EXT, EXCEL_EXT]
 
 OUTPUT_DIRECTORY = "Documents"
 OUTPUT_PATH = Path(f"C:/Users/Conrad/{OUTPUT_DIRECTORY}")
@@ -108,7 +108,7 @@ def remove_file(file_path):
         try:
             Path(file_path).unlink()
         except OSError as e:
-            logger.warning("Error: %s - %s." % (e.file_path, e.strerror))
+            logger.warning(f"Error: {e}")
             # sys.exit(1)
         logger.info(f"Success removing {str(file_path)}")
         return 1

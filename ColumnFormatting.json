@@ -1,0 +1,18 @@
+{
+"Device Number": "A",
+"Bill to Business Code": "A",
+"Location": "A",
+"SurWD Trxs": "#",
+"Non-Sur WD Trxs": "#",
+"Inq Trxs": "#",
+"Denial Trxs": "#",
+"Reversal Trxs": "#",
+"Total Trxs": "#",
+"Total Surcharge": "$",
+"Total Dispensed Amount": "$",
+"Business Surcharge": "$",
+"Business Interchange": "$",
+"Business Addl Revenue": "$",
+"Business Credits/Debits": "$",
+"Business Total Income": "$"
+}
