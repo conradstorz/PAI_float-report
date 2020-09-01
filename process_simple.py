@@ -21,7 +21,7 @@ def process_simple_summary_csv(out_f, in_f, rundate):
     FORMATTING_FILE = 'ColumnFormatting.json'
     with open(FORMATTING_FILE) as json_data:
         column_details = json.load(json_data)
-    # this dictionary will contain information about individual terminals
+    # this dictionary will contain information about individual column data type
 
     DAYS = 30
 
