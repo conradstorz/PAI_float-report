@@ -1,6 +1,9 @@
 {
-"Forensic": "[...drop none...]",
-"Standard": "['Bill to Business Code','Non-Sur WD Trxs','Reversal Trxs','Business Addl Revenue','Business Credits/Debits']",
-"Short": "[...drop almost all...]",
-"Long": "[... drop almost none...]"
+"Title": "List of fields in certain reports",
+"Description": "These fields represent the only fields output to the final dataframe",
+"TODO": "Take the order of these fields as the order of output",
+"Forensic": "DROP_NONE",
+"Dupont": ["R_O_I", "Profit_Margin", "Earnings_BIT", "Location", "Asset_Turnover"],
+"Surcharge": ["surch", "Location", "SurWD Trxs", "Total Trxs", "Total Surcharge", "Surcharge_Percentage"],
+"Commission": ["Commission Due", "Business Total Income", "Total Surcharge", "Location"]
 }

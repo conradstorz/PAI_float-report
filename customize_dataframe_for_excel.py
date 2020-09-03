@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Munge spreadsheet data.
-Takes and input file Path obj, and output file Path obj,
-and a rundate string and then makes calculations and returns an output version
-of the spreadsheet in dataframe format.
+"""Takes a dataframe obj, an excel writer obj and a dict of column names and properties, 
+attempts to match dict names with dataframe columns and then set excel properties to match.
+There is a flaw if index is set to true:
+df.to_excel(writer, startrow = 1, sheet_name='Sheet1', index=True)
+only currently works if index is False
 """
 
 from loguru import logger

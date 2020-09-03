@@ -96,13 +96,4 @@ def process_simple_summary_csv(out_f, in_f, rundate):
     # sort the data
     df = df.sort_values('Surch',ascending=False)
 
-    # define column formats
-    writer = panda.ExcelWriter(out_f, engine='xlsxwriter')
-    df.to_excel(writer, startrow = 1, sheet_name='Sheet1', index=False)    
-    set_custom_excel_formatting(df, writer, column_details)
-
-    logger.info('All work done. Saving worksheet...') 
-    writer.save()    
-
-    logger.info('Finished.')     
-    return True
+    return [df]

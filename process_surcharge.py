@@ -12,7 +12,7 @@ import json
 from customize_dataframe_for_excel import set_custom_excel_formatting
 
 @logger.catch
-def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
+def process_monthly_surcharge_report_excel(out_f, in_f, RUNDATE):
     """Uses this report to determine surcharges are correct
     and I am being paid the correct amount when splitting surcharge.
     After reading the data extract: 'Total Business Surcharge',
@@ -32,12 +32,12 @@ def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
         cols = cols[-1:] + cols[:-1]
         return df[cols]
 
-    df = panda.read_excel(in_f)
-    dflast = len(df) - 1
-    logger.info(f'Excel file imported into dataframe with {dflast + 1} rows.')
+    Input_df = panda.read_excel(in_f)
+    DF_LAST_ROW = len(Input_df)
+    logger.info(f'Excel file imported into dataframe with {DF_LAST_ROW} rows.')
     
     # slice the terminal numbers and write to temp storage
-    t = df['Device Number']
+    t = Input_df['Device Number']
     t.to_json('temp.json')
     # TODO use this to determine which new terminals are missing from value lookup
 
@@ -54,13 +54,9 @@ def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
         column_details = json.load(json_data)
     # this dictionary will contain information about individual terminals   
 
-    with open(OUTPUT_FILE) as json_data:
-        output_details = json.load(json_data)
-    # this dictionary will contain information about individual terminals  
-
     # Add some information to dataframe
-    df.at[dflast, 'Location'] = str(rundate)
-    df.at[dflast, 'Device Number'] = 'Report ran'
+    Input_df.at[DF_LAST_ROW, 'Location'] = str(RUNDATE)
+    Input_df.at[DF_LAST_ROW, 'Device Number'] = 'Report ran'
     # TODO add disclaimer that many values are estimates for comparison between terminals only.
     # TODO the numbers are estimated but the same assumptions are applied equally to all.
 
@@ -90,42 +86,52 @@ def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
             commrate = 0
         return round(row['SurWD Trxs'] * commrate, 2)
     logger.info('Calculating commission due...')
-    df['Commission Due'] = df.apply(lambda row: Commissions_due(row), axis=1)
+    Input_df['Commission Due'] = Input_df.apply(lambda row: Commissions_due(row), axis=1)
     column_details['Commission Due'] = "$"
 
     def Annual_Net_Income(row):
         return float((row['Business Total Income'] - row['Commission Due']) * 12)
     logger.info('Calculating annual net income...')
-    df['Annual_Net_Income'] = df.apply(lambda row: Annual_Net_Income(row), axis=1)
-    df = moveLast2first(df)
+    Input_df['Annual_Net_Income'] = Input_df.apply(lambda row: Annual_Net_Income(row), axis=1)
+    Input_df = moveLast2first(Input_df)
     column_details['Annual_Net_Income'] = "$"
 
     def Annual_SurWDs(row):
-        return int(row['SurWD Trxs'] * 12)
+        try:
+            result = int(row['SurWD Trxs'] * 12)
+        except ValueError:
+            return 0
+        return result
     logger.info('Calculating annual surchargeable WDs...')
-    df['Annual_SurWDs'] = df.apply(lambda row: Annual_SurWDs(row), axis=1)
+    Input_df['Annual_SurWDs'] = Input_df.apply(lambda row: Annual_SurWDs(row), axis=1)
     column_details['Annual_SurWDs'] = "#"
 
     def Average_Surcharge(row):
-        if row['SurWD Trxs'] == 0: return 0
-        return round(row['Annual_Net_Income'] / row['Annual_SurWDs'], 2)
+        try:
+            result = round(row['Annual_Net_Income'] / row['Annual_SurWDs'], 2)
+        except ZeroDivisionError: # catches 'NaN' and 0
+            return 0
+        return result
     logger.info('Calculating average surcharge per terminal...')
-    df['surch'] = df.apply(lambda row: Average_Surcharge(row), axis=1)
-    df = moveLast2first(df)
+    Input_df['surch'] = Input_df.apply(lambda row: Average_Surcharge(row), axis=1)
+    Input_df = moveLast2first(Input_df)
     column_details['surch'] = "$"
 
     def Surcharge_Percentage(row):
-        if row['Total Surcharge'] == 0: return 0
-        return round(row['Annual_Net_Income'] / (row['Total Surcharge'] * 12), 2)
+        try:
+            result = round(row['Annual_Net_Income'] / (row['Total Surcharge'] * 12), 2)
+        except ZeroDivisionError: # catches 'NaN' and 0
+            return 0
+        return result        
     logger.info('Calculating surcharge percentage earned per terminal...')
-    df['Surcharge_Percentage'] = df.apply(lambda row: Surcharge_Percentage(row), axis=1)   
+    Input_df['Surcharge_Percentage'] = Input_df.apply(lambda row: Surcharge_Percentage(row), axis=1)   
     column_details['Surcharge_Percentage'] = "%"
 
     def Average_Daily_Dispense(row):
         return round(row['Total Dispensed Amount'] / DAYS, 2)
     logger.info('Calculating average daily dispense per terminal...')
-    df['Average_Daily_Dispense'] = df.apply(lambda row: Average_Daily_Dispense(row), axis=1)
-    df = moveLast2first(df)
+    Input_df['Average_Daily_Dispense'] = Input_df.apply(lambda row: Average_Daily_Dispense(row), axis=1)
+    Input_df = moveLast2first(Input_df)
     column_details['Average_Daily_Dispense'] = "$"
 
     def Current_Assets(row):
@@ -140,7 +146,7 @@ def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
             logger.error(f'Key error: {e}')
             return 0
     logger.info('Calculating estimated vault load per terminal...')
-    df['Current_Assets'] = df.apply(lambda row: Current_Assets(row), axis=1)
+    Input_df['Current_Assets'] = Input_df.apply(lambda row: Current_Assets(row), axis=1)
     column_details['Current_Assets'] = "$"
 
     def Assets(row):
@@ -152,16 +158,17 @@ def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
         else:
             return round(FA + row['Current_Assets'] , 2)
     logger.info('Calculating estimated investment per terminal...')
-    df['Assets'] = df.apply(lambda row: Assets(row), axis=1)
+    Input_df['Assets'] = Input_df.apply(lambda row: Assets(row), axis=1)
     column_details['Assets'] = "$"
 
     def Asset_Turnover(row):
-        if row['Assets'] != 0:
-            return round(row['Annual_Net_Income'] / row['Assets'], 2)
-        else:
+        try:
+            result =  round(row['Annual_Net_Income'] / row['Assets'], 2)
+        except ZeroDivisionError: # catches 'NaN' and 0
             return 0
+        return result
     logger.info('Calculating estimated asset turns per terminal...')
-    df['Asset_Turnover'] = df.apply(lambda row: Asset_Turnover(row), axis=1)
+    Input_df['Asset_Turnover'] = Input_df.apply(lambda row: Asset_Turnover(row), axis=1)
     column_details['Asset_Turnover'] = "%"
 
     def Earnings_BIT(row):
@@ -177,44 +184,41 @@ def process_monthly_surcharge_report_excel(out_f, in_f, rundate):
         result = round(row['Annual_Net_Income'] - annual_operating_cost, 2)
         return result
     logger.info('Calculating estimated EBIT per terminal...')
-    df['Earnings_BIT'] = df.apply(lambda row: Earnings_BIT(row), axis=1)
-    df = moveLast2first(df)
+    Input_df['Earnings_BIT'] = Input_df.apply(lambda row: Earnings_BIT(row), axis=1)
+    Input_df = moveLast2first(Input_df)
     column_details['Earnings_BIT'] = "$"
 
     def Profit_Margin(row):
-        if row['Annual_Net_Income'] == 0: return 0
-        return round(row['Earnings_BIT'] / row['Annual_Net_Income'], 2)
+        try:
+            result =  round(row['Earnings_BIT'] / row['Annual_Net_Income'], 2)
+        except ZeroDivisionError: # catches 'NaN' and 0
+            return 0
+        return result
     logger.info('Calculating estimated profit margin per terminal...')
-    df['Profit_Margin'] = df.apply(lambda row: Profit_Margin(row), axis=1)
-    df = moveLast2first(df)
+    Input_df['Profit_Margin'] = Input_df.apply(lambda row: Profit_Margin(row), axis=1)
+    Input_df = moveLast2first(Input_df)
     column_details['Profit_Margin'] = "%"
 
     def R_O_I(row):
         return round(row['Asset_Turnover'] * row['Profit_Margin'], 2)
     logger.info('Calculating estimated ROI per terminal...')
-    df['R_O_I'] = df.apply(lambda row: R_O_I(row), axis=1)
-    df = moveLast2first(df)
+    Input_df['R_O_I'] = Input_df.apply(lambda row: R_O_I(row), axis=1)
+    Input_df = moveLast2first(Input_df)
     column_details['R_O_I'] = "%"
 
-    logger.info('work is finished. Drop un-needed columns...') 
-    # TODO expand this to drop all columns except those desired in the report
-    df = df.drop([output_details['Standard']], axis=1)  # df.columns is zero-based panda.Index
+    logger.info('work is finished. Create outputs...') 
 
-    # sort data
-    try:
-        #logger.debug(df)
-        df = df.sort_values('Earnings_BIT',ascending=False)
-    except KeyError as e:
-        logger.error(f'KeyError: {e}   # This error does not make sense.') 
-        #logger.debug(df)
+    with open(OUTPUT_FILE) as json_data:
+        output_options = json.load(json_data)
+    # this dictionary will contain information about individual reports
+    CURRENT_REPORTS = ['Commission', "Surcharge", "Dupont"]
 
-    # define column formats
-    writer = panda.ExcelWriter(out_f, engine='xlsxwriter')
-    df.to_excel(writer, startrow = 1, sheet_name='Sheet1', index=False)    
-    set_custom_excel_formatting(df, writer, column_details)
-
-    logger.info('All work done. Saving worksheet...') 
-    writer.save()    
-
-    logger.info('Finished.') 
-    return True
+    frames = {}
+    for indx, report in enumerate(CURRENT_REPORTS):
+        # create a unique filename
+        fn = f'Outputfile{indx}.xlsx'
+        # Creating an empty Dataframe with column names only
+        frames[fn] = panda.DataFrame(columns=output_options[report])
+        for column in output_options[report]:
+            frames[fn][column] = Input_df[column]
+    return frames
