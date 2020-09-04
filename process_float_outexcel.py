@@ -66,4 +66,5 @@ def process_floatReport_csv(out_f, in_f, RUNDATE):
     # sort the data
     df = df.sort_values("Balance",ascending=False)
 
-    return [df]
+    indx = 0
+    return {f'Outputfile{indx}.xlsx': df}
