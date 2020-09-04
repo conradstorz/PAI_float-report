@@ -127,7 +127,7 @@ def defineLoggers():
 
     logger.add(
         #        runtime_name + "_{time}.log", format=">> <lvl>{message}</lvl>", level="INFO"
-        RUNTIME_NAME.name + "_{time}.log",
+        "".join(["./LOGS/", RUNTIME_NAME.name, "_{time}.log"]),
         level="DEBUG",  # above line would simplify output to message only
     )  # create a new log file for each run of the program
     return
