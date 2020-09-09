@@ -12,8 +12,7 @@ from loguru import logger
 
 @logger.catch
 def process_floatReport_csv(out_f, in_f, rundate):
-    """Scan file and compute sums for 2 columns
-    """
+    """Scan file and compute sums for 2 columns"""
     balances = []
     floats = []
     terminals = 0
@@ -26,28 +25,31 @@ def process_floatReport_csv(out_f, in_f, rundate):
                 logger.debug(row)
                 csvWriter.writerow(row)
                 if row[0] == "Location":
-                    logger.debug('Located headers. Discarding...')
+                    logger.debug("Located headers. Discarding...")
                 else:
-                    logger.debug('Adding terminal stats to running total.')
-                    terminals += 1 # increment number of terminals reporting                    
-                    if row[2] == '':
-                        logger.debug('Terminal has no balance value. Adding Zero to balance list')
+                    logger.debug("Adding terminal stats to running total.")
+                    terminals += 1  # increment number of terminals reporting
+                    if row[2] == "":
+                        logger.debug(
+                            "Terminal has no balance value. Adding Zero to balance list"
+                        )
                         balances.append(0)
                     else:
-                        balances.append(int(float(row[2].strip("$").replace(',',''))))
+                        balances.append(int(float(row[2].strip("$").replace(",", ""))))
                     if row[3] == "":
-                        logger.debug('Terminal has no float value. Adding Zero to floats list')
+                        logger.debug(
+                            "Terminal has no float value. Adding Zero to floats list"
+                        )
                         floats.append(0)
                     else:
-                        logger.debug('adding ' + row[3] + ' to floats list.')
-                        floats.append(int(float(row[3].strip("$").replace(',',''))))
+                        logger.debug("adding " + row[3] + " to floats list.")
+                        floats.append(int(float(row[3].strip("$").replace(",", ""))))
             # gather results into tuple
             result = tuple(
                 ["ATM", "VAULTS:", sum(balances), sum(floats), " = PAI FLOAT"]
             )
             logger.info(result)
-            logger.info(f'Writing output to: {out_f}')
+            logger.info(f"Writing output to: {out_f}")
             csvWriter.writerow(result)
             csvWriter.writerow([rundate, "...with", terminals, " terminals reporting"])
     return True
-

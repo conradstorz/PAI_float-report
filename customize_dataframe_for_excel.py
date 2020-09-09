@@ -15,22 +15,22 @@ def set_custom_excel_formatting(df, writer, details):
     Optionally a list of strings defining formats for alpha, numeric, currency or percentage
     may be specified per column. example: ['A','#','$','%'] would set the first 4 columns.
     """
-    logger.info('formatting column widths and styles...') 
+    logger.info("formatting column widths and styles...")
 
-    logger.info('Trying to create a formatted worksheet...')
+    logger.info("Trying to create a formatted worksheet...")
     # Indicate workbook and worksheet for formatting
     workbook = writer.book
-    worksheet = writer.sheets['Sheet1']
+    worksheet = writer.sheets["Sheet1"]
 
     # Add some cell formats.
-    currency_format = workbook.add_format({'num_format': '$#,##0.00'})
-    nmbrfrmt = workbook.add_format({'num_format': '#,##0'})
-    percntg = workbook.add_format({'num_format': '0%'})
+    currency_format = workbook.add_format({"num_format": "$#,##0.00"})
+    nmbrfrmt = workbook.add_format({"num_format": "#,##0"})
+    percntg = workbook.add_format({"num_format": "0%"})
 
-    # Reduce the zoom a little  
-    worksheet.set_zoom(90) # does not seem to have any effect
+    # Reduce the zoom a little
+    worksheet.set_zoom(90)  # does not seem to have any effect
 
-    #Iterate through each column and set the width == the max length in that column. A padding length of 2 is also added.
+    # Iterate through each column and set the width == the max length in that column. A padding length of 2 is also added.
     for i, col in enumerate(df.columns):
         # find length of column i
         column_width = df[col].astype(str).str.len().max()
@@ -38,16 +38,16 @@ def set_custom_excel_formatting(df, writer, details):
         # than the max column value length
         column_width = max(column_width, len(col)) + 2
         if col in details.keys():
-        # set the column length and format
-            if details[col] == 'A':
+            # set the column length and format
+            if details[col] == "A":
                 worksheet.set_column(i, i, column_width)
-            if details[col] == '#':
+            if details[col] == "#":
                 worksheet.set_column(i, i, column_width, nmbrfrmt)
-            if details[col] == '$':
+            if details[col] == "$":
                 worksheet.set_column(i, i, column_width, currency_format)
-            if details[col] == '%':    
-                worksheet.set_column(i, i, column_width, percntg)     
-        else: # just set the width of the column
+            if details[col] == "%":
+                worksheet.set_column(i, i, column_width, percntg)
+        else:  # just set the width of the column
             worksheet.set_column(i, i, column_width)
     return True
 

@@ -18,7 +18,9 @@ number of non-WD transactions, WD transactions NOT SURCHARGED (usually zero).
 import os
 from time import sleep
 from loguru import logger
-from filehandling import check_and_validate # removes invalid characters from proposed filenames
+from filehandling import (
+    check_and_validate,
+)  # removes invalid characters from proposed filenames
 from pathlib import Path
 from dateutil.parser import parse, ParserError
 from process_surcharge import process_monthly_surcharge_report_excel
@@ -32,7 +34,7 @@ from process_simple import process_simple_summary_csv
 RUNTIME_NAME = Path(__file__)
 
 CSV_EXT = [".csv"]
-EXCEL_EXT = ['.xls']
+EXCEL_EXT = [".xls"]
 
 DL_DRIVE = "C:"
 DL_USER_BASE = "Users"
@@ -43,9 +45,9 @@ DL_PATH = Path("C:/Users/Conrad/Downloads/")
 # download filename, download extension, output extension
 BASENAME_BANK_STATEMENT = ["BankDepositsStatement", CSV_EXT, CSV_EXT]
 EMAIL_BASENAME_FLOATREPORT = ["Terminal Status(w_FLOAT)automated", CSV_EXT, EXCEL_EXT]
-MANUAL_DL_BASENAME_FLOAT_REPORT = ['TerminalStatuswFLOATautomated3', CSV_EXT, CSV_EXT] 
+MANUAL_DL_BASENAME_FLOAT_REPORT = ["TerminalStatuswFLOATautomated3", CSV_EXT, CSV_EXT]
 BASENAME_SIMPLE_SUMMARY = ["TerminalTrxData", CSV_EXT, EXCEL_EXT]
-BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL = ['RevenueByDevice', EXCEL_EXT, EXCEL_EXT]
+BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL = ["RevenueByDevice", EXCEL_EXT, EXCEL_EXT]
 
 OUTPUT_DIRECTORY = "Documents"
 OUTPUT_PATH = Path(f"C:/Users/Conrad/{OUTPUT_DIRECTORY}")
@@ -53,17 +55,17 @@ OUTPUT_PATH = Path(f"C:/Users/Conrad/{OUTPUT_DIRECTORY}")
 
 @logger.catch
 def extract_date(fname):
-    """ the filename contains the date the report was run
+    """the filename contains the date the report was run
     extract and return the date string
     """
-    datestring = 'xxxxxxxx'
+    datestring = "xxxxxxxx"
     logger.info("Processing: " + str(fname))
-    parts = str(fname.stem).split('-')
+    parts = str(fname.stem).split("-")
     for part in parts:
         try:
             datestring = parse(part).strftime("%Y%m%d")
         except ParserError as e:
-            logger.debug(f'Error: {e}')
+            logger.debug(f"Error: {e}")
 
     # sample filename string "Terminal Status(w_FLOAT)automated - 20190822.csv"
     # fn = Path(fname).stem # returns just the filename without extension or folder
@@ -73,10 +75,9 @@ def extract_date(fname):
 
 @logger.catch
 def look_for_new_data(matchName, ext):
-    """ Get files and return any match
-    """ 
-    logger.info(f'Looking for {matchName}')
-    files = list(DL_PATH.glob('*.*'))
+    """Get files and return any match"""
+    logger.info(f"Looking for {matchName}")
+    files = list(DL_PATH.glob("*.*"))
     # logger.debug(files)
     logger.debug(ext)
 
@@ -88,15 +89,16 @@ def look_for_new_data(matchName, ext):
         if matchName in str(fname):
             logger.info("Matched filename: " + str(fname))
             return fname
-    return "" # no match found
+    return ""  # no match found
 
 
 @logger.catch
 def determine_output_filename(datestr, matchedname, ext, output_folder):
-    """Assemble datecode and output folder with original basename into new filename.
-    """
+    """Assemble datecode and output folder with original basename into new filename."""
     fn = check_and_validate(datestr, output_folder)
-    newfilename = Path(f'{fn}_{matchedname}{ext}') # TODO check that name does not yet exist
+    newfilename = Path(
+        f"{fn}_{matchedname}{ext}"
+    )  # TODO check that name does not yet exist
     return newfilename
 
 
@@ -135,7 +137,7 @@ def defineLoggers():
 
 @logger.catch
 def process_bank_statement_csv(out_f, in_f, rundate):
-    """placeholder for future develpoment of a method of importing 
+    """placeholder for future develpoment of a method of importing
     deposits into quickbooks for account reconciliation.
     """
     return False
@@ -144,28 +146,30 @@ def process_bank_statement_csv(out_f, in_f, rundate):
 import json
 import pandas as panda
 from customize_dataframe_for_excel import set_custom_excel_formatting
-FORMATTING_FILE = 'ColumnFormatting.json'
+
+FORMATTING_FILE = "ColumnFormatting.json"
 with open(FORMATTING_FILE) as json_data:
     column_details = json.load(json_data)
 # this dictionary will contain information about individual column data type
+
 
 def Send_dataframes_to_file(frames, out_f):
     """Takes a dict of dataframes and outputs them to excel files them sends them to default printer.
     output file path is modified to create a unique filename for each dataframe.
     """
 
-    args = os.sys.argv 
+    args = os.sys.argv
     for filename, frame in frames.items():
         # extract column names from dataframe
         columns = frame.columns
         # establish excel output object and define column formats
-        writer = panda.ExcelWriter(filename, engine='xlsxwriter')
-        frame.to_excel(writer, startrow = 1, sheet_name='Sheet1', index=False) 
+        writer = panda.ExcelWriter(filename, engine="xlsxwriter")
+        frame.to_excel(writer, startrow=1, sheet_name="Sheet1", index=False)
         # set output formatting
         set_custom_excel_formatting(frame, writer, column_details)
-        logger.info('All work done. Saving worksheet...') 
-        writer.save()  
-        # time to print 
+        logger.info("All work done. Saving worksheet...")
+        writer.save()
+        # time to print
         if len(args) > 1 and args[1] == "-np":
             logger.info("bypassing print option due to '-np' option.")
             logger.info("bypassing file removal option due to '-np' option.")
@@ -175,15 +179,14 @@ def Send_dataframes_to_file(frames, out_f):
             try:
                 os.startfile(filename, "print")
             except FileNotFoundError as e:
-                logger.error(f'File not found: {e}')
-    
+                logger.error(f"File not found: {e}")
+
 
 def scan_download_folder(files, functions):
-    """Loop continuosly looking for downloads to process.
-    """
+    """Loop continuosly looking for downloads to process."""
     inputfile = ""
     while inputfile == "":
-        logger.info(f'Looking in directory: {DL_PATH}')
+        logger.info(f"Looking in directory: {DL_PATH}")
         for indx, value in enumerate(files):
             basename = value[0]
             extension = value[1]
@@ -192,20 +195,23 @@ def scan_download_folder(files, functions):
                 inputfile = look_for_new_data(basename, ext)
                 if inputfile != "" and inputfile != None:
                     filedate = extract_date(inputfile)
-                    output_file = determine_output_filename(filedate, basename, output_ext, OUTPUT_PATH)
+                    output_file = determine_output_filename(
+                        filedate, basename, output_ext, OUTPUT_PATH
+                    )
                     logger.debug(filedate)
                     output_dict = functions[indx](output_file, inputfile, filedate)
                     if len(output_dict) > 0:
                         Send_dataframes_to_file(output_dict, output_file)
                         remove_file(inputfile)
                     else:
-                        logger.error('Input file not processed properly.')
+                        logger.error("Input file not processed properly.")
             else:
-                logger.info('Nothing found.')
+                logger.info("Nothing found.")
         inputfile = ""  # keep the program running looking for more files
         logger.info("Sleeping 10 seconds")
         sleep(10)
-    return    
+    return
+
 
 @logger.catch
 def Main():
@@ -219,15 +225,15 @@ def Main():
         EMAIL_BASENAME_FLOATREPORT,
         MANUAL_DL_BASENAME_FLOAT_REPORT,
         BASENAME_SIMPLE_SUMMARY,
-        BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL
+        BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL,
     ]
 
     process_func = [
         process_bank_statement_csv,
-        process_floatReport_csv, 
+        process_floatReport_csv,
         process_floatReport_csv,
         process_simple_summary_csv,
-        process_monthly_surcharge_report_excel
+        process_monthly_surcharge_report_excel,
     ]
 
     scan_download_folder(file_types, process_func)

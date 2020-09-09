@@ -48,13 +48,13 @@ this_folder3 = Path(__file__).parent
 # verify a path exists:
 # Path('relative/path/to/nowhere').exists() # returns: False
 
-#Example of directory deletion by pathlib
-#pathobj = Path("demo/")
-#pathobj.rmdir()
-	
-#Example of file deletion by pathlib
-#pathobj = Path("demo/testfile.txt")
-#pathobj.unlink()
+# Example of directory deletion by pathlib
+# pathobj = Path("demo/")
+# pathobj.rmdir()
+
+# Example of file deletion by pathlib
+# pathobj = Path("demo/testfile.txt")
+# pathobj.unlink()
 
 """ access parts of a filename:
 >>> Path('static/dist/js/app.min.js').name
@@ -69,8 +69,7 @@ this_folder3 = Path(__file__).parent
 
 
 def clean_filename_str(fn):
-    """Remove invalid characters from provided string.
-    """
+    """Remove invalid characters from provided string."""
     return Path("".join(i for i in fn if i not in "\/:*?<>|"))
 
 
@@ -85,8 +84,8 @@ def check_and_validate(fname, direc, rename=True):
     while Path(OUT_PATH_HANDLE).exists():
         if rename:
             i += 1
-            fn = f'{fn}({i})'
+            fn = f"{fn}({i})"
             OUT_PATH_HANDLE = Path(direc, fn)
         else:
-            raise(FileExistsError)
+            raise (FileExistsError)
     return OUT_PATH_HANDLE
