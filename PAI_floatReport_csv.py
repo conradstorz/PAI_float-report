@@ -43,7 +43,7 @@ DL_PATH = Path("C:/Users/Conrad/Downloads/")
 # download filename, download extension, output extension
 BASENAME_BANK_STATEMENT = ["BankDepositsStatement", CSV_EXT, CSV_EXT]
 EMAIL_BASENAME_FLOATREPORT = ["Terminal Status(w_FLOAT)automated", CSV_EXT, EXCEL_EXT]
-MANUAL_DL_BASENAME_FLOATEREPORT = ['TerminalStatuswFLOATautomated3', CSV_EXT, CSV_EXT] 
+MANUAL_DL_BASENAME_FLOAT_REPORT = ['TerminalStatuswFLOATautomated3', CSV_EXT, CSV_EXT] 
 BASENAME_SIMPLE_SUMMARY = ["TerminalTrxData", CSV_EXT, EXCEL_EXT]
 BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL = ['RevenueByDevice', EXCEL_EXT, EXCEL_EXT]
 
@@ -150,7 +150,7 @@ with open(FORMATTING_FILE) as json_data:
 # this dictionary will contain information about individual column data type
 
 def Send_dataframes_to_file(frames, out_f):
-    """Takes a dict of dataframes and outputs them to excel files them sends them to printer.
+    """Takes a dict of dataframes and outputs them to excel files them sends them to default printer.
     output file path is modified to create a unique filename for each dataframe.
     """
 
@@ -213,13 +213,15 @@ def Main():
     logger.info("Program Start.")  # log the start of the program
     logger.info(RUNTIME_NAME)
     logger.info("Scanning for download to process...")
+
     file_types = [
         BASENAME_BANK_STATEMENT,
         EMAIL_BASENAME_FLOATREPORT,
-        MANUAL_DL_BASENAME_FLOATEREPORT,
+        MANUAL_DL_BASENAME_FLOAT_REPORT,
         BASENAME_SIMPLE_SUMMARY,
         BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL
     ]
+
     process_func = [
         process_bank_statement_csv,
         process_floatReport_csv, 
@@ -227,8 +229,8 @@ def Main():
         process_simple_summary_csv,
         process_monthly_surcharge_report_excel
     ]
-    scan_download_folder(file_types, process_func)
 
+    scan_download_folder(file_types, process_func)
 
 
 if __name__ == "__main__":
