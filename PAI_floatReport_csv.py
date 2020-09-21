@@ -65,11 +65,8 @@ def extract_date(fname):
         try:
             datestring = parse(part).strftime("%Y%m%d")
         except ParserError as e:
-            logger.debug(f"Error: {e}")
+            logger.debug(f"{part} Error: {e}")
 
-    # sample filename string "Terminal Status(w_FLOAT)automated - 20190822.csv"
-    # fn = Path(fname).stem # returns just the filename without extension or folder
-    # datestring = fn[-8:] # the last 8 characters represent the datecode
     return datestring
 
 

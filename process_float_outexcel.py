@@ -21,8 +21,8 @@ def process_floatReport_csv(out_f, in_f, RUNDATE):
     # Fields: "Location","Reject Balance","Balance","Today's Float","Route"
 
     # Add some information to dataframe
-    df.at[DF_LAST_ROW, "Reject Balance"] = str(RUNDATE)
-    df.at[DF_LAST_ROW, "Location"] = "Report ran"
+    # df.at[DF_LAST_ROW, "Reject Balance"] = str(RUNDATE)
+    df.at[DF_LAST_ROW, "Location"] = f"Report ran: {RUNDATE}"
 
     FORMATTING_FILE = "ColumnFormatting.json"
     with open(FORMATTING_FILE) as json_data:
