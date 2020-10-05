@@ -83,6 +83,7 @@ def check_and_validate(fname, direc, rename=True):
     i = 0
     while Path(OUT_PATH_HANDLE).exists():
         if rename:
+            # TODO  strip old (#) from name and rename
             i += 1
             fn = f"{fn}({i})"
             OUT_PATH_HANDLE = Path(direc, fn)
