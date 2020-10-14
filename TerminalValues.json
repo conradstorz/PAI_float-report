@@ -11,7 +11,7 @@
 "RT10875": {"Owned": "Yes","Value": "2000","Visit Days": "28","Travel Cost": "8.25","Commission":"0"},
 "RT12977": {"Owned": "Yes","Value": "2000","Visit Days": "28","Travel Cost": "8.25","Commission":"0"},
 "RT27947": {"Owned": "Yes","Value": "2000","Visit Days": "14","Travel Cost": "8.25","Commission":"0"},
-"RT34235": {"Owned": "Yes","Value": "1500","Visit Days": "28","Travel Cost": "8.25","Commission":"0"},
+"RT34235": {"Owned": "Yes","Value": "1500","Visit Days": "28","Travel Cost": "8.25","Commission":"0.75"},
 "RT38284": {"Owned": "Yes","Value": "1500","Visit Days": "30","Travel Cost": "8.25","Commission":"0.50"},
 "RT38898": {"Owned": "Yes","Value": "2000","Visit Days": "56","Travel Cost": "8.25","Commission":"0"},
 "RT38951": {"Owned": "Yes","Value": "2000","Visit Days": "7","Travel Cost": "8.25","Commission":"0"},
