@@ -65,7 +65,7 @@ def extract_date(fname):
         try:
             datestring = parse(part).strftime("%Y%m%d")
         except ParserError as e:
-            logger.debug(f"{part} Error: {e}")
+            logger.debug(f"Date not found Error: {e}")
 
     return datestring
 
@@ -145,15 +145,14 @@ import pandas as panda
 from customize_dataframe_for_excel import set_custom_excel_formatting
 
 FORMATTING_FILE = "ColumnFormatting.json"
-with open(FORMATTING_FILE) as json_data:
-    column_details = json.load(json_data)
-# this dictionary will contain information about individual column data type
-
 
 def Send_dataframes_to_file(frames, out_f):
     """Takes a dict of dataframes and outputs them to excel files them sends them to default printer.
     output file path is modified to create a unique filename for each dataframe.
     """
+    with open(FORMATTING_FILE) as json_data:
+        column_details = json.load(json_data)
+    # this dictionary will contain information about individual column data type
 
     args = os.sys.argv
     for filename, frame in frames.items():

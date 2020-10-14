@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Munge spreadsheet data.
-Takes and input file Path obj, and output file Path obj,
-and a rundate string and then makes calculations and returns an output version
+Takes an input file Path obj, and a rundate string 
+and then makes calculations and returns an output version
 of the spreadsheet in dataframe format.
 """
 
@@ -13,18 +13,21 @@ from customize_dataframe_for_excel import set_custom_excel_formatting
 
 
 @logger.catch
-def process_monthly_surcharge_report_excel(out_f, in_f, RUNDATE):
-    """Uses this report to determine surcharges are correct
-    and I am being paid the correct amount when splitting surcharge.
+def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
+    """Uses this "Payment Alliance International (PAI) website" report to determine surcharges are correct
+    and I am being paid the correct amount when splitting surcharge. If a location earns commission it is calculated.
     After reading the data extract: 'Total Business Surcharge',
     'SurWD Trxs', 'Total Surcharge', 'Total Dispensed Amount' and estimate the rest.
     """
-    VALUE_FILE = "TerminalValues.json"
-    FORMATTING_FILE = "ColumnFormatting.json"
-    OUTPUT_FILE = "SurchargeReportVariations.json"
+    # TODO Create list of immutable keys from imported data and mutable keys from this script.
+
+    VALUE_FILE = "TerminalValues.json" # data concerning investment value and commissions due and operational expenses
+    FORMATTING_FILE = "ColumnFormatting.json" # data describing formatting of data such as integer, date, float, string
+    OUTPUT_FILE = "SurchargeReportVariations.json" # this dictionary will contain information about individual reports layouts
 
     DAYS = 30  # most months are 30 days and report covers a month
-    OPERATING_LABOR = 25  # estimated labor per visit.
+    # TODO not all reports are 30 days. Some are 90 days. Try to determine actual number of days.
+    OPERATING_LABOR = 25  # estimated labor per visit in dollars.
     logger.info("Beginning process of monthly report.")
     logger.info(f"File: {in_f}")
 
@@ -34,13 +37,23 @@ def process_monthly_surcharge_report_excel(out_f, in_f, RUNDATE):
         return df[cols]
 
     Input_df = panda.read_excel(in_f)
-    DF_LAST_ROW = len(Input_df)
-    logger.info(f"Excel file imported into dataframe with {DF_LAST_ROW} rows.")
+    INPUTDF_TOTAL_ROWS = len(Input_df)
+    logger.info(f"Excel file imported into dataframe with {INPUTDF_TOTAL_ROWS} rows.")
+
+    # TODO combine entries that reference the same terminal in different months. 
+    #       ...Reports that cover more than 1 month have seperate lines for each monthly period.
+    Input_df = Input_df.groupby([Input_df["Location"], Input_df["Device Number"]], as_index=False).sum(numeric_only=True)
+    INPUTDF_TOTAL_ROWS = len(Input_df)    
+    logger.info(f"{INPUTDF_TOTAL_ROWS} rows remain after combining identical locations.")
 
     # slice the terminal numbers and write to temp storage
-    t = Input_df["Device Number"]
-    t.to_json("temp.json")
-    # TODO use this to determine which new terminals are missing from value lookup
+    try:
+        t = Input_df["Device Number"]
+        t.to_json("temp.json")
+        # TODO use this to determine which new terminals are missing from value lookup        
+    except KeyError as e:
+            logger.error(f'Error {e}')
+
 
     with open(VALUE_FILE) as json_data:
         terminal_details = json.load(json_data)
@@ -55,9 +68,9 @@ def process_monthly_surcharge_report_excel(out_f, in_f, RUNDATE):
         column_details = json.load(json_data)
     # this dictionary will contain information about individual terminals
 
-    # Add some information to dataframe
-    Input_df.at[DF_LAST_ROW, "Location"] = str(RUNDATE)
-    Input_df.at[DF_LAST_ROW, "Device Number"] = "Report ran"
+    # Add some information to dataframe. rows are Zero based so this location is 1 past last row.
+    Input_df.at[INPUTDF_TOTAL_ROWS, "Location"] = str(RUNDATE)
+    Input_df.at[INPUTDF_TOTAL_ROWS, "Device Number"] = "Report ran"
     # TODO add disclaimer that many values are estimates for comparison between terminals only.
     # TODO the numbers are estimated but the same assumptions are applied equally to all.
 
@@ -88,13 +101,13 @@ def process_monthly_surcharge_report_excel(out_f, in_f, RUNDATE):
         return round(row["SurWD Trxs"] * commrate, 2)
 
     logger.info("Calculating commission due...")
-    Input_df["Commission Due"] = Input_df.apply(
+    Input_df["Comm Due"] = Input_df.apply(
         lambda row: Commissions_due(row), axis=1
     )
-    column_details["Commission Due"] = "$"
+    column_details["Comm Due"] = "$"
 
     def Annual_Net_Income(row):
-        return float((row["Business Total Income"] - row["Commission Due"]) * 12)
+        return float((row["Business Total Income"] - row["Comm Due"]) * 12)
 
     logger.info("Calculating annual net income...")
     Input_df["Annual_Net_Income"] = Input_df.apply(
@@ -134,20 +147,20 @@ def process_monthly_surcharge_report_excel(out_f, in_f, RUNDATE):
         return result
 
     logger.info("Calculating surcharge percentage earned per terminal...")
-    Input_df["Surcharge_Percentage"] = Input_df.apply(
+    Input_df["Surch%"] = Input_df.apply(
         lambda row: Surcharge_Percentage(row), axis=1
     )
-    column_details["Surcharge_Percentage"] = "%"
+    column_details["Surch%"] = "%"
 
     def Average_Daily_Dispense(row):
         return round(row["Total Dispensed Amount"] / DAYS, 2)
 
     logger.info("Calculating average daily dispense per terminal...")
-    Input_df["Average_Daily_Dispense"] = Input_df.apply(
+    Input_df["Daily_Dispense"] = Input_df.apply(
         lambda row: Average_Daily_Dispense(row), axis=1
     )
     Input_df = moveLast2first(Input_df)
-    column_details["Average_Daily_Dispense"] = "$"
+    column_details["Daily_Dispense"] = "$"
 
     def Current_Assets(row):
         buffer = 1.5
@@ -156,7 +169,7 @@ def process_monthly_surcharge_report_excel(out_f, in_f, RUNDATE):
             if terminal_details[row["Device Number"]][VF_KEY_Ownership] == "No":
                 return 0  # there are no current assets for terminal loaded with other peoples money.
             else:
-                return round(row["Average_Daily_Dispense"] * visits * buffer, 2)
+                return round(row["Daily_Dispense"] * visits * buffer, 2)
         except KeyError as e:
             logger.error(f"Key error: {e}")
             return 0
@@ -186,8 +199,8 @@ def process_monthly_surcharge_report_excel(out_f, in_f, RUNDATE):
         return result
 
     logger.info("Calculating estimated asset turns per terminal...")
-    Input_df["Asset_Turnover"] = Input_df.apply(lambda row: Asset_Turnover(row), axis=1)
-    column_details["Asset_Turnover"] = "%"
+    Input_df["A_T_O"] = Input_df.apply(lambda row: Asset_Turnover(row), axis=1)
+    column_details["A_T_O"] = "%"
 
     def Earnings_BIT(row):
         """Use data stored in .json file to customize each terminal"""
@@ -214,12 +227,12 @@ def process_monthly_surcharge_report_excel(out_f, in_f, RUNDATE):
         return result
 
     logger.info("Calculating estimated profit margin per terminal...")
-    Input_df["Profit_Margin"] = Input_df.apply(lambda row: Profit_Margin(row), axis=1)
+    Input_df["p_Margin"] = Input_df.apply(lambda row: Profit_Margin(row), axis=1)
     Input_df = moveLast2first(Input_df)
-    column_details["Profit_Margin"] = "%"
+    column_details["p_Margin"] = "%"
 
     def R_O_I(row):
-        return round(row["Asset_Turnover"] * row["Profit_Margin"], 2)
+        return round(row["A_T_O"] * row["p_Margin"], 2)
 
     logger.info("Calculating estimated ROI per terminal...")
     Input_df["R_O_I"] = Input_df.apply(lambda row: R_O_I(row), axis=1)
@@ -227,6 +240,10 @@ def process_monthly_surcharge_report_excel(out_f, in_f, RUNDATE):
     column_details["R_O_I"] = "%"
 
     logger.info("work is finished. Create outputs...")
+
+    # update the column output formatting rules
+    with open(FORMATTING_FILE, 'w') as json_data:
+        json.dump(column_details,json_data)
 
     with open(OUTPUT_FILE) as json_data:
         output_options = json.load(json_data)
@@ -241,4 +258,5 @@ def process_monthly_surcharge_report_excel(out_f, in_f, RUNDATE):
         frames[fn] = panda.DataFrame(columns=output_options[report])
         for column in output_options[report]:
             frames[fn][column] = Input_df[column]
+        frames[fn].at[INPUTDF_TOTAL_ROWS + 1, 'Location'] = report        
     return frames

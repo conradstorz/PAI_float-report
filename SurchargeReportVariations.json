@@ -3,7 +3,7 @@
 "Description": "These fields represent the only fields output to the final dataframe",
 "TODO": "Take the order of these fields as the order of output",
 "Forensic": "DROP_NONE",
-"Dupont": ["R_O_I", "Profit_Margin", "Earnings_BIT", "Location", "Asset_Turnover"],
-"Surcharge": ["surch", "Location", "SurWD Trxs", "Total Trxs", "Total Surcharge", "Surcharge_Percentage"],
-"Commission": ["Commission Due", "Business Total Income", "Total Surcharge", "Location"]
+"Dupont": ["R_O_I", "p_Margin", "Earnings_BIT", "Location", "A_T_O"],
+"Surcharge": ["surch", "Location", "SurWD Trxs", "Total Trxs", "Total Surcharge", "Surch%"],
+"Commission": ["Comm Due", "Business Total Income", "Total Surcharge", "Location"]
 }
