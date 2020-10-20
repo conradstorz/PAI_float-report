@@ -204,6 +204,7 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
 
     def Earnings_BIT(row):
         """Use data stored in .json file to customize each terminal"""
+        # TODO sort the entire DF on this field.
         try:
             Visit = float(terminal_details[row["Device Number"]][VF_KEY_VisitDays])
             Travl = float(terminal_details[row["Device Number"]][VF_KEY_TravelCost])
