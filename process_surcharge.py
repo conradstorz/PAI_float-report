@@ -17,10 +17,15 @@ from customize_dataframe_for_excel import set_custom_excel_formatting
 def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
     """Uses this "Payment Alliance International (PAI) website" report to determine surcharges are correct
     and I am being paid the correct amount when splitting surcharge. If a location earns commission it is calculated.
-    After reading the data extract: 'Total Business Surcharge',
-    'SurWD Trxs', 'Total Surcharge', 'Total Dispensed Amount' and estimate the rest.
+    After reading the data extract:
+    'Total Business Surcharge', 'SurWD Trxs', 'Total Surcharge', 'Total Dispensed Amount' and estimate the rest.
     """
     # TODO Create list of immutable keys from imported data and mutable keys from this script.
+    # pandas tags:
+    LOCATION_TAG = "Location"
+    DEVICE_NUMBER_TAG = "Device Number"
+    SURCHARGEABLE_WITHDRAWL_TRANSACTIONS_TAG = "SurWD Trxs"
+
 
     VALUE_FILE = "TerminalValues.json" # data concerning investment value and commissions due and operational expenses
     FORMATTING_FILE = "ColumnFormatting.json" # data describing formatting of data such as integer, date, float, string
@@ -43,13 +48,13 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
 
     # TODO combine entries that reference the same terminal in different months. 
     #       ...Reports that cover more than 1 month have seperate lines for each monthly period.
-    Input_df = Input_df.groupby([Input_df["Location"], Input_df["Device Number"]], as_index=False).sum(numeric_only=True)
+    Input_df = Input_df.groupby([Input_df[LOCATION_TAG], Input_df[DEVICE_NUMBER_TAG]], as_index=False).sum(numeric_only=True)
     INPUTDF_TOTAL_ROWS = len(Input_df)    
     logger.info(f"{INPUTDF_TOTAL_ROWS} rows remain after combining identical locations.")
 
     # slice the terminal numbers and write to temp storage
     try:
-        t = Input_df["Device Number"]
+        t = Input_df[DEVICE_NUMBER_TAG]
         t.to_json("temp.json")
         # TODO use this to determine which new terminals are missing from value lookup        
     except KeyError as e:
@@ -70,8 +75,8 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
     # this dictionary will contain information about individual terminals
 
     # Add some information to dataframe. rows are Zero based so this location is 1 past last row.
-    Input_df.at[INPUTDF_TOTAL_ROWS, "Location"] = str(RUNDATE)
-    Input_df.at[INPUTDF_TOTAL_ROWS, "Device Number"] = "Report ran"
+    Input_df.at[INPUTDF_TOTAL_ROWS, LOCATION_TAG] = str(RUNDATE)
+    Input_df.at[INPUTDF_TOTAL_ROWS, DEVICE_NUMBER_TAG] = "Report ran"
     # TODO add disclaimer that many values are estimates for comparison between terminals only.
     # TODO the numbers are estimated but the same assumptions are applied equally to all.
 
@@ -95,11 +100,11 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
 
     def Commissions_due(row):
         try:
-            commrate = float(terminal_details[row["Device Number"]][VF_KEY_Commissions])
+            commrate = float(terminal_details[row[DEVICE_NUMBER_TAG]][VF_KEY_Commissions])
         except KeyError as e:
             logger.error(f"KeyError: {e}")
             commrate = 0
-        return round(row["SurWD Trxs"] * commrate, 2)
+        return round(row[SURCHARGEABLE_WITHDRAWL_TRANSACTIONS_TAG] * commrate, 2)
 
     logger.info("Calculating commission due...")
     Input_df["Comm Due"] = Input_df.apply(
@@ -119,7 +124,7 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
 
     def Annual_SurWDs(row):
         try:
-            result = int(row["SurWD Trxs"] * 12)
+            result = int(row[SURCHARGEABLE_WITHDRAWL_TRANSACTIONS_TAG] * 12)
         except ValueError:
             return 0
         return result
@@ -166,8 +171,8 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
     def Current_Assets(row):
         buffer = 1.5
         try:
-            visits = float(terminal_details[row["Device Number"]][VF_KEY_VisitDays])
-            if terminal_details[row["Device Number"]][VF_KEY_Ownership] == "No":
+            visits = float(terminal_details[row[DEVICE_NUMBER_TAG]][VF_KEY_VisitDays])
+            if terminal_details[row[DEVICE_NUMBER_TAG]][VF_KEY_Ownership] == "No":
                 return 0  # there are no current assets for terminal loaded with other peoples money.
             else:
                 return round(row["Daily_Dispense"] * visits * buffer, 2)
@@ -181,7 +186,7 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
 
     def Assets(row):
         try:
-            FA = float(terminal_details[row["Device Number"]][VF_KEY_Value])
+            FA = float(terminal_details[row[DEVICE_NUMBER_TAG]][VF_KEY_Value])
         except KeyError as e:
             logger.error(f"KeyError: {e}")
             return 0
@@ -207,8 +212,8 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
         """Use data stored in .json file to customize each terminal"""
         # TODO sort the entire DF on this field.
         try:
-            Visit = float(terminal_details[row["Device Number"]][VF_KEY_VisitDays])
-            Travl = float(terminal_details[row["Device Number"]][VF_KEY_TravelCost])
+            Visit = float(terminal_details[row[DEVICE_NUMBER_TAG]][VF_KEY_VisitDays])
+            Travl = float(terminal_details[row[DEVICE_NUMBER_TAG]][VF_KEY_TravelCost])
             annual_operating_cost = (365 / Visit) * (Travl + OPERATING_LABOR)
         except KeyError as e:
             logger.error(f"KeyError: {e}")
@@ -260,5 +265,5 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
         frames[fn] = panda.DataFrame(columns=output_options[report])
         for column in output_options[report]:
             frames[fn][column] = Input_df[column]
-        frames[fn].at[INPUTDF_TOTAL_ROWS + 1, 'Location'] = report        
+        frames[fn].at[INPUTDF_TOTAL_ROWS + 1, LOCATION_TAG] = report        
     return frames
