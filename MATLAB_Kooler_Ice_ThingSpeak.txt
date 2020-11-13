@@ -1,0 +1,38 @@
+% this sample code from MATLAB will display 5 timeseries data lines from thingspeak data provided by my
+% raspberryPi temperature monitor attached to he Kooler Ice machine Ice Maker.
+
+% Template MATLAB code for visualizing data using the YYAXIS and PLOT functions.
+
+% Prior to running this MATLAB code template, assign the channel variables.
+% Set 'readChannelID' to the channel ID of the channel to read from. 
+% Also, assign the read field IDs to the variables 'fieldID1', and 'fieldID2'. 
+
+% TODO - Replace the [] with channel ID to read data from:
+readChannelID = [1216774];
+% TODO - Replace the [] with the Field ID to read data from:
+fieldID1 = [2];
+% TODO - Replace the [] with the Field ID to read data from:
+fieldID2 = [4];
+fieldID3 = [3];
+fieldID4 = [1];
+fieldID5 = [5];
+% Channel Read API Key 
+% If your channel is private, then enter the read API
+% Key between the '' below: 
+readAPIKey = 'CPK1X75NZ0OOHZYZ';
+
+%% Read Data %%
+
+% Read first data variable
+[data1, time1] = thingSpeakRead(readChannelID, 'Field', fieldID1, 'NumPoints', 1000, 'ReadKey', readAPIKey);
+
+% Read second data variable
+[data2, time2] = thingSpeakRead(readChannelID, 'Field', fieldID2, 'NumPoints', 1000, 'ReadKey', readAPIKey);
+[data3, time3] = thingSpeakRead(readChannelID, 'Field', fieldID3, 'NumPoints', 1000, 'ReadKey', readAPIKey);
+[data4, time4] = thingSpeakRead(readChannelID, 'Field', fieldID4, 'NumPoints', 1000, 'ReadKey', readAPIKey);
+[data5, time5] = thingSpeakRead(readChannelID, 'Field', fieldID5, 'NumPoints', 1000, 'ReadKey', readAPIKey);
+
+
+%% Visualize Data %%
+
+plot(time1, data1, time2, data2, time3, data3, time4, data4, time5, data5);
