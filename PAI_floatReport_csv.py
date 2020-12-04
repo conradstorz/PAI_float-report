@@ -28,6 +28,13 @@ from process_float_outexcel import process_floatReport_csv
 from process_simple import process_simple_summary_csv
 
 
+import json
+import pandas as panda
+from customize_dataframe_for_excel import set_custom_excel_formatting
+
+FORMATTING_FILE = "ColumnFormatting.json"
+
+
 # constants
 
 
@@ -47,7 +54,7 @@ BASENAME_BANK_STATEMENT = ["BankDepositsStatement", CSV_EXT, CSV_EXT]
 EMAIL_BASENAME_FLOATREPORT = ["Terminal Status(w_FLOAT)automated", CSV_EXT, EXCEL_EXT]
 MANUAL_DL_BASENAME_FLOAT_REPORT = ["TerminalStatuswFLOATautomated3", CSV_EXT, CSV_EXT]
 BASENAME_SIMPLE_SUMMARY = ["TerminalTrxData", CSV_EXT, EXCEL_EXT]
-BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL = ["RevenueByDevice", EXCEL_EXT, EXCEL_EXT]
+BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL = ["MyRevenueByDevice", EXCEL_EXT, EXCEL_EXT]
 
 OUTPUT_DIRECTORY = "Documents"
 OUTPUT_PATH = Path(f"C:/Users/Conrad/{OUTPUT_DIRECTORY}")
@@ -139,12 +146,6 @@ def process_bank_statement_csv(out_f, in_f, rundate):
     """
     return False
 
-
-import json
-import pandas as panda
-from customize_dataframe_for_excel import set_custom_excel_formatting
-
-FORMATTING_FILE = "ColumnFormatting.json"
 
 def Send_dataframes_to_file(frames, out_f):
     """Takes a dict of dataframes and outputs them to excel files them sends them to default printer.

@@ -26,10 +26,9 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
     DEVICE_NUMBER_TAG = "Device Number"
     SURCHARGEABLE_WITHDRAWL_TRANSACTIONS_TAG = "SurWD Trxs"
 
-
-    VALUE_FILE = "TerminalValues.json" # data concerning investment value and commissions due and operational expenses
-    FORMATTING_FILE = "ColumnFormatting.json" # data describing formatting of data such as integer, date, float, string
-    OUTPUT_FILE = "SurchargeReportVariations.json" # this dictionary will contain information about individual reports layouts
+    VALUE_FILE = "TerminalValues.json"  # data concerning investment value and commissions due and operational expenses
+    FORMATTING_FILE = "ColumnFormatting.json"  # data describing formatting of data such as integer, date, float, string
+    OUTPUT_FILE = "SurchargeReportVariations.json"  # this dictionary will contain information about individual reports layouts
 
     DAYS = 30  # most months are 30 days and report covers a month
     # TODO not all reports are 30 days. Some are 90 days. Try to determine actual number of days.
@@ -46,20 +45,23 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
     INPUTDF_TOTAL_ROWS = len(Input_df)
     logger.info(f"Excel file imported into dataframe with {INPUTDF_TOTAL_ROWS} rows.")
 
-    # TODO combine entries that reference the same terminal in different months. 
+    # TODO combine entries that reference the same terminal in different months.
     #       ...Reports that cover more than 1 month have seperate lines for each monthly period.
-    Input_df = Input_df.groupby([Input_df[LOCATION_TAG], Input_df[DEVICE_NUMBER_TAG]], as_index=False).sum(numeric_only=True)
-    INPUTDF_TOTAL_ROWS = len(Input_df)    
-    logger.info(f"{INPUTDF_TOTAL_ROWS} rows remain after combining identical locations.")
+    Input_df = Input_df.groupby(
+        [Input_df[LOCATION_TAG], Input_df[DEVICE_NUMBER_TAG]], as_index=False
+    ).sum(numeric_only=True)
+    INPUTDF_TOTAL_ROWS = len(Input_df)
+    logger.info(
+        f"{INPUTDF_TOTAL_ROWS} rows remain after combining identical locations."
+    )
 
     # slice the terminal numbers and write to temp storage
     try:
         t = Input_df[DEVICE_NUMBER_TAG]
         t.to_json("temp.json")
-        # TODO use this to determine which new terminals are missing from value lookup        
+        # TODO use this to determine which new terminals are missing from value lookup
     except KeyError as e:
-            logger.error(f'Error {e}')
-
+        logger.error(f"Error {e}")
 
     with open(VALUE_FILE) as json_data:
         terminal_details = json.load(json_data)
@@ -100,16 +102,16 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
 
     def Commissions_due(row):
         try:
-            commrate = float(terminal_details[row[DEVICE_NUMBER_TAG]][VF_KEY_Commissions])
+            commrate = float(
+                terminal_details[row[DEVICE_NUMBER_TAG]][VF_KEY_Commissions]
+            )
         except KeyError as e:
             logger.error(f"KeyError: {e}")
             commrate = 0
         return round(row[SURCHARGEABLE_WITHDRAWL_TRANSACTIONS_TAG] * commrate, 2)
 
     logger.info("Calculating commission due...")
-    Input_df["Comm Due"] = Input_df.apply(
-        lambda row: Commissions_due(row), axis=1
-    )
+    Input_df["Comm Due"] = Input_df.apply(lambda row: Commissions_due(row), axis=1)
     column_details["Comm Due"] = "$"
 
     def Annual_Net_Income(row):
@@ -153,9 +155,7 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
         return result
 
     logger.info("Calculating surcharge percentage earned per terminal...")
-    Input_df["Surch%"] = Input_df.apply(
-        lambda row: Surcharge_Percentage(row), axis=1
-    )
+    Input_df["Surch%"] = Input_df.apply(lambda row: Surcharge_Percentage(row), axis=1)
     column_details["Surch%"] = "%"
 
     def Average_Daily_Dispense(row):
@@ -249,8 +249,8 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
     logger.info("work is finished. Create outputs...")
 
     # update the column output formatting rules
-    with open(FORMATTING_FILE, 'w') as json_data:
-        json.dump(column_details,json_data)
+    with open(FORMATTING_FILE, "w") as json_data:
+        json.dump(column_details, json_data, indent=4)
 
     with open(OUTPUT_FILE) as json_data:
         output_options = json.load(json_data)
@@ -265,5 +265,5 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
         frames[fn] = panda.DataFrame(columns=output_options[report])
         for column in output_options[report]:
             frames[fn][column] = Input_df[column]
-        frames[fn].at[INPUTDF_TOTAL_ROWS + 1, LOCATION_TAG] = report        
+        frames[fn].at[INPUTDF_TOTAL_ROWS + 1, LOCATION_TAG] = report
     return frames
