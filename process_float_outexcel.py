@@ -52,6 +52,7 @@ def process_floatReport_csv(out_f, in_f, RUNDATE):
         return False
 
     # sum the columns
+    # NOTE: panda.np has been depricated and will not be supported in the future
     df.loc["Totals"] = df.select_dtypes(panda.np.number).sum()
     df.at["Totals", "Location"] = "               Route Totals"
 
