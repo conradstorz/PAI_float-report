@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*
+# -*- coding: utf-8 -*-
 """ Monitor the system download folder for new CSV and excel files.
 
 a sample filename is: Terminal Status(w_FLOAT)automated****.csv
