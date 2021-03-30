@@ -13,6 +13,7 @@ Processing this file to calculate average withdrawl(WD) amount, surcharge per WD
 ratio of surcharge to settlement amount (for return on assets),
 average daily balance based on settlement (number of days in report must be input by user),
 number of non-WD transactions, WD transactions NOT SURCHARGED (usually zero).
+# TODO After loading this data set allow user to choose which report to run (dupont, commission, ROI, ...)
 """
 
 import os
@@ -20,7 +21,7 @@ from time import sleep
 from loguru import logger
 from filehandling import (
     check_and_validate,
-)  # removes invalid characters from proposed filenames
+)  # used to remove invalid characters from proposed output filenames
 from pathlib import Path
 from dateutil.parser import parse, ParserError
 from process_surcharge import process_monthly_surcharge_report_excel
@@ -30,19 +31,17 @@ from process_simple import process_simple_summary_csv
 
 import json
 import pandas as panda
+
+# TODO should this function be inside of cfsiv-utils-conradical?
 from customize_dataframe_for_excel import set_custom_excel_formatting
 
+# Load custom ruleset for handling data
 FORMATTING_FILE = "ColumnFormatting.json"
 
-
 # constants
-
-
 RUNTIME_NAME = Path(__file__)
-
 CSV_EXT = [".csv"]
 EXCEL_EXT = [".xls"]
-
 DL_DRIVE = "C:"
 DL_USER_BASE = "Users"
 DL_USER = "Conrad"
@@ -64,6 +63,7 @@ OUTPUT_PATH = Path(f"C:/Users/Conrad/{OUTPUT_DIRECTORY}")
 def extract_date(fname):
     """the filename contains the date the report was run
     extract and return the date string
+    # TODO use function from cfsiv-utils-conradical to standardize code rather than reinvent it here.
     """
     datestring = "xxxxxxxx"
     logger.info("Processing: " + str(fname))
@@ -73,13 +73,14 @@ def extract_date(fname):
             datestring = parse(part).strftime("%Y%m%d")
         except ParserError as e:
             logger.debug(f"Date not found Error: {e}")
-
     return datestring
 
 
 @logger.catch
 def look_for_new_data(matchName, ext):
-    """Get files and return any match"""
+    """Get files and return any match
+    # TODO use cfsiv-utils-conradical to reduce code duplication.
+    """
     logger.info(f"Looking for {matchName}")
     files = list(DL_PATH.glob("*.*"))
     # logger.debug(files)
@@ -100,14 +101,15 @@ def look_for_new_data(matchName, ext):
 def determine_output_filename(datestr, matchedname, ext, output_folder):
     """Assemble datecode and output folder with original basename into new filename."""
     fn = check_and_validate(datestr, output_folder)
-    newfilename = Path(
-        f"{fn}_{matchedname}{ext}"
-    )  # TODO check that name does not yet exist
+    newfilename = Path(f"{fn}_{matchedname}{ext}")  
+    # TODO check that name does not yet exist, use cfsiv-utils-conradical to avoid filename collisions and auto-renaming.
     return newfilename
 
 
 @logger.catch
 def remove_file(file_path):
+    """ TODO use cfsiv-utils-conradical to standardize and error log this functionality
+    """
     logger.info("Attempting to remove old %s file..." % str(file_path))
 
     if Path(file_path).exists():
@@ -142,7 +144,11 @@ def defineLoggers():
 @logger.catch
 def process_bank_statement_csv(out_f, in_f, rundate):
     """placeholder for future develpoment of a method of importing
-    deposits into quickbooks for account reconciliation.
+    deposits into quickbooks for account reconciliation. Problem is that 
+    downloaded CSV may have description and memo data reversed. quickbooks needs
+    data to have a descriptive name line and it will ignore memo lines while trying
+    to natch transactions in it's ledger. Banks often include meaningless data in the
+    description like ACH or CHK etc... that are not unique to the vendor for that charge.
     """
     return False
 
@@ -166,7 +172,7 @@ def Send_dataframes_to_file(frames, out_f):
         set_custom_excel_formatting(frame, writer, column_details)
         logger.info("All work done. Saving worksheet...")
         writer.save()
-        # time to print
+        # now we print
         if len(args) > 1 and args[1] == "-np":
             logger.info("bypassing print option due to '-np' option.")
             logger.info("bypassing file removal option due to '-np' option.")
