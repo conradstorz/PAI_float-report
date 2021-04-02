@@ -99,6 +99,21 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
     Profit_Margin = Earnings_BIT / Annual_Net_Income
     R_O_I = Asset_Turnover * Profit_Margin
     """
+    BIZTA = "Business Total Income"
+    COMM = "Comm Due"
+    ANETI = "Annual_Net_Income"
+    ASURWD = "Annual_SurWDs"
+    SURCH = "surch"
+    TOTSUR = "Total Surcharge"
+    SURCHPER = "Surch%"
+    TOTDISP = "Total Dispensed Amount"
+    DAYDISP = "Daily_Dispense"
+    CURASS = "Current_Assets"
+    ASSETS = "Assets"
+    ASSETSTO = "A_T_O"
+    ERNBIT = "Earnings_BIT"
+    PRFTMGN = "p_Margin"
+    RTNONINV = "R_O_I"
 
     def Commissions_due(row):
         try:
@@ -111,18 +126,18 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
         return round(row[SURCHARGEABLE_WITHDRAWL_TRANSACTIONS_TAG] * commrate, 2)
 
     logger.info("Calculating commission due...")
-    Input_df["Comm Due"] = Input_df.apply(lambda row: Commissions_due(row), axis=1)
-    column_details["Comm Due"] = "$"
+    Input_df[COMM] = Input_df.apply(lambda row: Commissions_due(row), axis=1)
+    column_details[COMM] = "$"
 
     def Annual_Net_Income(row):
-        return float((row["Business Total Income"] - row["Comm Due"]) * 12)
+        return float((row[BIZTA] - row[COMM]) * 12)
 
     logger.info("Calculating annual net income...")
-    Input_df["Annual_Net_Income"] = Input_df.apply(
+    Input_df[ANETI] = Input_df.apply(
         lambda row: Annual_Net_Income(row), axis=1
     )
     Input_df = moveLast2first(Input_df)
-    column_details["Annual_Net_Income"] = "$"
+    column_details[ANETI] = "$"
 
     def Annual_SurWDs(row):
         try:
@@ -132,41 +147,41 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
         return result
 
     logger.info("Calculating annual surchargeable WDs...")
-    Input_df["Annual_SurWDs"] = Input_df.apply(lambda row: Annual_SurWDs(row), axis=1)
-    column_details["Annual_SurWDs"] = "#"
+    Input_df[ASURWD] = Input_df.apply(lambda row: Annual_SurWDs(row), axis=1)
+    column_details[ASURWD] = "#"
 
     def Average_Surcharge(row):
         try:
-            result = round(row["Annual_Net_Income"] / row["Annual_SurWDs"], 2)
+            result = round(row[ANETI] / row[ASURWD], 2)
         except ZeroDivisionError:  # catches 'NaN' and 0
             return 0
         return result
 
     logger.info("Calculating average surcharge per terminal...")
-    Input_df["surch"] = Input_df.apply(lambda row: Average_Surcharge(row), axis=1)
+    Input_df[SURCH] = Input_df.apply(lambda row: Average_Surcharge(row), axis=1)
     Input_df = moveLast2first(Input_df)
-    column_details["surch"] = "$"
+    column_details[SURCH] = "$"
 
     def Surcharge_Percentage(row):
         try:
-            result = round(row["Annual_Net_Income"] / (row["Total Surcharge"] * 12), 2)
+            result = round(row[ANETI] / (row[TOTSUR] * 12), 2)
         except ZeroDivisionError:  # catches 'NaN' and 0
             return 0
         return result
 
     logger.info("Calculating surcharge percentage earned per terminal...")
-    Input_df["Surch%"] = Input_df.apply(lambda row: Surcharge_Percentage(row), axis=1)
-    column_details["Surch%"] = "%"
+    Input_df[SURCHPER] = Input_df.apply(lambda row: Surcharge_Percentage(row), axis=1)
+    column_details[SURCHPER] = "%"
 
     def Average_Daily_Dispense(row):
-        return round(row["Total Dispensed Amount"] / DAYS, 2)
+        return round(row[TOTDISP] / DAYS, 2)
 
     logger.info("Calculating average daily dispense per terminal...")
-    Input_df["Daily_Dispense"] = Input_df.apply(
+    Input_df[DAYDISP] = Input_df.apply(
         lambda row: Average_Daily_Dispense(row), axis=1
     )
     Input_df = moveLast2first(Input_df)
-    column_details["Daily_Dispense"] = "$"
+    column_details[DAYDISP] = "$"
 
     def Current_Assets(row):
         buffer = 1.5
@@ -175,14 +190,14 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
             if terminal_details[row[DEVICE_NUMBER_TAG]][VF_KEY_Ownership] == "No":
                 return 0  # there are no current assets for terminal loaded with other peoples money.
             else:
-                return round(row["Daily_Dispense"] * visits * buffer, 2)
+                return round(row[DAYDISP] * visits * buffer, 2)
         except KeyError as e:
             logger.error(f"Key error: {e}")
             return 0
 
     logger.info("Calculating estimated vault load per terminal...")
-    Input_df["Current_Assets"] = Input_df.apply(lambda row: Current_Assets(row), axis=1)
-    column_details["Current_Assets"] = "$"
+    Input_df[CURASS] = Input_df.apply(lambda row: Current_Assets(row), axis=1)
+    column_details[CURASS] = "$"
 
     def Assets(row):
         try:
@@ -191,22 +206,22 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
             logger.error(f"KeyError: {e}")
             return 0
         else:
-            return round(FA + row["Current_Assets"], 2)
+            return round(FA + row[CURASS], 2)
 
     logger.info("Calculating estimated investment per terminal...")
-    Input_df["Assets"] = Input_df.apply(lambda row: Assets(row), axis=1)
-    column_details["Assets"] = "$"
+    Input_df[ASSETS] = Input_df.apply(lambda row: Assets(row), axis=1)
+    column_details[ASSETS] = "$"
 
     def Asset_Turnover(row):
         try:
-            result = round(row["Annual_Net_Income"] / row["Assets"], 2)
+            result = round(row[ANETI] / row[ASSETS], 2)
         except ZeroDivisionError:  # catches 'NaN' and 0
             return 0
         return result
 
     logger.info("Calculating estimated asset turns per terminal...")
-    Input_df["A_T_O"] = Input_df.apply(lambda row: Asset_Turnover(row), axis=1)
-    column_details["A_T_O"] = "%"
+    Input_df[ASSETSTO] = Input_df.apply(lambda row: Asset_Turnover(row), axis=1)
+    column_details[ASSETSTO] = "%"
 
     def Earnings_BIT(row):
         """Use data stored in .json file to customize each terminal"""
@@ -218,33 +233,33 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
         except KeyError as e:
             logger.error(f"KeyError: {e}")
             annual_operating_cost = 0
-        result = round(row["Annual_Net_Income"] - annual_operating_cost, 2)
+        result = round(row[ANETI] - annual_operating_cost, 2)
         return result
 
     logger.info("Calculating estimated EBIT per terminal...")
-    Input_df["Earnings_BIT"] = Input_df.apply(lambda row: Earnings_BIT(row), axis=1)
+    Input_df[ERNBIT] = Input_df.apply(lambda row: Earnings_BIT(row), axis=1)
     Input_df = moveLast2first(Input_df)
-    column_details["Earnings_BIT"] = "$"
+    column_details[ERNBIT] = "$"
 
     def Profit_Margin(row):
         try:
-            result = round(row["Earnings_BIT"] / row["Annual_Net_Income"], 2)
+            result = round(row[ERNBIT] / row[ANETI], 2)
         except ZeroDivisionError:  # catches 'NaN' and 0
             return 0
         return result
 
     logger.info("Calculating estimated profit margin per terminal...")
-    Input_df["p_Margin"] = Input_df.apply(lambda row: Profit_Margin(row), axis=1)
+    Input_df[PRFTMGN] = Input_df.apply(lambda row: Profit_Margin(row), axis=1)
     Input_df = moveLast2first(Input_df)
-    column_details["p_Margin"] = "%"
+    column_details[PRFTMGN] = "%"
 
     def R_O_I(row):
-        return round(row["A_T_O"] * row["p_Margin"], 2)
+        return round(row[ASSETSTO] * row[PRFTMGN], 2)
 
     logger.info("Calculating estimated ROI per terminal...")
-    Input_df["R_O_I"] = Input_df.apply(lambda row: R_O_I(row), axis=1)
+    Input_df[RTNONINV] = Input_df.apply(lambda row: R_O_I(row), axis=1)
     Input_df = moveLast2first(Input_df)
-    column_details["R_O_I"] = "%"
+    column_details[RTNONINV] = "%"
 
     logger.info("work is finished. Create outputs...")
 
