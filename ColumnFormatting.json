@@ -31,5 +31,10 @@
     "A_T_O": "%",
     "Earn_BIT": "$",
     "p_Margin": "%",
-    "R_O_I": "%"
+    "R_O_I": "%",
+    "Annual_Net_Income": "$",
+    "Annual_SurWDs": "#",
+    "Daily_Dispense": "$",
+    "Current_Assets": "$",
+    "Earnings_BIT": "$"
 }
