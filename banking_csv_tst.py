@@ -12,8 +12,8 @@ df.info()
 """
 import pandas as pd
 
-df = pd.read_excel("C:/Users/Conrad/Downloads/Home - Overview.xlsx", parse_dates = ['Last Call In'], verbose=True)
-# df = pd.read_csv('g:/downloads/Statement closed Mar 02, 2021.csv', parse_dates = ['Date'], verbose=True)
+# df = pd.read_excel("C:/Users/Conrad/Downloads/Home - Overview.xlsx", parse_dates = ['Last Call In'], verbose=True)
+df = pd.read_csv('g:/downloads/Statement closed Mar 02, 2021.csv', parse_dates = ['Date'], verbose=True)
 
 print(df)
 print(df.info())
