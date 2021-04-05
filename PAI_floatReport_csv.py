@@ -129,14 +129,13 @@ def remove_file(file_path):
 
 
 @logger.catch
-def defineLoggers():
+def defineLoggers(filename):
     class Rotator:
+        # Custom rotation handler that combines filesize limits with time controlled rotation.
         def __init__(self, *, size, at):
             now = dt.datetime.now()
-
             self._size_limit = size
             self._time_limit = now.replace(hour=at.hour, minute=at.minute, second=at.second)
-
             if now >= self._time_limit:
                 # The current time is already past the target time so it would rotate already.
                 # Add one day to prevent an immediate rotation.
@@ -154,16 +153,23 @@ def defineLoggers():
     rotator = Rotator(size=5e+8, at=dt.time(0, 0, 0))
     # example useage: logger.add("file.log", rotation=rotator.should_rotate)    
 
-    logger.configure(
-        handlers=[{"sink": os.sys.stderr, "level": "DEBUG"}]
-    )  # this method automatically suppresses the default handler to modify the message level
+    # Begin logging definition
+    logger.remove()  # removes the default console logger provided by Loguru.
+    # I find it to be too noisy with details more appropriate for file logging.
+
+    # INFO and messages of higher priority only shown on the console.
+    # it uses the tqdm module .write method to allow tqdm to display correctly.
+    logger.add(lambda msg: tqdm.write(msg, end=""), format="{message}", level="ERROR")
+
+    logger.configure(handlers=[{"sink": os.sys.stderr, "level": "DEBUG"}])  
+    # this method automatically suppresses the default handler to modify the message level
 
     logger.add(
-        "".join(["./LOGS/", RUNTIME_NAME.name, "_{time}.log"]),
+        "".join(["./LOGS/", filename, "_{time}.log"]),
         rotation=rotator.should_rotate,
         level="DEBUG",
+        encoding="utf8"
     )
-    # above line would simplify output to message only
     # create a new log file for each run of the program
     return
 
@@ -245,7 +251,7 @@ def scan_download_folder(files, functions):
 
 @logger.catch
 def Main():
-    defineLoggers()
+    defineLoggers(RUNTIME_NAME.stem) # .stem returns just the filename without extension
     logger.info("Program Start.")  # log the start of the program
     logger.info(RUNTIME_NAME)
     logger.info("Scanning for download to process...")
