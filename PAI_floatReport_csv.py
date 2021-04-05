@@ -19,10 +19,9 @@ number of non-WD transactions, WD transactions NOT SURCHARGED (usually zero).
 import os
 from time import sleep
 from loguru import logger
+import cfsiv_utils.log_handling as lh
+import cfsiv_utils.filehandling as fh
 import datetime as dt
-from filehandling import (
-    check_and_validate,
-)  # used to remove invalid characters from proposed output filenames
 from pathlib import Path
 from dateutil.parser import parse, ParserError
 from process_surcharge import process_monthly_surcharge_report_excel
@@ -101,7 +100,7 @@ def look_for_new_data(matchName, ext):
 @logger.catch
 def determine_output_filename(datestr, matchedname, ext, output_folder):
     """Assemble datecode and output folder with original basename into new filename."""
-    fn = check_and_validate(datestr, output_folder)
+    fn = fh.check_and_validate(datestr, output_folder)
     newfilename = Path(f"{fn}_{matchedname}{ext}")  
     # TODO check that name does not yet exist, use cfsiv-utils-conradical to avoid filename collisions and auto-renaming.
     return newfilename
@@ -126,52 +125,6 @@ def remove_file(file_path):
         logger.info("Sorry, could not find %s file." % str(file_path))
 
     return 0
-
-
-@logger.catch
-def defineLoggers(filename):
-    class Rotator:
-        # Custom rotation handler that combines filesize limits with time controlled rotation.
-        def __init__(self, *, size, at):
-            now = dt.datetime.now()
-            self._size_limit = size
-            self._time_limit = now.replace(hour=at.hour, minute=at.minute, second=at.second)
-            if now >= self._time_limit:
-                # The current time is already past the target time so it would rotate already.
-                # Add one day to prevent an immediate rotation.
-                self._time_limit += dt.timedelta(days=1)
-        def should_rotate(self, message, file):
-            file.seek(0, 2)
-            if file.tell() + len(message) > self._size_limit:
-                return True
-            if message.record["time"].timestamp() > self._time_limit.timestamp():
-                self._time_limit += dt.timedelta(days=1)
-                return True
-            return False
-
-    # set rotate file if over 500 MB or at midnight every day
-    rotator = Rotator(size=5e+8, at=dt.time(0, 0, 0))
-    # example useage: logger.add("file.log", rotation=rotator.should_rotate)    
-
-    # Begin logging definition
-    logger.remove()  # removes the default console logger provided by Loguru.
-    # I find it to be too noisy with details more appropriate for file logging.
-
-    # INFO and messages of higher priority only shown on the console.
-    # it uses the tqdm module .write method to allow tqdm to display correctly.
-    logger.add(lambda msg: tqdm.write(msg, end=""), format="{message}", level="ERROR")
-
-    logger.configure(handlers=[{"sink": os.sys.stderr, "level": "DEBUG"}])  
-    # this method automatically suppresses the default handler to modify the message level
-
-    logger.add(
-        "".join(["./LOGS/", filename, "_{time}.log"]),
-        rotation=rotator.should_rotate,
-        level="DEBUG",
-        encoding="utf8"
-    )
-    # create a new log file for each run of the program
-    return
 
 
 @logger.catch
@@ -251,7 +204,7 @@ def scan_download_folder(files, functions):
 
 @logger.catch
 def Main():
-    defineLoggers(RUNTIME_NAME.stem) # .stem returns just the filename without extension
+    lh.defineLoggers(RUNTIME_NAME.stem) # .stem returns just the filename without extension
     logger.info("Program Start.")  # log the start of the program
     logger.info(RUNTIME_NAME)
     logger.info("Scanning for download to process...")
