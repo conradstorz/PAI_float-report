@@ -19,6 +19,7 @@ number of non-WD transactions, WD transactions NOT SURCHARGED (usually zero).
 import os
 from time import sleep
 from loguru import logger
+import datetime as dt
 from filehandling import (
     check_and_validate,
 )  # used to remove invalid characters from proposed output filenames
@@ -129,15 +130,41 @@ def remove_file(file_path):
 
 @logger.catch
 def defineLoggers():
+    class Rotator:
+        def __init__(self, *, size, at):
+            now = dt.datetime.now()
+
+            self._size_limit = size
+            self._time_limit = now.replace(hour=at.hour, minute=at.minute, second=at.second)
+
+            if now >= self._time_limit:
+                # The current time is already past the target time so it would rotate already.
+                # Add one day to prevent an immediate rotation.
+                self._time_limit += dt.timedelta(days=1)
+        def should_rotate(self, message, file):
+            file.seek(0, 2)
+            if file.tell() + len(message) > self._size_limit:
+                return True
+            if message.record["time"].timestamp() > self._time_limit.timestamp():
+                self._time_limit += dt.timedelta(days=1)
+                return True
+            return False
+
+    # set rotate file if over 500 MB or at midnight every day
+    rotator = Rotator(size=5e+8, at=dt.time(0, 0, 0))
+    # example useage: logger.add("file.log", rotation=rotator.should_rotate)    
+
     logger.configure(
         handlers=[{"sink": os.sys.stderr, "level": "DEBUG"}]
     )  # this method automatically suppresses the default handler to modify the message level
 
     logger.add(
-        #        runtime_name + "_{time}.log", format=">> <lvl>{message}</lvl>", level="INFO"
         "".join(["./LOGS/", RUNTIME_NAME.name, "_{time}.log"]),
-        level="DEBUG",  # above line would simplify output to message only
-    )  # create a new log file for each run of the program
+        rotation=rotator.should_rotate,
+        level="DEBUG",
+    )
+    # above line would simplify output to message only
+    # create a new log file for each run of the program
     return
 
 
