@@ -42,7 +42,9 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
         return df[cols]
 
     Input_df = panda.read_excel(in_f)
+
     INPUTDF_TOTAL_ROWS = len(Input_df)
+
     logger.info(f"Excel file imported into dataframe with {INPUTDF_TOTAL_ROWS} rows.")
 
     # TODO combine entries that reference the same terminal in different months.
@@ -58,7 +60,7 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
     # slice the terminal numbers and write to temp storage
     try:
         t = Input_df[DEVICE_NUMBER_TAG]
-        t.to_json("temp.json")
+        t.to_json("temp.json", indent=4)
         # TODO use this to determine which new terminals are missing from value lookup
     except KeyError as e:
         logger.error(f"Error {e}")
@@ -74,7 +76,7 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
 
     with open(FORMATTING_FILE) as json_data:
         column_details = json.load(json_data)
-    # this dictionary will contain information about individual terminals
+    # this dictionary will contain information about formating output values.
 
     # Add some information to dataframe. rows are Zero based so this location is 1 past last row.
     Input_df.at[INPUTDF_TOTAL_ROWS, LOCATION_TAG] = str(RUNDATE)
@@ -186,6 +188,8 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
     def Current_Assets(row):
         buffer = 1.5
         try:
+            # TODO look for missing terminal details and create a placeholder for those.
+            # that will fix this issue of try/except need.
             visits = float(terminal_details[row[DEVICE_NUMBER_TAG]][VF_KEY_VisitDays])
             if terminal_details[row[DEVICE_NUMBER_TAG]][VF_KEY_Ownership] == "No":
                 return 0  # there are no current assets for terminal loaded with other peoples money.
