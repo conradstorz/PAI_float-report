@@ -21,7 +21,6 @@ from time import sleep
 from loguru import logger
 import cfsiv_utils.log_handling as lh
 import cfsiv_utils.filehandling as fh
-import datetime as dt
 from pathlib import Path
 from dateutil.parser import parse, ParserError
 from process_surcharge import process_monthly_surcharge_report_excel
@@ -106,26 +105,6 @@ def determine_output_filename(datestr, matchedname, ext, output_folder):
     return newfilename
 
 
-@logger.catch
-def remove_file(file_path):
-    """ TODO use cfsiv-utils-conradical to standardize and error log this functionality
-    """
-    logger.info("Attempting to remove old %s file..." % str(file_path))
-
-    if Path(file_path).exists():
-        try:
-            Path(file_path).unlink()
-        except OSError as e:
-            logger.warning(f"Error: {e}")
-            # sys.exit(1)
-        logger.info(f"Success removing {str(file_path)}")
-        return 1
-
-    else:
-        logger.info("Sorry, could not find %s file." % str(file_path))
-
-    return 0
-
 
 @logger.catch
 def process_bank_statement_csv(out_f, in_f, rundate):
@@ -137,6 +116,16 @@ def process_bank_statement_csv(out_f, in_f, rundate):
     description like ACH or CHK etc... that are not unique to the vendor for that charge.
     """
     return False
+
+
+
+@logger.catch
+def process_touchtunes_xls(out_f, in_f, rundate):
+    """placeholder for future develpoment of a method of importing
+    the 'home' report and output useful details.
+    """
+    return False
+
 
 
 def Send_dataframes_to_file(frames, out_f):
@@ -191,7 +180,7 @@ def scan_download_folder(files, functions):
                     output_dict = functions[indx](output_file, inputfile, filedate)
                     if len(output_dict) > 0:
                         Send_dataframes_to_file(output_dict, output_file)
-                        remove_file(inputfile)
+                        fh.remove_file(inputfile)
                     else:
                         logger.error("Input file not processed properly.")
             else:
