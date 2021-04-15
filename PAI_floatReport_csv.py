@@ -99,7 +99,7 @@ def look_for_new_data(matchName, ext):
 @logger.catch
 def determine_output_filename(datestr, matchedname, ext, output_folder):
     """Assemble datecode and output folder with original basename into new filename."""
-    fn = fh.check_and_validate(datestr, output_folder)
+    fn = fh.check_and_validate(datestr, output_folder)  # TODO no such function?
     newfilename = Path(f"{fn}_{matchedname}{ext}")  
     # TODO check that name does not yet exist, use cfsiv-utils-conradical to avoid filename collisions and auto-renaming.
     return newfilename
