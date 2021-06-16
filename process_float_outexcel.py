@@ -9,7 +9,7 @@ of the spreadsheet in dataframe format.
 from loguru import logger
 import pandas as panda
 import json
-from customize_dataframe_for_excel import set_custom_excel_formatting
+# from customize_dataframe_for_excel import set_custom_excel_formatting
 
 
 @logger.catch
