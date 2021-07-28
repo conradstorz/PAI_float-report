@@ -52,7 +52,7 @@ BASENAME_BANK_STATEMENT = ["BankDepositsStatement", CSV_EXT, CSV_EXT]
 EMAIL_BASENAME_FLOATREPORT = ["Terminal Status(w_FLOAT)automated", CSV_EXT, EXCEL_EXT]
 MANUAL_DL_BASENAME_FLOAT_REPORT = ["TerminalStatuswFLOATautomated3", CSV_EXT, CSV_EXT]
 BASENAME_SIMPLE_SUMMARY = ["TerminalTrxData", CSV_EXT, EXCEL_EXT]
-BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL = ["MyRevenueByDevice", EXCEL_EXT, EXCEL_EXT]
+BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL = ["MonthlyRevenueByDevice", EXCEL_EXT, EXCEL_EXT]
 
 OUTPUT_DIRECTORY = "Documents"
 OUTPUT_PATH = Path(f"C:/Users/Conrad/{OUTPUT_DIRECTORY}")
@@ -67,6 +67,7 @@ def extract_date(fname):
     datestring = "xxxxxxxx"
     logger.info("Processing: " + str(fname))
     parts = str(fname.stem).split()
+    # TODO also need to split on '-'s to catch a different type of embeded datestring
     logger.debug(f'fname split result: {parts}')
     for part in parts:
         try:
