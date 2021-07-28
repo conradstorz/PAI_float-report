@@ -67,7 +67,7 @@ def extract_date(fname):
     datestring = "xxxxxxxx"
     logger.info("Processing: " + str(fname))
     parts = str(fname.stem).split()
-    # TODO also need to split on '-'s to catch a different type of embeded datestring
+    # TODO also need to split on '-'s to catch a different type of embeded datestring.
     logger.debug(f'fname split result: {parts}')
     for part in parts:
         try:
