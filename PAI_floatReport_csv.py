@@ -17,6 +17,7 @@ number of non-WD transactions, WD transactions NOT SURCHARGED (usually zero).
 """
 
 import os
+import sys
 from time import sleep
 from loguru import logger
 import cfsiv_utils.log_handling as lh
@@ -179,11 +180,13 @@ def scan_download_folder(files, functions):
                     output_file = determine_output_filename(
                         filedate, basename, output_ext, OUTPUT_PATH
                     )
-                    logger.debug(filedate)
+                    logger.debug(f'Found Date: {filedate}')
                     output_dict = functions[indx](output_file, inputfile, filedate)
                     if len(output_dict) > 0:
                         Send_dataframes_to_file(output_dict, output_file)
-                        fh.remove_file(inputfile)
+                        if not fh.remove_file(inputfile):
+                            logger.error(f'Could not remove file: {inputfile}')
+                            sys.exit(0)
                     else:
                         logger.error("Input file not processed properly.")
             else:
