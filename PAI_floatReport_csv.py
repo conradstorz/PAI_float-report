@@ -81,7 +81,7 @@ def extract_date(fname):
 @logger.catch
 def look_for_new_data(matchName, ext):
     """Get files and return any match
-    # TODO use cfsiv-utils-conradical to reduce code duplication.
+    # TODO use cfsiv-utils-conradical to improve code consistancy.
     """
     logger.info(f"Looking for {matchName}")
     files = list(DL_PATH.glob("*.*"))
