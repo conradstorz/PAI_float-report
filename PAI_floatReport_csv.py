@@ -42,11 +42,11 @@ FORMATTING_FILE = "ColumnFormatting.json"
 RUNTIME_NAME = Path(__file__)
 CSV_EXT = [".csv"]
 EXCEL_EXT = [".xls"]
-DL_DRIVE = "C:"
+DL_DRIVE = "D:"
 DL_USER_BASE = "Users"
 DL_USER = "Conrad"
 DL_DIRECTORY = "Downloads"
-DL_PATH = Path("C:/Users/Conrad/Downloads/")
+DL_PATH = Path("D:/Users/Conrad/Downloads/")
 
 # download filename, download extension, output extension
 BASENAME_BANK_STATEMENT = ["BankDepositsStatement", CSV_EXT, CSV_EXT]
@@ -56,7 +56,7 @@ BASENAME_SIMPLE_SUMMARY = ["TerminalTrxData", CSV_EXT, EXCEL_EXT]
 BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL = ["MonthlyRevenueByDevice", EXCEL_EXT, EXCEL_EXT]
 
 OUTPUT_DIRECTORY = "Documents"
-OUTPUT_PATH = Path(f"C:/Users/Conrad/{OUTPUT_DIRECTORY}")
+OUTPUT_PATH = Path(f"D:/Users/Conrad/{OUTPUT_DIRECTORY}")
 
 
 @logger.catch
