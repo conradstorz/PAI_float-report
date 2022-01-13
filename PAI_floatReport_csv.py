@@ -53,7 +53,11 @@ BASENAME_BANK_STATEMENT = ["BankDepositsStatement", CSV_EXT, CSV_EXT]
 EMAIL_BASENAME_FLOATREPORT = ["Terminal Status(w_FLOAT)automated", CSV_EXT, EXCEL_EXT]
 MANUAL_DL_BASENAME_FLOAT_REPORT = ["TerminalStatuswFLOATautomated3", CSV_EXT, CSV_EXT]
 BASENAME_SIMPLE_SUMMARY = ["TerminalTrxData", CSV_EXT, EXCEL_EXT]
-BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL = ["MonthlyRevenueByDevice", EXCEL_EXT, EXCEL_EXT]
+BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL = [
+    "MonthlyRevenueByDevice",
+    EXCEL_EXT,
+    EXCEL_EXT,
+]
 
 OUTPUT_DIRECTORY = "Documents"
 OUTPUT_PATH = Path(f"D:/Users/Conrad/{OUTPUT_DIRECTORY}")
@@ -69,7 +73,7 @@ def extract_date(fname):
     logger.info("Processing: " + str(fname))
     parts = str(fname.stem).split()
     # TODO also need to split on '-'s to catch a different type of embeded datestring.
-    logger.debug(f'fname split result: {parts}')
+    logger.debug(f"fname split result: {parts}")
     for part in parts:
         try:
             datestring = parse(part).strftime("%Y%m%d")
@@ -102,18 +106,17 @@ def look_for_new_data(matchName, ext):
 @logger.catch
 def determine_output_filename(datestr, matchedname, ext, output_folder):
     """Assemble datecode and output folder with original basename into new filename."""
-    fn = ''
+    fn = ""
     # fn = fh.check_and_validate(datestr, output_folder)  # TODO no such function?
-    newfilename = Path(f"{fn}_{matchedname}{ext}")  
+    newfilename = Path(f"{fn}_{matchedname}{ext}")
     # TODO check that name does not yet exist, use cfsiv-utils-conradical to avoid filename collisions and auto-renaming.
     return newfilename
-
 
 
 @logger.catch
 def process_bank_statement_csv(out_f, in_f, rundate):
     """placeholder for future develpoment of a method of importing
-    deposits into quickbooks for account reconciliation. Problem is that 
+    deposits into quickbooks for account reconciliation. Problem is that
     downloaded CSV may have description and memo data reversed. quickbooks needs
     data to have a descriptive name line and it will ignore memo lines while trying
     to natch transactions in it's ledger. Banks often include meaningless data in the
@@ -122,14 +125,12 @@ def process_bank_statement_csv(out_f, in_f, rundate):
     return False
 
 
-
 @logger.catch
 def process_touchtunes_xls(out_f, in_f, rundate):
     """placeholder for future develpoment of a method of importing
     the 'home' report and output useful details.
     """
     return False
-
 
 
 def Send_dataframes_to_file(frames, out_f):
@@ -180,12 +181,12 @@ def scan_download_folder(files, functions):
                     output_file = determine_output_filename(
                         filedate, basename, output_ext, OUTPUT_PATH
                     )
-                    logger.debug(f'Found Date: {filedate}')
+                    logger.debug(f"Found Date: {filedate}")
                     output_dict = functions[indx](output_file, inputfile, filedate)
                     if len(output_dict) > 0:
                         Send_dataframes_to_file(output_dict, output_file)
                         if not fh.remove_file(inputfile):
-                            logger.error(f'Could not remove file: {inputfile}')
+                            logger.error(f"Could not remove file: {inputfile}")
                             sys.exit(0)
                     else:
                         logger.error("Input file not processed properly.")
@@ -199,7 +200,9 @@ def scan_download_folder(files, functions):
 
 @logger.catch
 def Main():
-    lh.defineLoggers(RUNTIME_NAME.stem) # .stem returns just the filename without extension
+    lh.defineLoggers(
+        RUNTIME_NAME.stem
+    )  # .stem returns just the filename without extension
     logger.info("Program Start.")  # log the start of the program
     logger.info(RUNTIME_NAME)
     logger.info("Scanning for download to process...")
