@@ -28,7 +28,7 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
 
     VALUE_FILE = "TerminalValues.json"  # data concerning investment value and commissions due and operational expenses
     FORMATTING_FILE = "ColumnFormatting.json"  # data describing formatting of data such as integer, date, float, string
-    OUTPUT_FILE = "SurchargeReportVariations.json"  # this dictionary will contain information about individual reports layouts
+    REPORT_DEFINITIONS_FILE = "SurchargeReportVariations.json"  # this dictionary will contain information about individual reports layouts
 
     DAYS = 30  # most months are 30 days and report covers a month
     # TODO not all reports are 30 days. Some are 90 days. Try to determine actual number of days.
@@ -271,7 +271,7 @@ def process_monthly_surcharge_report_excel(_out_f, in_f, RUNDATE):
     with open(FORMATTING_FILE, "w") as json_data:
         json.dump(column_details, json_data, indent=4)
 
-    with open(OUTPUT_FILE) as json_data:
+    with open(REPORT_DEFINITIONS_FILE) as json_data:
         output_options = json.load(json_data)
     # this dictionary will contain information about individual reports
     CURRENT_REPORTS = ["Commission", "Surcharge", "Dupont"]

@@ -29,7 +29,7 @@
     "RT53248": {
         "Location": "Residence Inn Old Henry",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "0",
         "Visit Days": "1",
         "Travel Cost": "0",
         "Commission": "0",
@@ -38,7 +38,7 @@
     "RT67794": {
         "Location": "Holiday Inn Downtown",
         "Owned": "No",
-        "Value": "7000",
+        "Value": "0",
         "Visit Days": "1",
         "Travel Cost": "0",
         "Commission": "0",
@@ -47,7 +47,7 @@
     "RT74087": {
         "Location": "Pride Bar",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "0",
         "Visit Days": "1",
         "Travel Cost": "0",
         "Commission": "0",
@@ -56,7 +56,7 @@
     "RT76918": {
         "Location": "Round1 Bowling",
         "Owned": "No",
-        "Value": "7000",
+        "Value": "0",
         "Visit Days": "1",
         "Travel Cost": "0",
         "Commission": "0",
@@ -65,7 +65,7 @@
     "RT81099": {
         "Location": "Vic's Cafe",
         "Owned": "Yes",
-        "Value": "11000",
+        "Value": "0",
         "Visit Days": "1",
         "Travel Cost": "0",
         "Commission": "0",
@@ -74,7 +74,7 @@
     "RT88803": {
         "Location": "AmVet Post1",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "0",
         "Visit Days": "1",
         "Travel Cost": "0",
         "Commission": "0",
@@ -83,7 +83,7 @@
     "CS81963": {
         "Location": "Copper Kettle",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "0",
         "Visit Days": "1",
         "Travel Cost": "0",
         "Commission": "0",
@@ -92,7 +92,7 @@
     "CS85704": {
         "Location": "VFW3281 5th and Market",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "0",
         "Visit Days": "1",
         "Travel Cost": "0",
         "Commission": "0",
@@ -101,7 +101,7 @@
     "CS91106": {
         "Location": "Mill Creek VFW",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "0",
         "Visit Days": "1",
         "Travel Cost": "0",
         "Commission": "0",
@@ -110,7 +110,7 @@
     "CS91373": {
         "Location": "Hobart Beach VFW",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "0",
         "Visit Days": "1",
         "Travel Cost": "0",
         "Commission": "0",
@@ -119,7 +119,7 @@
     "CS99102": {
         "Location": "Kindred Hospital",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "0",
         "Visit Days": "1",
         "Travel Cost": "0",
         "Commission": "0",
@@ -137,7 +137,7 @@
     "HG11437": {
         "Location": "Scott Co VFW",
         "Owned": "No",
-        "Value": "7000",
+        "Value": "0",
         "Visit Days": "1",
         "Travel Cost": "0",
         "Commission": "1.25",
@@ -155,7 +155,7 @@
     "RT51577": {
         "Location": "Hyatt House Lou East",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "56",
         "Travel Cost": "8.25",
         "Commission": "0",
@@ -164,7 +164,7 @@
     "CS64854": {
         "Location": "AL Post 234 Scott Co",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "8.25",
         "Commission": "0",
@@ -173,7 +173,7 @@
     "CS71245": {
         "Location": "Pastime Grill",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2500",
         "Visit Days": "14",
         "Travel Cost": "8.25",
         "Commission": "0",
@@ -191,7 +191,7 @@
     "CS73041": {
         "Location": "Mac's Hideaway",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2500",
         "Visit Days": "14",
         "Travel Cost": "8.25",
         "Commission": "0",
@@ -218,7 +218,7 @@
     "RT06059": {
         "Location": "Elk's Bingo 270",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "8.25",
         "Commission": "0.75",
@@ -227,7 +227,7 @@
     "RT10820": {
         "Location": "Krazy Daves",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "8.25",
         "Commission": "0",
@@ -236,7 +236,7 @@
     "RT10875": {
         "Location": "Hoopster's Jeffersonville",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "8.25",
         "Commission": "0",
@@ -245,7 +245,7 @@
     "RT12977": {
         "Location": "VFW 1083 Crothersville",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "8.25",
         "Commission": "0",
@@ -254,16 +254,16 @@
     "RT27947": {
         "Location": "Pizza Place",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "8.25",
-        "Commission": "1.00",
+        "Commission": "0",
         "Contracted Location": "False"
     },
     "RT34235": {
         "Location": "VFW 1427 Charlestown",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "1500",
         "Visit Days": "28",
         "Travel Cost": "8.25",
         "Commission": "0.75",
@@ -281,7 +281,7 @@
     "RT38898": {
         "Location": "OLPH Brewery",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "56",
         "Travel Cost": "8.25",
         "Commission": "0",
@@ -317,7 +317,7 @@
     "RT41655": {
         "Location": "Calumet Club",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "8.25",
         "Commission": "0",
@@ -326,7 +326,7 @@
     "TN66541": {
         "Location": "AL Post 204 Sellersburg",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "8.25",
         "Commission": "0",
@@ -335,7 +335,7 @@
     "TN66884": {
         "Location": "VFW 1832 Clarksville",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "8.25",
         "Commission": "0",
@@ -344,7 +344,7 @@
     "TN68297": {
         "Location": "Knights of Columbus Jeff",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "7",
         "Travel Cost": "8.25",
         "Commission": "0.50",
@@ -371,7 +371,7 @@
     "TN73475": {
         "Location": "Bonnie Sloan Post",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "7",
         "Travel Cost": "8.25",
         "Commission": "0.75",
@@ -380,7 +380,7 @@
     "TN73834": {
         "Location": "AL Post 335 Charlestown",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "8.25",
         "Commission": "0.75",
@@ -398,7 +398,7 @@
     "TN73954": {
         "Location": "Mick's Lounge",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "8.25",
         "Commission": "0",
@@ -407,7 +407,7 @@
     "TN79059": {
         "Location": "Hoosier Hills",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "8.25",
         "Commission": "0",
@@ -434,7 +434,7 @@
     "TN87035": {
         "Location": "Resch's Tavern",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "8.25",
         "Commission": "0",
@@ -452,7 +452,7 @@
     "TX39040": {
         "Location": "AL Post 42 Knobs",
         "Owned": "Yes",
-        "Value": "9000",
+        "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "8.25",
         "Commission": "0",
