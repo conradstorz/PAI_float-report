@@ -29,10 +29,10 @@
     "RT53248": {
         "Location": "Residence Inn Old Henry",
         "Owned": "Yes",
-        "Value": "9000",
-        "Visit Days": "1",
-        "Travel Cost": "0",
-        "Commission": "0",
+        "Value": "3000",
+        "Visit Days": "2",
+        "Travel Cost": "28.60",
+        "Commission": "1.00",
         "Contracted Location": "Yes"
     },
     "RT67794": {
