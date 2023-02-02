@@ -1,40 +1,90 @@
 {
-    "Report ran": {
-        "Location": "",
+    "RT41655": {
+        "Location": "Calumet Club",
         "Owned": "True",
-        "Value": "0",
-        "Visit Days": "1",
-        "Travel Cost": "0",
+        "Value": "2000",
+        "Visit Days": "14",
+        "Travel Cost": "8.25",
         "Comm Rate earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
-    "RT90468": {
-        "Location": "De-Activated",
+    "TN66541": {
+        "Location": "AL Post 204 Sellersburg",
         "Owned": "True",
-        "Value": "0",
-        "Visit Days": "1",
-        "Travel Cost": "0",
+        "Value": "2000",
+        "Visit Days": "14",
+        "Travel Cost": "8.25",
         "Comm Rate earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
-    "CS94852": {
-        "Location": "De-Activated",
+    "TN66884": {
+        "Location": "VFW 1832 Clarksville",
         "Owned": "True",
-        "Value": "0",
-        "Visit Days": "1",
-        "Travel Cost": "0",
+        "Value": "2000",
+        "Visit Days": "14",
+        "Travel Cost": "8.25",
         "Comm Rate earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
+    "TN68297": {
+        "Location": "Knights of Columbus Jeff",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "7",
+        "Travel Cost": "8.25",
+        "Comm Rate earned": "0",
+        "Comm Rate paid": "0.50",
+        "Contracted Location": "False"
+    },    
+    "TX39040": {
+        "Location": "AL Post 42 Knobs",
+        "Owned": "True",
+        "Value": "6000",
+        "Visit Days": "28",
+        "Travel Cost": "1.25",
+        "Comm Rate earned": "0",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },
+    "P608087": {
+        "Location": "Mall St.M1",
+        "Owned": "False",
+        "Value": "12000",
+        "Visit Days": "14",
+        "Travel Cost": "13.20",
+        "Comm Rate earned": "0.85",
+        "Comm Rate paid": "3.10",
+        "Contracted Location": "True"
+    },
+    "P608086": {
+        "Location": "Mall St.M2",
+        "Owned": "False",
+        "Value": "12000",
+        "Visit Days": "14",
+        "Travel Cost": "13.20",
+        "Comm Rate earned": "0.85",
+        "Comm Rate paid": "3.10",
+        "Contracted Location": "True"
+    },
+    "P608085": {
+        "Location": "Mall Oxmoor",
+        "Owned": "False",
+        "Value": "12000",
+        "Visit Days": "14",
+        "Travel Cost": "13.20",
+        "Comm Rate earned": "0.85",
+        "Comm Rate paid": "3.10",
+        "Contracted Location": "True"
+    },    
     "RT53248": {
         "Location": "Residence Inn Old Henry",
         "Owned": "True",
         "Value": "0",
         "Visit Days": "1",
-        "Travel Cost": "0",
+        "Travel Cost": "28.60",
         "Comm Rate earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "True"
@@ -159,16 +209,6 @@
         "Comm Rate paid": "1.25",
         "Contracted Location": "False"
     },
-    "CS78029": {
-        "Location": "De-Activated",
-        "Owned": "True",
-        "Value": "2800",
-        "Visit Days": "7",
-        "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
     "RT51577": {
         "Location": "Hyatt House Lou East",
         "Owned": "True",
@@ -214,26 +254,6 @@
         "Owned": "True",
         "Value": "2500",
         "Visit Days": "14",
-        "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
-    "RT02246": {
-        "Location": "De-Activated",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "28",
-        "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
-    "RT02248": {
-        "Location": "De-Activated",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "28",
         "Travel Cost": "8.25",
         "Comm Rate earned": "0",
         "Comm Rate paid": "0",
@@ -299,111 +319,11 @@
         "Comm Rate paid": "0.75",
         "Contracted Location": "False"
     },
-    "RT38284": {
-        "Location": "De-Activated",
-        "Owned": "True",
-        "Value": "1500",
-        "Visit Days": "30",
-        "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
-        "Comm Rate paid": "0.50",
-        "Contracted Location": "False"
-    },
     "RT38898": {
         "Location": "OLPH Brewery",
         "Owned": "True",
         "Value": "2000",
         "Visit Days": "56",
-        "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
-    "RT38951": {
-        "Location": "De-Activated",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "7",
-        "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
-    "RT39687": {
-        "Location": "De-Activated",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "56",
-        "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
-    "RT41163": {
-        "Location": "De-Activated",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "7",
-        "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
-    "RT41655": {
-        "Location": "Calumet Club",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "14",
-        "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
-    "TN66541": {
-        "Location": "AL Post 204 Sellersburg",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "14",
-        "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
-    "TN66884": {
-        "Location": "VFW 1832 Clarksville",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "14",
-        "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
-    "TN68297": {
-        "Location": "Knights of Columbus Jeff",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "7",
-        "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
-        "Comm Rate paid": "0.50",
-        "Contracted Location": "False"
-    },
-    "TN70559": {
-        "Location": "De-Activated",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "7",
-        "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
-    "TN71562": {
-        "Location": "De-Activated",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "7",
         "Travel Cost": "8.25",
         "Comm Rate earned": "0",
         "Comm Rate paid": "0",
@@ -427,16 +347,6 @@
         "Travel Cost": "8.25",
         "Comm Rate earned": "0",
         "Comm Rate paid": "0.75",
-        "Contracted Location": "False"
-    },
-    "TN73953": {
-        "Location": "De-Activated",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "7",
-        "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
-        "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
     "TN73954": {
@@ -469,16 +379,6 @@
         "Comm Rate paid": "3.95",
         "Contracted Location": "False"
     },
-    "TN87034": {
-        "Location": "De-Activated",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "28",
-        "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
     "TN87035": {
         "Location": "Resch's Tavern",
         "Owned": "True",
@@ -486,6 +386,16 @@
         "Visit Days": "14",
         "Travel Cost": "5.25",
         "Comm Rate earned": "2.00",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },    
+    "TN87034": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "28",
+        "Travel Cost": "8.25",
+        "Comm Rate earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -499,46 +409,6 @@
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
-    "TX39040": {
-        "Location": "AL Post 42 Knobs",
-        "Owned": "True",
-        "Value": "6000",
-        "Visit Days": "28",
-        "Travel Cost": "1.25",
-        "Comm Rate earned": "0",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
-    "P608087": {
-        "Location": "Mall St.M1",
-        "Owned": "False",
-        "Value": "12000",
-        "Visit Days": "14",
-        "Travel Cost": "13.20",
-        "Comm Rate earned": "0.85",
-        "Comm Rate paid": "3.10",
-        "Contracted Location": "True"
-    },
-    "P608086": {
-        "Location": "Mall St.M2",
-        "Owned": "False",
-        "Value": "12000",
-        "Visit Days": "14",
-        "Travel Cost": "13.20",
-        "Comm Rate earned": "0.85",
-        "Comm Rate paid": "3.10",
-        "Contracted Location": "True"
-    },
-    "P608085": {
-        "Location": "Mall Oxmoor",
-        "Owned": "False",
-        "Value": "12000",
-        "Visit Days": "14",
-        "Travel Cost": "13.20",
-        "Comm Rate earned": "0.85",
-        "Comm Rate paid": "3.10",
-        "Contracted Location": "True"
-    },
     "TX79232": {
         "Location": "De-Activated",
         "Owned": "True",
@@ -548,5 +418,135 @@
         "Comm Rate earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
-    }
+    },
+    "Report ran": {
+        "Location": "",
+        "Owned": "True",
+        "Value": "0",
+        "Visit Days": "1",
+        "Travel Cost": "0",
+        "Comm Rate earned": "0",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },
+    "RT90468": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "0",
+        "Visit Days": "1",
+        "Travel Cost": "0",
+        "Comm Rate earned": "0",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },
+    "RT38284": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "1500",
+        "Visit Days": "30",
+        "Travel Cost": "8.25",
+        "Comm Rate earned": "0",
+        "Comm Rate paid": "0.50",
+        "Contracted Location": "False"
+    },
+    "RT02246": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "28",
+        "Travel Cost": "8.25",
+        "Comm Rate earned": "0",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },
+    "CS78029": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "2800",
+        "Visit Days": "7",
+        "Travel Cost": "8.25",
+        "Comm Rate earned": "0",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },    
+    "RT02248": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "28",
+        "Travel Cost": "8.25",
+        "Comm Rate earned": "0",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },    
+    "RT38951": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "7",
+        "Travel Cost": "8.25",
+        "Comm Rate earned": "0",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },
+    "RT39687": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "56",
+        "Travel Cost": "8.25",
+        "Comm Rate earned": "0",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },
+    "RT41163": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "7",
+        "Travel Cost": "8.25",
+        "Comm Rate earned": "0",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },
+    "TN70559": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "7",
+        "Travel Cost": "8.25",
+        "Comm Rate earned": "0",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },
+    "TN73953": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "7",
+        "Travel Cost": "8.25",
+        "Comm Rate earned": "0",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },   
+    "TN71562": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "7",
+        "Travel Cost": "8.25",
+        "Comm Rate earned": "0",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },
+    "CS94852": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "0",
+        "Visit Days": "1",
+        "Travel Cost": "0",
+        "Comm Rate earned": "0",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    }       
 }

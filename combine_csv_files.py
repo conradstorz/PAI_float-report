@@ -26,8 +26,29 @@ field_map = {
   "Total": "Total Trxs"
 }
 
+def clean_Columbus_ATM_CSV_file(filename):
+    """This function repairs the CSV file that is generated from CDS data.
+        The problem is that the data was downloaded as an excel file and
+        then saved as CSV. The CSV is corrupted by this process when using
+        librecalc for the conversion. The first 4 lines of the file are above the
+        headers row and dont contain useful information other than line three
+        itme number 7 is the timeframe of the report. We will discard it at
+        this time as we assume these reports cover a three month period. Also
+        the last 3 lines of the file are of no use to us and need to be discarded."""
+    discard = [1,2,3,4,-1,-2,-3]
+    # Get the current date to use in the file name
+    today = datetime.now().strftime('%Y-%m-%d')
+    cleanfile = f'{today}_cleaned_data.csv'
+    with open(filename, "r") as f:
+        lines = f.readlines()
+        out_lines = "".join(lines[4:-3])
+    with open(cleanfile, "w") as f:
+        f.write(out_lines)
+    return cleanfile
+
 
 def combine(csv1, csv2):
+    """Combine similar valid CSV files into one file."""
     print('Start combining CSV files.')
 
     # Get the current date to use in the file name
@@ -53,11 +74,13 @@ def combine(csv1, csv2):
                 row[new_field] = row.pop(old_field)
 
     # Combine the data from both CSV files
+    print(data1)
+    print(data2)
     combined_data = data1 + data2
     print(f'Combined database contains {len(combined_data)} items.')
 
     # Write the combined data to a new CSV file
-    with open(out_csv, "w") as f:
+    with open(out_csv, "w", newline='') as f:
         fieldnames = list(combined_data[-1].keys())
         writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction='ignore')
         writer.writeheader()
@@ -69,4 +92,7 @@ def combine(csv1, csv2):
 
 
 if __name__ == '__main__':
-    print(f"\nOutput file name is: {combine('database1.csv', 'database2.csv')}")
+    columbus = 'database1.csv'
+    columbus = clean_Columbus_ATM_CSV_file(columbus)
+    payment = 'database2.csv'
+    print(f"\nOutput file name is: {combine(columbus, payment)}")
