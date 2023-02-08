@@ -10,24 +10,24 @@ def get_csv_dataframe(input_file):
 
     # The dollar values are represented as formatted strings (e.g. $123,456.03)
     # Replace the comma with an empty string using the str.replace() method
-    df['Total Dispensed Amount'] = df['Total Dispensed Amount'].str.replace(',', '')
-    df['Business Total Income'] = df['Business Total Income'].str.replace(',', '')
-    df['Business Credits/Debits'] = df['Business Credits/Debits'].str.replace(',', '')
-    df['Business Surcharge'] = df['Business Surcharge'].str.replace(',', '')
-    df['Total Surcharge'] = df['Total Surcharge'].str.replace(',', '')
-    df['Total Interchange'] = df['Total Interchange'].str.replace(',', '')
-    df['Business Addl Revenue'] = df['Business Addl Revenue'].str.replace(',', '')
-    df['Business Interchange'] = df['Business Interchange'].str.replace(',', '')
+    df['Total Dispensed Amount'] = df['Total Dispensed Amount'].str.replace(',', '', regex=True)
+    df['Business Total Income'] = df['Business Total Income'].str.replace(',', '', regex=True)
+    df['Business Credits/Debits'] = df['Business Credits/Debits'].str.replace(',', '', regex=True)
+    df['Business Surcharge'] = df['Business Surcharge'].str.replace(',', '', regex=True)
+    df['Total Surcharge'] = df['Total Surcharge'].str.replace(',', '', regex=True)
+    df['Total Interchange'] = df['Total Interchange'].str.replace(',', '', regex=True)
+    df['Business Addl Revenue'] = df['Business Addl Revenue'].str.replace(',', '', regex=True)
+    df['Business Interchange'] = df['Business Interchange'].str.replace(',', '', regex=True)
 
     # Replace the dollar sign with an empty string using the str.replace() method
-    df['Total Dispensed Amount'] = df['Total Dispensed Amount'].str.replace('$', '')
-    df['Business Total Income'] = df['Business Total Income'].str.replace('$', '')
-    df['Business Credits/Debits'] = df['Business Credits/Debits'].str.replace('$', '')
-    df['Business Surcharge'] = df['Business Surcharge'].str.replace('$', '')
-    df['Total Surcharge'] = df['Total Surcharge'].str.replace('$', '')
-    df['Total Interchange'] = df['Total Interchange'].str.replace('$', '')
-    df['Business Addl Revenue'] = df['Business Addl Revenue'].str.replace('$', '')
-    df['Business Interchange'] = df['Business Interchange'].str.replace('$', '')
+    df['Total Dispensed Amount'] = df['Total Dispensed Amount'].str.replace('$', '', regex=True)
+    df['Business Total Income'] = df['Business Total Income'].str.replace('$', '', regex=True)
+    df['Business Credits/Debits'] = df['Business Credits/Debits'].str.replace('$', '', regex=True)
+    df['Business Surcharge'] = df['Business Surcharge'].str.replace('$', '', regex=True)
+    df['Total Surcharge'] = df['Total Surcharge'].str.replace('$', '', regex=True)
+    df['Total Interchange'] = df['Total Interchange'].str.replace('$', '', regex=True)
+    df['Business Addl Revenue'] = df['Business Addl Revenue'].str.replace('$', '', regex=True)
+    df['Business Interchange'] = df['Business Interchange'].str.replace('$', '', regex=True)
 
 
     # Convert the columns to floating point numbers using the astype() method

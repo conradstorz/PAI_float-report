@@ -35,12 +35,12 @@ def clean_Columbus_ATM_CSV_file(filename):
         itme number 7 is the timeframe of the report. We will discard it at
         this time as we assume these reports cover a three month period. Also
         the last 3 lines of the file are of no use to us and need to be discarded."""
-    discard = [1,2,3,4,-1,-2,-3]
     # Get the current date to use in the file name
     today = datetime.now().strftime('%Y-%m-%d')
     cleanfile = f'{today}_cleaned_data.csv'
     with open(filename, "r") as f:
         lines = f.readlines()
+        # discard = [1,2,3,4,-1,-2,-3]
         out_lines = "".join(lines[4:-3])
     with open(cleanfile, "w") as f:
         f.write(out_lines)
@@ -74,8 +74,8 @@ def combine(csv1, csv2):
                 row[new_field] = row.pop(old_field)
 
     # Combine the data from both CSV files
-    print(data1)
-    print(data2)
+    # print(data1)
+    # print(data2)
     combined_data = data1 + data2
     print(f'Combined database contains {len(combined_data)} items.')
 
@@ -88,7 +88,6 @@ def combine(csv1, csv2):
             writer.writerow(row)
     print('End combining.')
     return out_csv
-
 
 
 if __name__ == '__main__':
