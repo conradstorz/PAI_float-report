@@ -12,9 +12,46 @@ from combine_csv_files import combine, clean_Columbus_ATM_CSV_file
 
 
 @logger.catch
+def build_additional_columns(df):
+    """Add multiple columns to the resulting DataFrame to aid in the reporting of 'DuPont' analysis."""
+    # now add columns for each part of the dupont analysis
+
+    df['Location Share Surcharge'] = df['Total Surcharge'] - df['Business Surcharge']
+    # what is the surcharge per withdrawl for the location
+    df['Location Surch per xact'] = df['Location Share Surcharge'] / df['SurWD Trxs']
+    # how much interchange is the processor earning
+    df['Processor Interchange'] = df['Total Interchange'] - df['Business Interchange']
+    df['Processor Buyrate'] = df['Processor Interchange'] / df['SurWD Trxs']
+    # how much surcharge commission is due locations for this period
+    df['Comm Check Due'] = df['SurWD Trxs'] * df['Comm Rate paid']
+    # what is the estimated cost of labor and transportation for each ATM
+    df['Annual Servicing Expenses'] = 365 / df['Visit Days'] * df['Travel Cost']
+    
+    # calculate the ATM vault balance needed to support ATM;
+    # df['Balance required'] = 'annual amount of dispense' divided by 'number of visits per year' multiplied by '2'.
+    # df['Daily income avg'] =
+    # df['Daily expense avg'] = should include cost of cash in the bank (time value of money)
+    # df['Ratio of income/expense'] = (same as gross margin?)
+
+    # df['Visit Frequency'] =
+    # df['Annual Dispensed'] = 
+    # df['Total Vault Balance'] = df['Annual Dispensed'] / df['Visit Frequency'] * 2
+    # cross-check the field provided by the processor for total business income
+    df['Biz Tot Income'] = df['SurWD Trxs'] * df['Comm Rate earned'] + df['Business Interchange']
+    # EBIT is annualized here for use in the Dupont Analysis
+    df['Earnings BIT'] = df['Business Total Income'] * 4 - df['Annual Servicing Expenses']
+    # calculate fixed assets (value of ATM)
+    # calculate current assets (cash on hand in ATM average)
+    # calculate asset turn over
+    # calculate profit margin
+    # calculate return on investment
+    # calculate return on assets
+    return df
+
+
+@logger.catch
 def combine_data_and_details(csv_dbase1, csv_dbase2, json_terminal_data):
-    """Takes 2 CSV files with similar data and combines with details from JSON file and then
-        adds multiple columns to the resulting DataFrame to aid in the reporting of 'DuPont' analysis."""
+    """Takes 2 CSV files with similar data and combines with details from JSON file."""
 
     cleanfile = clean_Columbus_ATM_CSV_file(csv_dbase1)
     joinedfile = combine(cleanfile, csv_dbase2)
@@ -25,51 +62,14 @@ def combine_data_and_details(csv_dbase1, csv_dbase2, json_terminal_data):
     json_df = get_json_dataframe(json_terminal_data)
 
     # combine the json and the csv dataframes
+    # the JSON file has details on a seperate line for each ATM    
     df_combined = pd.concat([csv_df, json_df])
 
     # sum the values of the columns when the dataframe has duplicate index values
     # indexes are the DeviceID of each ATM
     # Payment Alliance has one line for each month.
-    # the JSON file has details on a seperate line for each ATM
     # this function below results in one line (row) per ATM and adds together the monthly amounts.
     df_grouped = df_combined.groupby(level=0, dropna=False).sum(numeric_only=False)
-
-
-
-
-    # now add columns for each part of the dupont analysis
-
-    df_grouped['Location Share Surcharge'] = df_grouped['Total Surcharge'] - df_grouped['Business Surcharge']
-    # what is the surcharge per withdrawl for the location
-    df_grouped['Location Surch per xact'] = df_grouped['Location Share Surcharge'] / df_grouped['SurWD Trxs']
-    # how much interchange is the processor earning
-    df_grouped['Processor Interchange'] = df_grouped['Total Interchange'] - df_grouped['Business Interchange']
-    df_grouped['Processor Buyrate'] = df_grouped['Processor Interchange'] / df_grouped['SurWD Trxs']
-    # how much surcharge commission is due locations for this period
-    df_grouped['Comm Check Due'] = df_grouped['SurWD Trxs'] * df_grouped['Comm Rate paid']
-    # what is the estimated cost of labor and transportation for each ATM
-    df_grouped['Annual Servicing Expenses'] = 365 / df_grouped['Visit Days'] * df_grouped['Travel Cost']
-    
-    # calculate the ATM vault balance needed to support ATM;
-    # df_grouped['Balance required'] = 'annual amount of dispense' divided by 'number of visits per year' multiplied by '2'.
-    # df_grouped['Daily income avg'] =
-    # df_grouped['Daily expense avg'] = should include cost of cash in the bank (time value of money)
-    # df_grouped['Ratio of income/expense'] = (same as gross margin?)
-
-    # df_grouped['Visit Frequency'] =
-    # df_grouped['Annual Dispensed'] = 
-    # df_grouped['Total Vault Balance'] = df_grouped['Annual Dispensed'] / df_grouped['Visit Frequency'] * 2
-    # cross-check the field provided by the processor for total business income
-    df_grouped['Biz Tot Income'] = df_grouped['SurWD Trxs'] * df_grouped['Comm Rate earned'] + df_grouped['Business Interchange']
-    # EBIT is annualized here for use in the Dupont Analysis
-    df_grouped['Earnings BIT'] = df_grouped['Business Total Income'] * 4 - df_grouped['Annual Servicing Expenses']
-    # calculate fixed assets (value of ATM)
-    # calculate current assets (cash on hand in ATM average)
-    # calculate asset turn over
-    # calculate profit margin
-    # calculate return on investment
-    # calculate return on assets
-
 
     # print(df_grouped.dtypes, '\n', df_grouped.round(decimals=2))
     return df_grouped
@@ -81,6 +81,12 @@ if __name__ == '__main__':
     ColumbusDataFilename = 'database1.csv'
     Terminal_Details = "Terminal_Details.json"
 
-    result = combine_data_and_details(ColumbusDataFilename, PaymentAllianceFilename, Terminal_Details)
+    combined = combine_data_and_details(ColumbusDataFilename, PaymentAllianceFilename, Terminal_Details)
     
-    print(f"{result}")
+    duponted = build_additional_columns(combined)
+
+    # Get the list of all column names from headers
+    column_headers = list(duponted.columns.values)
+    print("The Column Header names:", column_headers)
+
+    print(f"{duponted}")
