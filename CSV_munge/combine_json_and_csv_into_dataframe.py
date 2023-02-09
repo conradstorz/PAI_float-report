@@ -9,10 +9,11 @@ pd.options.display.max_columns = None
 from build_dataframe_from_csv import get_csv_dataframe
 from build_dataframe_from_json import get_json_dataframe
 from combine_csv_files import combine, clean_Columbus_ATM_CSV_file
-
+from CONSTANTS import REPORTING_PERIOD_DAYS
+from CONSTANTS import ANNUAL_BORROWING_RATE
 
 @logger.catch
-def build_additional_columns(df):
+def build_additional_columns_for_dupont_analysis(df):
     """Add multiple columns to the resulting DataFrame to aid in the reporting of 'DuPont' analysis."""
     # now add columns for each part of the dupont analysis
 
@@ -28,24 +29,25 @@ def build_additional_columns(df):
     df['Annual Servicing Expenses'] = 365 / df['Visit Days'] * df['Travel Cost']
     
     # calculate the ATM vault balance needed to support ATM;
-    # df['Balance required'] = 'annual amount of dispense' divided by 'number of visits per year' multiplied by '2'.
-    # df['Daily income avg'] =
-    # df['Daily expense avg'] = should include cost of cash in the bank (time value of money)
-    # df['Ratio of income/expense'] = (same as gross margin?)
+    df['Annual amount of Dispense'] = df['Total Dispensed Amount'] / REPORTING_PERIOD_DAYS * 365
+    df['Balance required'] = df['Annual amount of Dispense'] / df['Visit Days'] * 2
+    df['Daily income avg'] = df['Business Total Income'] / REPORTING_PERIOD_DAYS
+    df['Time Value of Money'] = df['Balance required'] * ANNUAL_BORROWING_RATE / 365
+    df['Daily expense avg'] = df['Annual Servicing Expenses'] / 365 + df['Time Value of Money']
+    df['Ratio of income/expense'] = df['Daily income avg'] / df['Daily expense avg']
 
-    # df['Visit Frequency'] =
-    # df['Annual Dispensed'] = 
-    # df['Total Vault Balance'] = df['Annual Dispensed'] / df['Visit Frequency'] * 2
     # cross-check the field provided by the processor for total business income
     df['Biz Tot Income'] = df['SurWD Trxs'] * df['Comm Rate earned'] + df['Business Interchange']
     # EBIT is annualized here for use in the Dupont Analysis
-    df['Earnings BIT'] = df['Business Total Income'] * 4 - df['Annual Servicing Expenses']
-    # calculate fixed assets (value of ATM)
-    # calculate current assets (cash on hand in ATM average)
-    # calculate asset turn over
-    # calculate profit margin
-    # calculate return on investment
-    # calculate return on assets
+    df['Annual Periods this Report'] = 365 / REPORTING_PERIOD_DAYS
+    df['Annual Earnings BIT'] = df['Business Total Income'] * df['Annual Periods this Report'] - df['Annual Servicing Expenses']
+    df['Fixed Asset Value'] = df['Value'] / 2 # TODO calculate better fixed assets (value of ATM)
+    df['Current Assets'] = df['Value'] / 2 # TODO calculate better current assets (cash on hand in ATM average)
+    df['Assets'] = df['Fixed Asset Value'] + df['Current Assets']
+    df['Asset Turnover'] = df['Daily income avg'] * 365 / df['Assets']
+    df['Profit Margin'] = df['Annual Earnings BIT'] / 365 / df['Daily income avg'] # calculate profit margin
+    df['ROI'] = df['Asset Turnover'] * df['Profit Margin'] # calculate return on investment
+    df['ROA'] = df['Assets'] / df['Profit Margin']  # TODO is this the right formula?
     return df
 
 
@@ -82,8 +84,12 @@ if __name__ == '__main__':
     Terminal_Details = "Terminal_Details.json"
 
     combined = combine_data_and_details(ColumbusDataFilename, PaymentAllianceFilename, Terminal_Details)
-    
-    duponted = build_additional_columns(combined)
+
+    # Get the list of all column names from headers
+    column_headers = list(combined.columns.values)
+    print("The Column Header names:", column_headers)
+
+    duponted = build_additional_columns_for_dupont_analysis(combined)
 
     # Get the list of all column names from headers
     column_headers = list(duponted.columns.values)
