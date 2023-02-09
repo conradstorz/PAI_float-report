@@ -1,27 +1,21 @@
 """Generate various reports using the DuPont model."""
 
-# import win32api for printing of PDFs
-import win32api
-# import the report building functions
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import letter, landscape
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 # import pandas and loguru
 import pandas as pd
+import numpy as np
 from loguru import logger
 pd.options.display.max_rows = None
 pd.options.display.max_columns = None
 # import the custom data munging scripts
-from combine_json_and_csv_into_dataframe import combine_data_and_details, build_additional_columns
-# declare the details for this script
-PaymentAllianceFilename = 'database2.csv'
-ColumbusDataFilename = 'database1.csv'
-Terminal_Details = "Terminal_Details.json"
-reporting_period = 30 # days
+from combine_json_and_csv_into_dataframe import combine_data_and_details
+from combine_json_and_csv_into_dataframe import build_additional_columns_for_dupont_analysis
+from CONSTANTS import ColumbusDataFilename, PaymentAllianceFilename, Terminal_Details
+# import the reportlab function
+from reportlabfunction import Send_to_printer
 
 # process the input files
 result = combine_data_and_details(ColumbusDataFilename, PaymentAllianceFilename, Terminal_Details)
-dupont = build_additional_columns(result)
+dupont = build_additional_columns_for_dupont_analysis(result)
 
 # drop certain rows
 dupont = dupont[~dupont['Location'].str.contains("De-Activated")]
@@ -30,40 +24,35 @@ dupont = dupont[~dupont['Location'].str.contains("De-Activated")]
 column_headers = list(dupont.columns.values)
 print("The Column Header names:", column_headers)
 
-# begin the report building
-""" EXAMPLE df
-df = pd.DataFrame({
-    'Device Number': ['RT90468', 'RT90469', 'RT90470'],
-    'Location': ['De-Activated', 'Active', 'Active'],
-    'Total Trxs': [100, 200, 300],
-    'Total Surcharge': [1000, 2000, 3000]
-})
-"""
 # declare the fields for this report
-annual_servicing_report = ['Location', 'Comm Check Due', 'Earnings BIT', 'Processor Buyrate', 'Annual Servicing Expenses']
+annual_servicing_report = ['Location', 'Comm Check Due', 'Annual Earnings BIT', 'Processor Buyrate', 'Annual Servicing Expenses']
+# declare columns for report and formatting
+returns = {
+            'Location': "asis",
+            'Daily income avg': "currency",
+            'Annual Servicing Expenses': "currency",
+            'Annual Earnings BIT': "currency",
+            'Asset Turnover': "percentage", 
+            'Profit Margin': "percentage", 
+            'ROI': "percentage", 
+        }
 
 # trim the un-needed columns and set the precision
-out_df = dupont[annual_servicing_report].round(decimals=2)
+# out_df = dupont[annual_servicing_report].round(decimals=2)
+out_df = dupont[returns.keys()].round(decimals=2)
+# convert columns to correct display style
+for k,v in returns.items():
+    match v:
+        case 'asis':
+            pass
+        case 'currency':
+            out_df[k] = np.where( out_df[k] >= 0, '$' + out_df[k].astype(str), '($' + out_df[k].astype(str).str[1:] + ')')
+        case 'percentage':
+            out_df[k] = np.where( out_df[k] >= 0, out_df[k].astype(str) + '%', '(' + out_df[k].astype(str) + '%)')
+        case _:
+            pass
+# convert a column to a string representing currency
+# out_df['Annual Servicing Expenses'] = np.where( out_df['Annual Servicing Expenses'] < 0, '-$' + out_df['Annual Servicing Expenses'].astype(str).str[1:], '$' + out_df['Annual Servicing Expenses'].astype(str))
 
-# Create a PDF document
-doc = SimpleDocTemplate("dupont_df_print.pdf", pagesize=landscape(letter))
-
-# Create a table with the contents of the dataframe
-table = Table([out_df.columns.tolist()] + out_df.values.tolist())
-
-# Apply table style
-table.setStyle(TableStyle([
-    ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-    ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-    ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-    ('GRID', (0, 0), (-1, -1), 1, colors.black)
-]))
-
-# Add the table to the PDF document
-doc.build([table])
-
-# Print the PDF document
-win32api.ShellExecute(0, "print", "dupont_df_print.pdf", None, ".", 0)
+# Print the dataframe
+Send_to_printer(out_df)
