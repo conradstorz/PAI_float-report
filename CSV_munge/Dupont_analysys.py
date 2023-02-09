@@ -1,29 +1,36 @@
 """Generate various reports using the DuPont model."""
 
+# import win32api for printing of PDFs
+import win32api
+# import the report building functions
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter, landscape
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+# import pandas and loguru
 import pandas as pd
 from loguru import logger
 pd.options.display.max_rows = None
 pd.options.display.max_columns = None
-from combine_json_and_csv_into_dataframe import combine_data_and_details
-
+# import the custom data munging scripts
+from combine_json_and_csv_into_dataframe import combine_data_and_details, build_additional_columns
+# declare the details for this script
 PaymentAllianceFilename = 'database2.csv'
 ColumbusDataFilename = 'database1.csv'
 Terminal_Details = "Terminal_Details.json"
+reporting_period = 30 # days
 
+# process the input files
 result = combine_data_and_details(ColumbusDataFilename, PaymentAllianceFilename, Terminal_Details)
+dupont = build_additional_columns(result)
 
 # drop certain rows
-result = result[~result['Location'].str.contains("De-Activated")]
+dupont = dupont[~dupont['Location'].str.contains("De-Activated")]
 
-
-# Get the list of all column names from headers
-column_headers = list(result.columns.values)
+# show the list of all column names from headers
+column_headers = list(dupont.columns.values)
 print("The Column Header names:", column_headers)
 
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import letter, landscape
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
-
+# begin the report building
 """ EXAMPLE df
 df = pd.DataFrame({
     'Device Number': ['RT90468', 'RT90469', 'RT90470'],
@@ -32,16 +39,17 @@ df = pd.DataFrame({
     'Total Surcharge': [1000, 2000, 3000]
 })
 """
+# declare the fields for this report
+annual_servicing_report = ['Location', 'Comm Check Due', 'Earnings BIT', 'Processor Buyrate', 'Annual Servicing Expenses']
 
-cols = ['Location', 'Comm Check Due', 'Earnings BIT', 'Processor Buyrate', 'Annual Servicing Expenses']
-# df_selected = df[cols]
-df = result[cols].round(decimals=2)
+# trim the un-needed columns and set the precision
+out_df = dupont[annual_servicing_report].round(decimals=2)
 
 # Create a PDF document
 doc = SimpleDocTemplate("dupont_df_print.pdf", pagesize=landscape(letter))
 
 # Create a table with the contents of the dataframe
-table = Table([df.columns.tolist()] + df.values.tolist())
+table = Table([out_df.columns.tolist()] + out_df.values.tolist())
 
 # Apply table style
 table.setStyle(TableStyle([
@@ -58,12 +66,4 @@ table.setStyle(TableStyle([
 doc.build([table])
 
 # Print the PDF document
-
-# import os
-# os.startfile("dupont_df_print.pdf", "print")
-
-# import win32api
-import win32api
-
-pdf_file = "file.pdf"
 win32api.ShellExecute(0, "print", "dupont_df_print.pdf", None, ".", 0)
