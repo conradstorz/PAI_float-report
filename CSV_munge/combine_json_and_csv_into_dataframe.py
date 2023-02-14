@@ -44,10 +44,10 @@ def build_additional_columns_for_dupont_analysis(df):
     df['Fixed Asset Value'] = df['Value'] / 2 # TODO calculate better fixed assets (value of ATM)
     df['Current Assets'] = df['Value'] / 2 # TODO calculate better current assets (cash on hand in ATM average)
     df['Assets'] = df['Fixed Asset Value'] + df['Current Assets']
-    df['Asset Turnover'] = df['Daily income avg'] * 365 / df['Assets']
-    df['Profit Margin'] = df['Annual Earnings BIT'] / 365 / df['Daily income avg'] # calculate profit margin
-    df['ROI'] = df['Asset Turnover'] * df['Profit Margin'] # calculate return on investment
-    df['ROA'] = df['Assets'] / df['Profit Margin']  # TODO is this the right formula?
+    df['Asset Turnover'] = df['Daily income avg'] * 365 / df['Assets'] * 100
+    df['Profit Margin'] = df['Annual Earnings BIT'] / 365 / df['Daily income avg'] * 100 # calculate profit margin
+    df['ROI'] = df['Asset Turnover'] * df['Profit Margin'] * 100 # calculate return on investment
+    df['ROA'] = df['Assets'] / df['Profit Margin'] * 100 # TODO is this the right formula?
     return df
 
 
