@@ -28,7 +28,7 @@ print("The Column Header names:", column_headers)
 annual_servicing_report = ['Location', 'Comm Check Due', 'Annual Earnings BIT', 'Processor Buyrate', 'Annual Servicing Expenses']
 # declare columns for report and formatting
 returns = {
-            'Location': "asis",
+            'Location': "as-is",
             'Daily income avg': "currency",
             'Annual Servicing Expenses': "currency",
             'Annual Earnings BIT': "currency",
@@ -43,7 +43,7 @@ out_df = dupont[returns.keys()].round(decimals=2)
 # convert columns to correct display style
 for k,v in returns.items():
     match v:
-        case 'asis':
+        case 'as-is':
             pass
         case 'currency':
             out_df[k] = np.where( out_df[k] >= 0, '$' + out_df[k].astype(str), '($' + out_df[k].astype(str).str[1:] + ')')
