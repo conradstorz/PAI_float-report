@@ -2,7 +2,7 @@
     "RT41655": {
         "Location": "Calumet Club",
         "Owned": "True",
-        "Value": "6000",
+        "Value": "2000",
         "Visit Days": "90",
         "Travel Cost": "2.97",
         "Comm Rate earned": "3.95",
@@ -12,7 +12,7 @@
     "TN66541": {
         "Location": "AL Post 204 Sellersburg",
         "Owned": "True",
-        "Value": "14000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "7.15",
         "Comm Rate earned": "2.00",
@@ -22,7 +22,7 @@
     "TN66884": {
         "Location": "VFW 1832 Clarksville",
         "Owned": "True",
-        "Value": "10000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "6.60",
         "Comm Rate earned": "2.00",
@@ -32,7 +32,7 @@
     "TN68297": {
         "Location": "Knights of Columbus Jeff",
         "Owned": "True",
-        "Value": "18000",
+        "Value": "3000",
         "Visit Days": "7",
         "Travel Cost": "6.60",
         "Comm Rate earned": "2.00",
@@ -42,7 +42,7 @@
     "TX39040": {
         "Location": "AL Post 42 Knobs",
         "Owned": "True",
-        "Value": "6000",
+        "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "1.25",
         "Comm Rate earned": "2.00",
@@ -52,7 +52,7 @@
     "P608087": {
         "Location": "Mall St.M1",
         "Owned": "False",
-        "Value": "20000",
+        "Value": "0",
         "Visit Days": "14",
         "Travel Cost": "17.20",
         "Comm Rate earned": "0.85",
@@ -62,7 +62,7 @@
     "P608086": {
         "Location": "Mall St.M2",
         "Owned": "False",
-        "Value": "20000",
+        "Value": "0",
         "Visit Days": "14",
         "Travel Cost": "17.20",
         "Comm Rate earned": "0.85",
@@ -72,7 +72,7 @@
     "P608085": {
         "Location": "Mall Oxmoor",
         "Owned": "False",
-        "Value": "20000",
+        "Value": "0",
         "Visit Days": "14",
         "Travel Cost": "17.20",
         "Comm Rate earned": "0.85",
@@ -82,7 +82,7 @@
     "RT53248": {
         "Location": "Residence Inn Old Henry",
         "Owned": "True",
-        "Value": "8000",
+        "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "28.60",
         "Comm Rate earned": "1.00",
@@ -92,7 +92,7 @@
     "RT67794": {
         "Location": "Holiday Inn Downtown",
         "Owned": "False",
-        "Value": "8000",
+        "Value": "0",
         "Visit Days": "28",
         "Travel Cost": "10.60",
         "Comm Rate earned": "1.00",
@@ -102,7 +102,7 @@
     "RT74087": {
         "Location": "Pride Bar",
         "Owned": "True",
-        "Value": "6000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "2.58",
         "Comm Rate earned": "2.00",
@@ -122,7 +122,7 @@
     "RT81099": {
         "Location": "Vic's Cafe",
         "Owned": "True",
-        "Value": "32000",
+        "Value": "3000",
         "Visit Days": "7",
         "Travel Cost": "2.58",
         "Comm Rate earned": "2.00",
@@ -132,7 +132,7 @@
     "RT88803": {
         "Location": "AmVet Post1",
         "Owned": "True",
-        "Value": "6000",
+        "Value": "2000",
         "Visit Days": "7",
         "Travel Cost": "10.60",
         "Comm Rate earned": "2.95",
@@ -142,7 +142,7 @@
     "CS81963": {
         "Location": "Copper Kettle",
         "Owned": "True",
-        "Value": "7000",
+        "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "10.45",
         "Comm Rate earned": "2.00",
@@ -152,7 +152,7 @@
     "CS85704": {
         "Location": "VFW3281 5th and Market",
         "Owned": "True",
-        "Value": "14000",
+        "Value": "2000",
         "Visit Days": "7",
         "Travel Cost": "2.58",
         "Comm Rate earned": "2.00",
@@ -162,7 +162,7 @@
     "CS91106": {
         "Location": "Mill Creek VFW",
         "Owned": "True",
-        "Value": "14000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "8.80",
         "Comm Rate earned": "1.00",
@@ -172,7 +172,7 @@
     "CS91373": {
         "Location": "Hobart Beach VFW",
         "Owned": "True",
-        "Value": "18000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "2.58",
         "Comm Rate earned": "2.00",
@@ -182,7 +182,7 @@
     "CS99102": {
         "Location": "Kindred Hospital",
         "Owned": "True",
-        "Value": "10000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "11.70",
         "Comm Rate earned": "1.00",
@@ -192,17 +192,17 @@
     "CS99871": {
         "Location": "Storz Cash Festival",
         "Owned": "True",
-        "Value": "0",
-        "Visit Days": "1",
+        "Value": "4000",
+        "Visit Days": "14",
         "Travel Cost": "0",
-        "Comm Rate earned": "0",
+        "Comm Rate earned": "3.50",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
     "HG11437": {
         "Location": "Scott Co VFW",
         "Owned": "False",
-        "Value": "14000",
+        "Value": "0",
         "Visit Days": "14",
         "Travel Cost": "19.25",
         "Comm Rate earned": "1.25",
@@ -212,7 +212,7 @@
     "RT51577": {
         "Location": "Hyatt House Lou East",
         "Owned": "True",
-        "Value": "10000",
+        "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "17.00",
         "Comm Rate earned": "1.00",
@@ -222,7 +222,7 @@
     "CS64854": {
         "Location": "AL Post 234 Scott Co",
         "Owned": "True",
-        "Value": "18000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "19.25",
         "Comm Rate earned": "2.99",
@@ -232,7 +232,7 @@
     "CS71245": {
         "Location": "Pastime Grill",
         "Owned": "True",
-        "Value": "14000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "2.58",
         "Comm Rate earned": "2.00",
@@ -245,14 +245,14 @@
         "Value": "1000",
         "Visit Days": "60",
         "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
+        "Comm Rate earned": "3.50",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
     "CS73041": {
         "Location": "Mac's Hideaway",
         "Owned": "True",
-        "Value": "10000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "2.25",
         "Comm Rate earned": "2.00",
@@ -262,7 +262,7 @@
     "RT06059": {
         "Location": "Elk's Bingo 270",
         "Owned": "True",
-        "Value": "10000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "2.58",
         "Comm Rate earned": "2.25",
@@ -272,7 +272,7 @@
     "RT10820": {
         "Location": "Krazy Daves",
         "Owned": "True",
-        "Value": "10000",
+        "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "17.00",
         "Comm Rate earned": "2.50",
@@ -282,7 +282,7 @@
     "RT10875": {
         "Location": "Hoopster's Jeffersonville",
         "Owned": "True",
-        "Value": "10000",
+        "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "6.60",
         "Comm Rate earned": "2.00",
@@ -292,7 +292,7 @@
     "RT12977": {
         "Location": "VFW 1083 Crothersville",
         "Owned": "True",
-        "Value": "14000",
+        "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "20.25",
         "Comm Rate earned": "2.00",
@@ -302,7 +302,7 @@
     "RT27947": {
         "Location": "Pizza Place",
         "Owned": "True",
-        "Value": "14000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "17.25",
         "Comm Rate earned": "2.00",
@@ -322,7 +322,7 @@
     "RT38898": {
         "Location": "OLPH Brewery",
         "Owned": "True",
-        "Value": "6000",
+        "Value": "2000",
         "Visit Days": "56",
         "Travel Cost": "2.25",
         "Comm Rate earned": "2.00",
@@ -332,7 +332,7 @@
     "TN73475": {
         "Location": "Bonnie Sloan Post",
         "Owned": "True",
-        "Value": "26000",
+        "Value": "2000",
         "Visit Days": "7",
         "Travel Cost": "2.45",
         "Comm Rate earned": "2.20",
@@ -342,7 +342,7 @@
     "TN73834": {
         "Location": "AL Post 335 Charlestown",
         "Owned": "True",
-        "Value": "14000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "10.45",
         "Comm Rate earned": "2.20",
@@ -352,7 +352,7 @@
     "TN73954": {
         "Location": "Mick's Lounge",
         "Owned": "True",
-        "Value": "18000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "2.25",
         "Comm Rate earned": "2.00",
@@ -362,7 +362,7 @@
     "TN79059": {
         "Location": "Hoosier Hills",
         "Owned": "True",
-        "Value": "8000",
+        "Value": "2000",
         "Visit Days": "7",
         "Travel Cost": "4.95",
         "Comm Rate earned": "2.00",
@@ -382,7 +382,7 @@
     "TN87035": {
         "Location": "Resch's Tavern",
         "Owned": "True",
-        "Value": "6000",
+        "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "5.25",
         "Comm Rate earned": "2.00",
