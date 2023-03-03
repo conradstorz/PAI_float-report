@@ -28,7 +28,8 @@ field_map = {
 
 def clean_Columbus_ATM_CSV_file(filename):
     """This function repairs the CSV file that is generated from CDS data.
-        The problem is that the data was downloaded as an excel file and
+        CDS data does not contain enough revenue data so we need to calculate some values.
+        Part of the problem is that the data was downloaded as an excel file and
         then saved as CSV. The CSV is corrupted by this process when using
         librecalc for the conversion. The first 4 lines of the file are above the
         headers row and dont contain useful information other than line three
@@ -38,6 +39,7 @@ def clean_Columbus_ATM_CSV_file(filename):
     # Get the current date to use in the file name
     today = datetime.now().strftime('%Y-%m-%d')
     cleanfile = f'{today}_cleaned_data.csv'
+    # TODO make sure file exists
     with open(filename, "r") as f:
         lines = f.readlines()
         # discard = [1,2,3,4,-1,-2,-3]
@@ -72,7 +74,9 @@ def combine(csv1, csv2):
         for old_field, new_field in field_map.items():
             if old_field in row:
                 row[new_field] = row.pop(old_field)
+    # TODO calculate missing fields needed for revenue
 
+    
     # Combine the data from both CSV files
     # print(data1)
     # print(data2)
