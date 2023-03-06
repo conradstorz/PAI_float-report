@@ -27,10 +27,19 @@ def main():
     column_headers = list(dupont.columns.values)
     print("The Column Header names:", column_headers)
 
-    # declare the fields for this report
-    annual_servicing_report = ['Location', 'Comm Check Due', 'Annual Earnings BIT', 'Processor Buyrate', 'Annual Servicing Expenses']
     # declare columns for report and formatting
     reports = {
+        'annual_servicing_report': {
+                    'Location': "as-is", 
+                    'Storz Surch': "currency",
+                    'Comm Check Due': "currency", 
+                    'Comm Rate earned': "currency",
+                    'Annual Earnings BIT': "currency", 
+                    'Processor Buyrate': "currency", 
+                    'Annual Servicing Expenses': "currency",
+        },
+    }
+
     """
         'dupont_assets': {
                     'Location': "as-is",
@@ -53,7 +62,7 @@ def main():
                     'Daily income avg': "currency", 
                     'Daily expense avg': "currency",                     
                 },
-    """
+
         'returns2': {
                     'Location': "as-is",
                     'ROA': "percentage",                    
@@ -64,7 +73,8 @@ def main():
                     'Profit Margin': "percentage", 
                     'Assets': "currency",
                 },
-    }
+    """
+
 
     # loop to build various reports
     output_dataframes = {}
