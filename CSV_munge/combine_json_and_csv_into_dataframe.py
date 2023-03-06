@@ -36,6 +36,8 @@ def build_additional_columns_for_dupont_analysis(df):
     df['Location Share Surcharge'] = df['Total Surcharge'] - df['Business Surcharge']
     # what is the surcharge per withdrawl for the location
     df['Location Surch per xact'] = df['Location Share Surcharge'] / df['SurWD Trxs']
+    # how much actual surcharge is this terminal making for Storz Cash Services
+    df['Storz Surch'] = df['Business Surcharge'] / df['SurWD Trxs']
     # how much interchange is the processor earning
     df['Processor Interchange'] = df['Total Interchange'] - df['Business Interchange']
     df['Processor Buyrate'] = df['Processor Interchange'] / df['SurWD Trxs']
