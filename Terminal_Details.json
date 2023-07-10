@@ -5,7 +5,7 @@
         "Value": "2000",
         "Visit Days": "90",
         "Travel Cost": "2.97",
-        "Comm Rate earned": "3.95",
+        "Comm Rate earned": "3.50",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -15,7 +15,7 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "7.15",
-        "Comm Rate earned": "2.00",
+        "Comm Rate earned": "1.99",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -25,7 +25,7 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "6.60",
-        "Comm Rate earned": "2.00",
+        "Comm Rate earned": "1.99",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -35,7 +35,7 @@
         "Value": "3000",
         "Visit Days": "7",
         "Travel Cost": "6.60",
-        "Comm Rate earned": "2.00",
+        "Comm Rate earned": "2.49",
         "Comm Rate paid": "0.50",
         "Contracted Location": "False"
     },    
@@ -85,8 +85,8 @@
         "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "28.60",
-        "Comm Rate earned": "1.00",
-        "Comm Rate paid": "2.95",
+        "Comm Rate earned": "2.00",
+        "Comm Rate paid": "1.99",
         "Contracted Location": "True"
     },
     "RT67794": {
@@ -96,7 +96,7 @@
         "Visit Days": "28",
         "Travel Cost": "10.60",
         "Comm Rate earned": "1.00",
-        "Comm Rate paid": "2.95",
+        "Comm Rate paid": "2.99",
         "Contracted Location": "True"
     },
     "RT74087": {
@@ -116,7 +116,7 @@
         "Visit Days": "28",
         "Travel Cost": "16.65",
         "Comm Rate earned": "1.00",
-        "Comm Rate paid": "2.95",
+        "Comm Rate paid": "1.99",
         "Contracted Location": "True"
     },
     "RT81099": {
@@ -135,7 +135,7 @@
         "Value": "2000",
         "Visit Days": "7",
         "Travel Cost": "10.60",
-        "Comm Rate earned": "2.95",
+        "Comm Rate earned": "3.50",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -145,7 +145,7 @@
         "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "10.45",
-        "Comm Rate earned": "2.00",
+        "Comm Rate earned": "1.99",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -165,8 +165,8 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "8.80",
-        "Comm Rate earned": "1.00",
-        "Comm Rate paid": "2.95",
+        "Comm Rate earned": "2.25",
+        "Comm Rate paid": "0.75",
         "Contracted Location": "True"
     },
     "CS91373": {
@@ -185,8 +185,8 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "11.70",
-        "Comm Rate earned": "1.00",
-        "Comm Rate paid": "2.95",
+        "Comm Rate earned": "1.75",
+        "Comm Rate paid": "0.75",
         "Contracted Location": "True"
     },
     "CS99871": {
@@ -215,8 +215,8 @@
         "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "17.00",
-        "Comm Rate earned": "1.00",
-        "Comm Rate paid": "2.95",
+        "Comm Rate earned": "2.00",
+        "Comm Rate paid": "1.99",
         "Contracted Location": "True"
     },
     "CS64854": {
@@ -235,17 +235,7 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "2.58",
-        "Comm Rate earned": "2.00",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
-    "CS71379": {
-        "Location": "The Lab Sellersburg",
-        "Owned": "True",
-        "Value": "1000",
-        "Visit Days": "60",
-        "Travel Cost": "8.25",
-        "Comm Rate earned": "3.50",
+        "Comm Rate earned": "1.99",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -255,7 +245,7 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "2.25",
-        "Comm Rate earned": "2.00",
+        "Comm Rate earned": "1.99",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -265,7 +255,7 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "2.58",
-        "Comm Rate earned": "2.25",
+        "Comm Rate earned": "2.20",
         "Comm Rate paid": "0.75",
         "Contracted Location": "False"
     },
@@ -275,7 +265,7 @@
         "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "17.00",
-        "Comm Rate earned": "2.50",
+        "Comm Rate earned": "2.95",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -285,7 +275,7 @@
         "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "6.60",
-        "Comm Rate earned": "2.00",
+        "Comm Rate earned": "1.99",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -315,7 +305,7 @@
         "Value": "1500",
         "Visit Days": "28",
         "Travel Cost": "10.45",
-        "Comm Rate earned": "2.20",
+        "Comm Rate earned": "2.24",
         "Comm Rate paid": "0.75",
         "Contracted Location": "False"
     },
@@ -325,7 +315,7 @@
         "Value": "2000",
         "Visit Days": "56",
         "Travel Cost": "2.25",
-        "Comm Rate earned": "2.00",
+        "Comm Rate earned": "2.99",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -335,7 +325,7 @@
         "Value": "2000",
         "Visit Days": "7",
         "Travel Cost": "2.45",
-        "Comm Rate earned": "2.20",
+        "Comm Rate earned": "2.24",
         "Comm Rate paid": "0.75",
         "Contracted Location": "False"
     },
@@ -345,7 +335,7 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "10.45",
-        "Comm Rate earned": "2.20",
+        "Comm Rate earned": "2.24",
         "Comm Rate paid": "0.75",
         "Contracted Location": "False"
     },
@@ -355,7 +345,7 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "2.25",
-        "Comm Rate earned": "2.00",
+        "Comm Rate earned": "2.24",
         "Comm Rate paid": "0.75",
         "Contracted Location": "False"
     },
@@ -365,7 +355,7 @@
         "Value": "2000",
         "Visit Days": "7",
         "Travel Cost": "4.95",
-        "Comm Rate earned": "2.00",
+        "Comm Rate earned": "1.99",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -376,7 +366,7 @@
         "Visit Days": "365",
         "Travel Cost": "0",
         "Comm Rate earned": "0.12",
-        "Comm Rate paid": "3.95",
+        "Comm Rate paid": "2.00",
         "Contracted Location": "False"
     },
     "TN87035": {
@@ -385,7 +375,7 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "5.25",
-        "Comm Rate earned": "2.00",
+        "Comm Rate earned": "2.95",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },    
@@ -539,6 +529,16 @@
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
+    "CS71379": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "1000",
+        "Visit Days": "60",
+        "Travel Cost": "8.25",
+        "Comm Rate earned": "3.50",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },    
     "CS94852": {
         "Location": "De-Activated",
         "Owned": "True",

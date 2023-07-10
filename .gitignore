@@ -1,5 +1,6 @@
 # Application specific files
 *.xlsx
+*.xls
 *.pdf
 *.csv
 

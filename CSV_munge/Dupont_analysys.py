@@ -38,9 +38,7 @@ def main():
                     'Processor Buyrate': "currency", 
                     'Annual Servicing Expenses': "currency",
         },
-    }
 
-    """
         'dupont_assets': {
                     'Location': "as-is",
                     'Annual Earnings BIT': "currency",
@@ -73,7 +71,7 @@ def main():
                     'Profit Margin': "percentage", 
                     'Assets': "currency",
                 },
-    """
+    }
 
 
     # loop to build various reports
@@ -99,9 +97,9 @@ def main():
         print(rpt)
         headers = output_dataframes[rpt].keys()
 
-        # define a custom function to extract the numerical value from the currency string
+        # define a custom function to extract the numerical value from a string
         def convert_to_float_if_possible(value_str):
-            possible_float = value_str # strings are immutable. No need to decalre .copy()
+            possible_float = value_str # strings are immutable. No need to use ".copy()"
             possible_float = possible_float.replace('$', '')  # remove any dollar sign
             possible_float = possible_float.replace(',', '')  # remove any comma
             possible_float = possible_float.replace('%', '')  # remove any percent sign

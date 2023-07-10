@@ -66,5 +66,5 @@ def get_csv_dataframe(input_file):
     return df_grouped
 
 if __name__ == '__main__':
-    result = get_csv_dataframe("2023-01-31_combined_data.csv")
+    result = get_csv_dataframe("2023-04-11_combined_data.csv")
     print(result.dtypes, '\n', result)
