@@ -36,5 +36,9 @@
     "Annual_SurWDs": "#",
     "Daily_Dispense": "$",
     "Current_Assets": "$",
-    "Earnings_BIT": "$"
+    "Earnings_BIT": "$",
+    "Comm_Due": "$",
+    "_surch": "$",
+    "_Surch%": "%",
+    "_Assets": "$"
 }

@@ -52,7 +52,9 @@ DL_PATH = Path("D:/Users/Conrad/Downloads/")
 BASENAME_BANK_STATEMENT = ["BankDepositsStatement", CSV_EXT, CSV_EXT]
 EMAIL_BASENAME_FLOATREPORT = ["Terminal Status(w_FLOAT)automated", CSV_EXT, EXCEL_EXT]
 MANUAL_DL_BASENAME_FLOAT_REPORT = ["TerminalStatuswFLOATautomated3", CSV_EXT, CSV_EXT]
+# Report below is called "Simple Summary Report" on PAI website
 BASENAME_SIMPLE_SUMMARY = ["TerminalTrxData", CSV_EXT, EXCEL_EXT]
+# Report below is located in favorite reports and is called "MonthlyRevenueByDevice"
 BASENAME_SURCHARGE_MONTHLY_PER_TERMINAL = [
     "MonthlyRevenueByDevice",
     EXCEL_EXT,

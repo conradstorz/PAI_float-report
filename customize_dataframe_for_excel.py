@@ -1,5 +1,73 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import json
+import os
+import pandas as pd
+from loguru import logger
+
+# FORMATTING_FILE = 'ColumnFormatting.json'  # Update with the actual path to your formatting file
+
+def set_custom_excel_formatting(worksheet, workbook, df, details):
+    """
+    Format worksheet columns based on dataframe content and additional column details.
+    """
+    logger.info("Formatting column widths and styles...")
+    currency_format = workbook.add_format({"num_format": "$#,##0.00"})
+    number_format = workbook.add_format({"num_format": "#,##0"})
+    percentage_format = workbook.add_format({"num_format": "0%"})
+
+    # Iterate through each column and set the width == the max length in that column. A padding length of 2 is also added.
+    for i, col in enumerate(df.columns):
+        column_len = max(df[col].astype(str).apply(len).max(), len(col)) + 2
+        col_format = None
+        if details.get(col) == "$":
+            col_format = currency_format
+        elif details.get(col) == "#":
+            col_format = number_format
+        elif details.get(col) == "%":
+            col_format = percentage_format
+        worksheet.set_column(i, i, column_len, col_format)
+
+def send_dataframes_to_file(frames, FORMATTING_FILE):
+    """
+    Takes a dict of dataframes, outputs them to Excel files, and optionally sends them to the default printer.
+    """
+    # Load column formatting details
+    with open(FORMATTING_FILE) as json_data:
+        column_details = json.load(json_data)
+
+    args = os.sys.argv
+    for filename, frame in frames.items():
+        # Establish Excel output object and define column formats using a context manager
+        with pd.ExcelWriter(filename, engine="xlsxwriter") as writer:
+            frame.to_excel(writer, startrow=1, sheet_name="Sheet1", index=False)
+            workbook = writer.book
+            worksheet = writer.sheets["Sheet1"]
+            set_custom_excel_formatting(worksheet, workbook, frame, column_details)
+            logger.info("Worksheet formatted successfully.")
+
+        logger.info("Worksheet saved successfully.")
+
+        # Handling printing if applicable
+        if len(args) > 1 and args[1] == "-np":
+            logger.info("Bypassing print option due to '-np' option.")
+        else:
+            logger.info("Sending processed file to printer...")
+            try:
+                os.startfile(filename, "print")
+            except FileNotFoundError as e:
+                logger.error(f"File not found: {e}")
+
+# Example usage:
+# frames = {'output.xlsx': pd.DataFrame(data)}
+# send_dataframes_to_file(frames, FORMATTING_FILE)
+
+
+
+
+
+
+
 """Takes a dataframe obj, an excel writer obj and a dict of column names and properties, 
 attempts to match dict names with dataframe columns and then set excel properties to match.
 There is a flaw if index is set to true:

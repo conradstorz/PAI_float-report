@@ -1,11 +1,71 @@
 {
+    "RT98425": {
+        "Location": "AmVets Post1",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "21",
+        "Travel Cost": "2.97",
+        "Surcharge Earned": "3.50",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },
+    "NW03450": {
+        "Location": "Bonnie Sloan Post28",
+        "Owned": "True",
+        "Value": "3000",
+        "Visit Days": "14",
+        "Travel Cost": "7.15",
+        "Surcharge Earned": "2.24",
+        "Comm Rate paid": "0.75",
+        "Contracted Location": "False"
+    },
+    "NW03929": {
+        "Location": "SCS Festival2",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "14",
+        "Travel Cost": "6.60",
+        "Surcharge Earned": "3.50",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },
+    "HG16192": {
+        "Location": "Storz Cash Festival",
+        "Owned": "True",
+        "Value": "5000",
+        "Visit Days": "7",
+        "Travel Cost": "6.60",
+        "Surcharge Earned": "3.50",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },    
+    "HG24032": {
+        "Location": "VFW 1427",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "28",
+        "Travel Cost": "1.25",
+        "Surcharge Earned": "2.24",
+        "Comm Rate paid": "0.75",
+        "Contracted Location": "False"
+    },
+    "NW05630": {
+        "Location": "VFW3281 5th and Market",
+        "Owned": "True",
+        "Value": "0",
+        "Visit Days": "14",
+        "Travel Cost": "17.20",
+        "Surcharge Earned": "2.00",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },
     "RT41655": {
         "Location": "Calumet Club",
         "Owned": "True",
         "Value": "2000",
         "Visit Days": "90",
         "Travel Cost": "2.97",
-        "Comm Rate earned": "3.50",
+        "Surcharge Earned": "3.50",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -15,7 +75,7 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "7.15",
-        "Comm Rate earned": "1.99",
+        "Surcharge Earned": "1.99",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -25,7 +85,7 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "6.60",
-        "Comm Rate earned": "1.99",
+        "Surcharge Earned": "1.99",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -35,7 +95,7 @@
         "Value": "3000",
         "Visit Days": "7",
         "Travel Cost": "6.60",
-        "Comm Rate earned": "2.49",
+        "Surcharge Earned": "2.49",
         "Comm Rate paid": "0.50",
         "Contracted Location": "False"
     },    
@@ -45,47 +105,17 @@
         "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "1.25",
-        "Comm Rate earned": "2.00",
+        "Surcharge Earned": "2.00",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
-    "P608087": {
-        "Location": "Mall St.M1",
-        "Owned": "False",
-        "Value": "0",
-        "Visit Days": "14",
-        "Travel Cost": "17.20",
-        "Comm Rate earned": "0.85",
-        "Comm Rate paid": "3.10",
-        "Contracted Location": "True"
-    },
-    "P608086": {
-        "Location": "Mall St.M2",
-        "Owned": "False",
-        "Value": "0",
-        "Visit Days": "14",
-        "Travel Cost": "17.20",
-        "Comm Rate earned": "0.85",
-        "Comm Rate paid": "3.10",
-        "Contracted Location": "True"
-    },
-    "P608085": {
-        "Location": "Mall Oxmoor",
-        "Owned": "False",
-        "Value": "0",
-        "Visit Days": "14",
-        "Travel Cost": "17.20",
-        "Comm Rate earned": "0.85",
-        "Comm Rate paid": "3.10",
-        "Contracted Location": "True"
-    },    
     "RT53248": {
         "Location": "Residence Inn Old Henry",
         "Owned": "True",
         "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "28.60",
-        "Comm Rate earned": "2.00",
+        "Surcharge Earned": "2.00",
         "Comm Rate paid": "1.99",
         "Contracted Location": "True"
     },
@@ -94,9 +124,9 @@
         "Owned": "False",
         "Value": "0",
         "Visit Days": "28",
-        "Travel Cost": "10.60",
-        "Comm Rate earned": "1.00",
-        "Comm Rate paid": "2.99",
+        "Travel Cost": "2.60",
+        "Surcharge Earned": "1.00",
+        "Comm Rate paid": "0",
         "Contracted Location": "True"
     },
     "RT74087": {
@@ -105,7 +135,7 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "2.58",
-        "Comm Rate earned": "2.00",
+        "Surcharge Earned": "2.00",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -115,8 +145,8 @@
         "Value": "0",
         "Visit Days": "28",
         "Travel Cost": "16.65",
-        "Comm Rate earned": "1.00",
-        "Comm Rate paid": "1.99",
+        "Surcharge Earned": "1.00",
+        "Comm Rate paid": "0",
         "Contracted Location": "True"
     },
     "RT81099": {
@@ -125,47 +155,29 @@
         "Value": "3000",
         "Visit Days": "7",
         "Travel Cost": "2.58",
-        "Comm Rate earned": "2.00",
+        "Surcharge Earned": "2.00",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
-    "RT88803": {
-        "Location": "AmVet Post1",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "7",
-        "Travel Cost": "10.60",
-        "Comm Rate earned": "3.50",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
+
     "CS81963": {
         "Location": "Copper Kettle",
         "Owned": "True",
         "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "10.45",
-        "Comm Rate earned": "1.99",
+        "Surcharge Earned": "1.99",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
-    "CS85704": {
-        "Location": "VFW3281 5th and Market",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "7",
-        "Travel Cost": "2.58",
-        "Comm Rate earned": "2.00",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
+
     "CS91106": {
         "Location": "Mill Creek VFW",
         "Owned": "True",
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "8.80",
-        "Comm Rate earned": "2.25",
+        "Surcharge Earned": "2.25",
         "Comm Rate paid": "0.75",
         "Contracted Location": "True"
     },
@@ -175,7 +187,7 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "2.58",
-        "Comm Rate earned": "2.00",
+        "Surcharge Earned": "2.00",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -185,47 +197,29 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "11.70",
-        "Comm Rate earned": "1.75",
+        "Surcharge Earned": "1.75",
         "Comm Rate paid": "0.75",
         "Contracted Location": "True"
     },
-    "CS99871": {
-        "Location": "Storz Cash Festival",
-        "Owned": "True",
-        "Value": "4000",
-        "Visit Days": "14",
-        "Travel Cost": "0",
-        "Comm Rate earned": "3.50",
-        "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
+
     "HG11437": {
         "Location": "Scott Co VFW",
         "Owned": "False",
         "Value": "0",
         "Visit Days": "14",
         "Travel Cost": "19.25",
-        "Comm Rate earned": "1.25",
-        "Comm Rate paid": "1.25",
+        "Surcharge Earned": "1.25",
+        "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
-    "RT51577": {
-        "Location": "Hyatt House Lou East",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "28",
-        "Travel Cost": "17.00",
-        "Comm Rate earned": "2.00",
-        "Comm Rate paid": "1.99",
-        "Contracted Location": "True"
-    },
+
     "CS64854": {
         "Location": "AL Post 234 Scott Co",
         "Owned": "True",
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "19.25",
-        "Comm Rate earned": "2.99",
+        "Surcharge Earned": "2.99",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -235,8 +229,8 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "2.58",
-        "Comm Rate earned": "1.99",
-        "Comm Rate paid": "0",
+        "Surcharge Earned": "2.75",
+        "Comm Rate paid": "0.75",
         "Contracted Location": "False"
     },
     "CS73041": {
@@ -245,7 +239,7 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "2.25",
-        "Comm Rate earned": "1.99",
+        "Surcharge Earned": "1.99",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -255,7 +249,7 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "2.58",
-        "Comm Rate earned": "2.20",
+        "Surcharge Earned": "2.20",
         "Comm Rate paid": "0.75",
         "Contracted Location": "False"
     },
@@ -265,7 +259,7 @@
         "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "17.00",
-        "Comm Rate earned": "2.95",
+        "Surcharge Earned": "2.95",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -275,7 +269,7 @@
         "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "6.60",
-        "Comm Rate earned": "1.99",
+        "Surcharge Earned": "1.99",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -285,7 +279,7 @@
         "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "20.25",
-        "Comm Rate earned": "2.00",
+        "Surcharge Earned": "2.00",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -295,38 +289,19 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "17.25",
-        "Comm Rate earned": "2.00",
+        "Surcharge Earned": "2.00",
         "Comm Rate paid": "1.00",
         "Contracted Location": "False"
     },
-    "RT34235": {
-        "Location": "VFW 1427 Charlestown",
-        "Owned": "True",
-        "Value": "1500",
-        "Visit Days": "28",
-        "Travel Cost": "10.45",
-        "Comm Rate earned": "2.24",
-        "Comm Rate paid": "0.75",
-        "Contracted Location": "False"
-    },
+
     "RT38898": {
         "Location": "OLPH Brewery",
         "Owned": "True",
         "Value": "2000",
         "Visit Days": "56",
         "Travel Cost": "2.25",
-        "Comm Rate earned": "2.99",
+        "Surcharge Earned": "2.99",
         "Comm Rate paid": "0",
-        "Contracted Location": "False"
-    },
-    "TN73475": {
-        "Location": "Bonnie Sloan Post",
-        "Owned": "True",
-        "Value": "2000",
-        "Visit Days": "7",
-        "Travel Cost": "2.45",
-        "Comm Rate earned": "2.24",
-        "Comm Rate paid": "0.75",
         "Contracted Location": "False"
     },
     "TN73834": {
@@ -335,7 +310,7 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "10.45",
-        "Comm Rate earned": "2.24",
+        "Surcharge Earned": "2.24",
         "Comm Rate paid": "0.75",
         "Contracted Location": "False"
     },
@@ -345,7 +320,7 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "2.25",
-        "Comm Rate earned": "2.24",
+        "Surcharge Earned": "2.24",
         "Comm Rate paid": "0.75",
         "Contracted Location": "False"
     },
@@ -355,7 +330,7 @@
         "Value": "2000",
         "Visit Days": "7",
         "Travel Cost": "4.95",
-        "Comm Rate earned": "1.99",
+        "Surcharge Earned": "1.99",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -365,8 +340,8 @@
         "Value": "0",
         "Visit Days": "365",
         "Travel Cost": "0",
-        "Comm Rate earned": "0.12",
-        "Comm Rate paid": "2.00",
+        "Surcharge Earned": "0.12",
+        "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
     "TN87035": {
@@ -375,18 +350,78 @@
         "Value": "2000",
         "Visit Days": "14",
         "Travel Cost": "5.25",
-        "Comm Rate earned": "2.95",
+        "Surcharge Earned": "2.95",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },    
+    "RT51577": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "28",
+        "Travel Cost": "17.00",
+        "Surcharge Earned": "2.00",
+        "Comm Rate paid": "1.99",
+        "Contracted Location": "True"
+    },
     "TN87034": {
         "Location": "De-Activated",
         "Owned": "True",
         "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
+        "Surcharge Earned": "0",
         "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },
+    "TN73475": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "7",
+        "Travel Cost": "2.45",
+        "Surcharge Earned": "2.24",
+        "Comm Rate paid": "0.75",
+        "Contracted Location": "False"
+    },
+    "RT88803": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "7",
+        "Travel Cost": "10.60",
+        "Surcharge Earned": "3.50",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },   
+    "CS85704": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "2000",
+        "Visit Days": "7",
+        "Travel Cost": "2.58",
+        "Surcharge Earned": "2.00",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },    
+    "CS99871": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "4000",
+        "Visit Days": "14",
+        "Travel Cost": "0",
+        "Surcharge Earned": "3.50",
+        "Comm Rate paid": "0",
+        "Contracted Location": "False"
+    },
+    "RT34235": {
+        "Location": "De-Activated",
+        "Owned": "True",
+        "Value": "1500",
+        "Visit Days": "28",
+        "Travel Cost": "10.45",
+        "Surcharge Earned": "2.24",
+        "Comm Rate paid": "0.75",
         "Contracted Location": "False"
     },
     "TN91876": {
@@ -395,7 +430,7 @@
         "Value": "1500",
         "Visit Days": "14",
         "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
+        "Surcharge Earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -405,7 +440,7 @@
         "Value": "2000",
         "Visit Days": "7",
         "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
+        "Surcharge Earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -415,7 +450,7 @@
         "Value": "0",
         "Visit Days": "1",
         "Travel Cost": "0",
-        "Comm Rate earned": "0",
+        "Surcharge Earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -425,7 +460,7 @@
         "Value": "0",
         "Visit Days": "1",
         "Travel Cost": "0",
-        "Comm Rate earned": "0",
+        "Surcharge Earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -435,7 +470,7 @@
         "Value": "1500",
         "Visit Days": "30",
         "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
+        "Surcharge Earned": "0",
         "Comm Rate paid": "0.50",
         "Contracted Location": "False"
     },
@@ -445,7 +480,7 @@
         "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
+        "Surcharge Earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -455,7 +490,7 @@
         "Value": "2800",
         "Visit Days": "7",
         "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
+        "Surcharge Earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },    
@@ -465,7 +500,7 @@
         "Value": "2000",
         "Visit Days": "28",
         "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
+        "Surcharge Earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },    
@@ -475,7 +510,7 @@
         "Value": "2000",
         "Visit Days": "7",
         "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
+        "Surcharge Earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -485,7 +520,7 @@
         "Value": "2000",
         "Visit Days": "56",
         "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
+        "Surcharge Earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -495,7 +530,7 @@
         "Value": "2000",
         "Visit Days": "7",
         "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
+        "Surcharge Earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -505,7 +540,7 @@
         "Value": "2000",
         "Visit Days": "7",
         "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
+        "Surcharge Earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -515,7 +550,7 @@
         "Value": "2000",
         "Visit Days": "7",
         "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
+        "Surcharge Earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },   
@@ -525,7 +560,7 @@
         "Value": "2000",
         "Visit Days": "7",
         "Travel Cost": "8.25",
-        "Comm Rate earned": "0",
+        "Surcharge Earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },
@@ -535,7 +570,7 @@
         "Value": "1000",
         "Visit Days": "60",
         "Travel Cost": "8.25",
-        "Comm Rate earned": "3.50",
+        "Surcharge Earned": "3.50",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
     },    
@@ -545,8 +580,38 @@
         "Value": "0",
         "Visit Days": "1",
         "Travel Cost": "0",
-        "Comm Rate earned": "0",
+        "Surcharge Earned": "0",
         "Comm Rate paid": "0",
         "Contracted Location": "False"
-    }       
+    },
+    "P608087": {
+        "Location": "De-Activated",
+        "Owned": "False",
+        "Value": "0",
+        "Visit Days": "14",
+        "Travel Cost": "17.20",
+        "Surcharge Earned": "0.85",
+        "Comm Rate paid": "3.10",
+        "Contracted Location": "True"
+    },
+    "P608086": {
+        "Location": "De-Activated",
+        "Owned": "False",
+        "Value": "0",
+        "Visit Days": "14",
+        "Travel Cost": "17.20",
+        "Surcharge Earned": "0.85",
+        "Comm Rate paid": "3.10",
+        "Contracted Location": "True"
+    },
+    "P608085": {
+        "Location": "De-Activated",
+        "Owned": "False",
+        "Value": "0",
+        "Visit Days": "14",
+        "Travel Cost": "17.20",
+        "Surcharge Earned": "0.85",
+        "Comm Rate paid": "3.10",
+        "Contracted Location": "True"
+    }
 }
