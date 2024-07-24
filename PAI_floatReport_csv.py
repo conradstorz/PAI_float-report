@@ -143,7 +143,7 @@ def Send_dataframes_to_file(frames, out_f):
         column_details = json.load(json_data)
     # this dictionary will contain information about individual column data type
 
-    args = os.sys.argv
+    args = sys.argv
     for filename, frame in frames.items():
         # extract column names from dataframe
         columns = frame.columns
