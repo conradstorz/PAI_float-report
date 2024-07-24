@@ -6,11 +6,9 @@ import pandas as pd
 from loguru import logger
 
 # FORMATTING_FILE = 'ColumnFormatting.json'  # Update with the actual path to your formatting file
-
+""" This is a pervious iteration new version found below
 def set_custom_excel_formatting(worksheet, workbook, df, details):
-    """
-    Format worksheet columns based on dataframe content and additional column details.
-    """
+
     logger.info("Formatting column widths and styles...")
     currency_format = workbook.add_format({"num_format": "$#,##0.00"})
     number_format = workbook.add_format({"num_format": "#,##0"})
@@ -27,6 +25,7 @@ def set_custom_excel_formatting(worksheet, workbook, df, details):
         elif details.get(col) == "%":
             col_format = percentage_format
         worksheet.set_column(i, i, column_len, col_format)
+"""
 
 def send_dataframes_to_file(frames, FORMATTING_FILE):
     """
@@ -62,22 +61,7 @@ def send_dataframes_to_file(frames, FORMATTING_FILE):
 # frames = {'output.xlsx': pd.DataFrame(data)}
 # send_dataframes_to_file(frames, FORMATTING_FILE)
 
-
-
-
-
-
-
-"""Takes a dataframe obj, an excel writer obj and a dict of column names and properties, 
-attempts to match dict names with dataframe columns and then set excel properties to match.
-There is a flaw if index is set to true:
-df.to_excel(writer, startrow = 1, sheet_name='Sheet1', index=True)
-only currently works if index is False
-"""
-
-from loguru import logger
-
-
+@logger.catch()
 def set_custom_excel_formatting(df, writer, details):
     """By default this will expand column widths to display all content.
     Optionally a list of strings defining formats for alpha, numeric, currency or percentage
